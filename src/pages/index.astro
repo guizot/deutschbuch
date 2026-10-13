@@ -35,7 +35,8 @@ function trailDots(i: number) {
   <Header active="learn" />
 
   <main class="max-w-3xl mx-auto px-4 pb-24">
-    <!-- Stats bar: flags earned, streak, XP -->
+    <!-- Stats bar + overall progress: sticky under the header so the numbers
+         and the progress bar stay visible while the path scrolls. -->
     <section class="sticky top-16 z-40 py-3" style="background: var(--bg);">
       <div class="card flex items-center justify-between" style="padding: 0.7rem 1rem;">
         <div class="flex items-center gap-4">
@@ -53,11 +54,7 @@ function trailDots(i: number) {
           <span id="stat-done-2">0</span>/<span>{totalLessons}</span> lessons
         </span>
       </div>
-    </section>
-
-    <!-- Overall progress -->
-    <section class="mb-8">
-      <div class="progress-track">
+      <div class="progress-track mt-3">
         <div class="progress-fill" id="overall-fill" style="width:0%"></div>
       </div>
     </section>
@@ -67,7 +64,7 @@ function trailDots(i: number) {
       LEVELS.map((lv) => {
         const lessons = byLevel[lv.id] || [];
         return (
-          <section class="mb-16" data-level={lv.id}>
+          <section class="mb-16 mt-6" data-level={lv.id}>
             <!-- Unit banner (coloured per level, like Duolingo's section header) -->
             <div class={`unit-banner ${lv.color}`}>
               <div class="min-w-0">
