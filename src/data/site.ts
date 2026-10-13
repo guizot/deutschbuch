@@ -99,7 +99,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Verbtabellen",
     desc: "Conjugation tables: Präsens, Präteritum, Perfekt.",
     count: "236 verbs",
-    icon: "bolt",
+    icon: "table",
     color: "lv-b1",
   },
   {
