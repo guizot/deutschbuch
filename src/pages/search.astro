@@ -1,0 +1,117 @@
+---
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import index from "../data/search.json";
+import "../styles/global.css";
+
+const total = index.length;
+---
+<BaseLayout title="Search — German Viewer">
+  <Header active="search" />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <h1 class="text-3xl mb-2">🔍 Search</h1>
+    <p class="mb-8" style="color: var(--text-muted)">
+      Search across all {total} lessons. Results are ranked by title matches first.
+    </p>
+
+    <div class="relative mb-6">
+      <input
+        id="q"
+        type="search"
+        placeholder="Try: Dativ, Konjunktiv, weil, Perfekt…"
+        autocomplete="off"
+        class="w-full px-4 py-3 rounded-2xl text-base font-bold outline-none"
+        style="background: var(--bg-card); border: 2px solid var(--border); color: var(--text)"
+      />
+    </div>
+
+    <div class="flex items-center justify-between mb-4">
+      <p class="text-sm font-extrabold">
+        <span id="count">0</span> <span style="color: var(--text-muted)">results</span>
+      </p>
+    </div>
+
+    <div id="results" class="space-y-3"></div>
+
+    <div id="empty" class="card text-center py-12" style="display:none">
+      <p class="text-4xl mb-3">🤔</p>
+      <p class="font-extrabold mb-1">No lessons found</p>
+      <p class="text-sm" style="color: var(--text-muted)">Try a shorter word or a different spelling.</p>
+    </div>
+
+    <div id="hint" class="card text-center py-12">
+      <p class="text-4xl mb-3">💡</p>
+      <p class="font-extrabold mb-1">Start typing</p>
+      <p class="text-sm" style="color: var(--text-muted)">Search German grammar terms, keywords or topics.</p>
+    </div>
+  </main>
+
+  <script is:inline define:vars={{ index }}>
+    const data = index;
+    const qEl = document.getElementById("q");
+    const resEl = document.getElementById("results");
+    const countEl = document.getElementById("count");
+    const emptyEl = document.getElementById("empty");
+    const hintEl = document.getElementById("hint");
+
+    const LEVEL_NAMES = { a1: "A1", a2: "A2", b1: "B1", b2: "B2", c1: "C1" };
+
+    function norm(s) {
+      return String(s || "").toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/ä/g, "a").replace(/ö/g, "o").replace(/ü/g, "u").replace(/ß/g, "ss");
+    }
+
+    function snippet(text, q) {
+      const i = norm(text).indexOf(q);
+      if (i < 0) return text.slice(0, 160);
+      const start = Math.max(0, i - 60);
+      const end = Math.min(text.length, i + 100);
+      return (start > 0 ? "…" : "") + text.slice(start, end) + (end < text.length ? "…" : "");
+    }
+
+    function render() {
+      const q = norm(qEl.value).trim();
+      if (!q) {
+        resEl.innerHTML = "";
+        countEl.textContent = "0";
+        emptyEl.style.display = "none";
+        hintEl.style.display = "";
+        return;
+      }
+      hintEl.style.display = "none";
+
+      const scored = [];
+      for (const item of data) {
+        const t = norm(item.t);
+        const d = norm(item.d);
+        let score = 0;
+        if (t.includes(q)) score += 100;
+        if (t.startsWith(q)) score += 50;
+        if (d.includes(q)) score += 10;
+        if (score > 0) scored.push({ item, score });
+      }
+      scored.sort((a, b) => b.score - a.score);
+      const top = scored.slice(0, 40);
+
+      countEl.textContent = String(scored.length);
+      emptyEl.style.display = scored.length ? "none" : "";
+
+      resEl.innerHTML = top.map(({ item }) => `
+        <a href="/${item.l}/${item.s}/" class="card block hover:translate-y-[-2px] transition-transform" style="text-decoration:none">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="pill lv-${item.l}">${LEVEL_NAMES[item.l] || item.l.toUpperCase()}</span>
+            <span class="text-xs font-bold" style="color: var(--text-muted)">${item.l}/${item.s}</span>
+          </div>
+          <p class="font-extrabold mb-1" style="color: var(--text)">${item.t}</p>
+          <p class="text-sm" style="color: var(--text-muted)">${snippet(item.d, q)}</p>
+        </a>
+      `).join("");
+    }
+
+    qEl.addEventListener("input", render);
+    // focus on load so the user can type straight away
+    qEl.focus();
+  </script>
+</BaseLayout>

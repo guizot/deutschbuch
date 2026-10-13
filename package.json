@@ -1,0 +1,22 @@
+{
+  "name": "german-viewer",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Duolingo-style viewer for the German A1-C1 course in ~/Documents/languages/german (read-only source).",
+  "scripts": {
+    "sync": "node scripts/sync-content.mjs",
+    "dev": "astro dev --port 3008",
+    "build": "npm run sync && astro build",
+    "preview": "astro preview --port 3008",
+    "serve": "python3 -m http.server 3008 --directory dist"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "marked": "^18.1.1",
+    "tailwindcss": "^4.0.0"
+  }
+}

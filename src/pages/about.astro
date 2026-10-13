@@ -1,0 +1,99 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import { mdToHtml } from "../lib/md";
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LEVELS } from "../data/site.ts";
+import "../styles/global.css";
+
+const mdPath = path.join(process.cwd(), "src", "content", "lessons", "_roadmap.md");
+const roadmap = fs.existsSync(mdPath)
+  ? mdToHtml(fs.readFileSync(mdPath, "utf8"))
+  : "<p>Roadmap not synced.</p>";
+
+const mdRes = path.join(process.cwd(), "src", "content", "lessons", "_resources.md");
+const resources = fs.existsSync(mdRes)
+  ? mdToHtml(fs.readFileSync(mdRes, "utf8"))
+  : "<p>Resources not synced.</p>";
+---
+<BaseLayout>
+  <Header active="about" />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <h1 class="text-3xl mb-2">About this course</h1>
+    <p class="mb-10" style="color: var(--text-muted)">
+      A complete German course from A1 to C1, built as plain markdown and viewed here.
+    </p>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+      <div class="card text-center">
+        <div class="text-2xl font-black" style="color: var(--color-feather)">76</div>
+        <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
+          Lessons
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="text-2xl font-black" style="color: var(--color-macaw)">1,024</div>
+        <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
+          Words
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="text-2xl font-black" style="color: var(--color-bee)">236</div>
+        <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
+          Verbs
+        </div>
+      </div>
+    </div>
+
+    <section class="card mb-8">
+      <h2 class="text-lg mb-3">How to use it</h2>
+      <ol class="space-y-2 text-sm" style="color: var(--text-muted)">
+        <li><strong style="color:var(--text-strong)">1.</strong> Start on the Learn page and work down the path.</li>
+        <li><strong style="color:var(--text-strong)">2.</strong> One lesson per session — each is built for 30 minutes.</li>
+        <li><strong style="color:var(--text-strong)">3.</strong> Try the exercises before revealing the answer key.</li>
+        <li><strong style="color:var(--text-strong)">4.</strong> Mark the lesson complete to build your streak.</li>
+        <li><strong style="color:var(--text-strong)">5.</strong> Use the Reference tools when you forget a rule or a word.</li>
+      </ol>
+    </section>
+
+    <h2 class="text-xl mb-4">The levels</h2>
+    <div class="space-y-3 mb-10">
+      {
+        LEVELS.map((lv) => (
+          <div class="card flex items-start gap-4">
+            <span class={`pill ${lv.color} shrink-0`} style="padding:0.35rem 0.9rem">
+              {lv.label}
+            </span>
+            <div>
+              <div class="font-extrabold" style="color: var(--text-strong)">
+                {lv.name}
+              </div>
+              <p class="text-sm" style="color: var(--text-muted)">
+                {lv.blurb}
+              </p>
+              <p class="text-xs mt-1" style="color: var(--text-faint)">
+                {lv.hours} cumulative
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <article class="prose-de mb-10" set:html={roadmap} />
+
+    <h2 class="text-xl mb-4">Resources</h2>
+    <article class="prose-de" set:html={resources} />
+
+    <div class="card mt-10" style="border-color: var(--border-strong)">
+      <p class="text-sm" style="color: var(--text-muted)">
+        <strong style="color:var(--text-strong)">Source of truth:</strong> the markdown files in
+        <code style="background:var(--surface-2);padding:0.1rem 0.35rem;border-radius:6px"
+          >~/Documents/languages/german/</code
+        >. This site is generated from them and never writes back.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

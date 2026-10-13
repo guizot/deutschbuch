@@ -1,0 +1,19 @@
+---
+interface Props {
+  label: string;
+  value: number;
+  max: number;
+  color?: string;
+}
+const { label, value, max, color = "var(--color-feather)" } = Astro.props;
+const pct = max > 0 ? Math.round((value / max) * 100) : 0;
+---
+<div class="w-full">
+  <div class="flex items-baseline justify-between mb-1.5">
+    <span class="text-sm font-extrabold" style="color: var(--text-strong)">{label}</span>
+    <span class="text-xs font-bold" style="color: var(--text-muted)">{value}/{max}</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" style={`width:${pct}%;background:${color}`}></div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import { mdToHtml } from "../../lib/md";
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/global.css";
+
+const mdPath = path.join(process.cwd(), "src", "content", "lessons", "_cheatsheet.md");
+
+// The cheatsheet lives in the source folder; sync-content copies it as a
+// special lesson so we can render it with the same pipeline.
+const raw = fs.existsSync(mdPath) ? fs.readFileSync(mdPath, "utf8") : "# Cheat sheet not synced";
+
+/**
+ * The cheat sheet links to sibling markdown files (`./nomen.md`,
+ * `./a1/README.md`, `../README.md`). Those files do not exist on the built
+ * site, so point the links at the real pages instead.
+ */
+function fixLinks(html) {
+  const map = {
+    "./woerterbuch.md": "/reference/dictionary/",
+    "./verbtabellen.md": "/reference/verbs/",
+    "./nomen.md": "/reference/nouns/",
+    "./redemittel.md": "/reference/phrases/",
+    "./roadmap.md": "/about/",
+    "./progress.md": "/progress/",
+    "../README.md": "/",
+    "./a1/README.md": "/a1/",
+    "./a2/README.md": "/a2/",
+    "./b1/README.md": "/b1/",
+    "./b2/README.md": "/b2/",
+    "./c1/README.md": "/c1/",
+  };
+  let out = html;
+  for (const [md, href] of Object.entries(map)) {
+    out = out.replaceAll(`href="${md}"`, `href="${href}"`);
+  }
+  return out;
+}
+
+const html = fixLinks(mdToHtml(raw));
+---
+<BaseLayout>
+  <Header active="reference" />
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <a href="/reference/" class="text-sm font-bold mb-5 inline-block" style="color:var(--text-muted)"
+      >← Reference</a
+    >
+    <h1 class="text-3xl mb-2">⚡ Cheat Sheet</h1>
+    <p class="mb-8" style="color:var(--text-muted)">
+      The whole grammar on one page. Ctrl+F the rule you forgot.
+    </p>
+    <article class="prose-de" set:html={html} />
+  </main>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { mdToHtml } from "../../lib/md";
+import { LEVELS } from "../../data/site.ts";
+import meta from "../../content/meta.json";
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+  return LEVELS.map((lv) => ({ params: { level: lv.id } }));
+}
+
+const { level } = Astro.params;
+const info = LEVELS.find((l) => l.id === level);
+const lessons = meta.filter((m) => m.level === level);
+
+const mdPath = path.join(
+  process.cwd(),
+  "src",
+  "content",
+  "lessons",
+  level,
+  "_wortschatz.md"
+);
+
+const raw = fs.existsSync(mdPath)
+  ? fs.readFileSync(mdPath, "utf8")
+  : `# ${info.label} vocabulary\n\nNot synced yet.`;
+
+const html = mdToHtml(raw);
+---
+<BaseLayout title={`${info.label} Vocabulary — German Viewer`}>
+  <Header active="learn" />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <a
+      href={`/${level}/`}
+      class="text-sm font-bold mb-5 inline-block"
+      style="color: var(--text-muted)">← {info.label} · {info.name}</a
+    >
+
+    <div class="card mb-8">
+      <div class="flex items-center gap-3 mb-2">
+        <span class={`pill ${info.color}`} style="padding:0.35rem 0.9rem">{info.label}</span>
+        <h1 class="text-2xl">Vocabulary</h1>
+      </div>
+      <p class="text-sm" style="color: var(--text-muted)">
+        Every word from the {info.label} lessons, grouped by topic. Learn nouns with their
+        article.
+      </p>
+    </div>
+
+    <article class="prose-de" set:html={html} />
+
+    <nav class="flex flex-col sm:flex-row gap-3 mt-10">
+      <a href={`/${level}/`} class="card card-hover flex-1 min-w-0" style="color:inherit">
+        <div class="text-xs font-bold" style="color: var(--text-faint)">← Back to</div>
+        <div class="text-sm font-extrabold" style="color: var(--text-strong)">
+          {info.label} lesson list
+        </div>
+      </a>
+      <a href="/reference/dictionary/" class="card card-hover flex-1 min-w-0" style="color:inherit">
+        <div class="text-xs font-bold" style="color: var(--text-faint)">Search all words →</div>
+        <div class="text-sm font-extrabold" style="color: var(--text-strong)">
+          Full dictionary
+        </div>
+      </a>
+    </nav>
+  </main>
+</BaseLayout>

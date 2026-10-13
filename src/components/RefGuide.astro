@@ -1,0 +1,62 @@
+---
+/**
+ * Renders the prose + rule-table part of a reference file (the A–Z data table
+ * is dropped by scripts/sync-content.mjs, because that data has its own
+ * searchable page above). Used at the bottom of /reference/*.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { mdToHtml } from "../lib/md";
+
+interface Props {
+  name: string; // e.g. "nomen.md"
+  title?: string;
+  intro?: string;
+}
+
+const { name, title = "📘 Guide", intro } = Astro.props;
+
+const file = path.join(process.cwd(), "src", "content", "guides", name);
+const raw = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
+
+// Internal links in these files point at sibling markdown; map them to pages.
+const LINK_MAP: Record<string, string> = {
+  "./woerterbuch.md": "/reference/dictionary/",
+  "./verbtabellen.md": "/reference/verbs/",
+  "./nomen.md": "/reference/nouns/",
+  "./redemittel.md": "/reference/phrases/",
+  "./cheatsheet.md": "/reference/cheatsheet/",
+  "./roadmap.md": "/about/",
+  "./progress.md": "/progress/",
+  "../README.md": "/",
+  "./a1/README.md": "/a1/",
+  "./a2/README.md": "/a2/",
+  "./b1/README.md": "/b1/",
+  "./b2/README.md": "/b2/",
+  "./c1/README.md": "/c1/",
+};
+
+function fixLinks(html: string) {
+  let out = html;
+  for (const [md, href] of Object.entries(LINK_MAP)) {
+    out = out.replaceAll(`href="${md}"`, `href="${href}"`);
+  }
+  return out;
+}
+
+const html = raw ? fixLinks(mdToHtml(raw)) : "";
+---
+
+{
+  html && (
+    <section class="mt-14 pt-8 border-t-2" style="border-color: var(--border)">
+      <h2 class="text-2xl mb-2">{title}</h2>
+      {intro && (
+        <p class="mb-6 text-sm" style="color: var(--text-muted)">
+          {intro}
+        </p>
+      )}
+      <article class="prose-de" set:html={html} />
+    </section>
+  )
+}

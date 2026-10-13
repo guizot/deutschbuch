@@ -1,0 +1,323 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import { mdToHtml } from "../../lib/md";
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LEVELS } from "../../data/site.ts";
+import meta from "../../content/meta.json";
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+  return meta.map((m) => ({
+    params: { level: m.level, slug: m.slug },
+    props: { lesson: m },
+  }));
+}
+
+const { lesson } = Astro.props;
+const info = LEVELS.find((l) => l.id === lesson.level);
+const levelLessons = meta.filter((m) => m.level === lesson.level);
+const idx = levelLessons.findIndex((m) => m.slug === lesson.slug);
+const prev = idx > 0 ? levelLessons[idx - 1] : null;
+const next = idx < levelLessons.length - 1 ? levelLessons[idx + 1] : null;
+
+// ---- read the markdown (copied by sync-content.mjs) ------------------------
+const mdPath = path.join(
+  process.cwd(),
+  "src",
+  "content",
+  "lessons",
+  lesson.level,
+  lesson.file
+);
+const raw = fs.readFileSync(mdPath, "utf8");
+
+// Split the document into three parts so exercises can be interactive.
+// Structure is consistent across all 76 lessons:
+//   # title ... ## Material ... ## Vocabulary ... ## Exercises ### Answer key
+//   ## Pronunciation note ## Common mistakes ## Personal notes ## Checklist
+function splitLesson(md) {
+  const exIdx = md.search(/^##\s+Exercises\s*$/m);
+  const ckIdx = md.search(/^##\s+Checklist\s*$/m);
+
+  const before = exIdx >= 0 ? md.slice(0, exIdx) : md;
+  const middle = exIdx >= 0 ? md.slice(exIdx, ckIdx >= 0 ? ckIdx : undefined) : "";
+  const after = ckIdx >= 0 ? md.slice(ckIdx) : "";
+
+  // Inside the middle, separate the questions from the answer key.
+  const akIdx = middle.search(/^###\s+Answer key\s*$/m);
+  const exercises = akIdx >= 0 ? middle.slice(0, akIdx) : middle;
+  const answers = akIdx >= 0 ? middle.slice(akIdx) : "";
+
+  return { before, exercises, answers, after };
+}
+
+const parts = splitLesson(raw);
+
+// The page already renders the title, level, target time and exercise count in
+// a header card. Strip the duplicated H1 and the metadata line from the body.
+const bodyClean = parts.before
+  .replace(/^#\s+.+\n/, "")
+  .replace(/^\*\*Level:\*\*.*\n/m, "")
+  .replace(/^\s*---\s*$/m, "");
+
+// mdToHtml (src/lib/md.ts) sets gfm + breaks:true, which keeps each source line
+// on its own line. The lessons rely on this for exercise items (a) b) c)),
+// vocabulary and dialogues, which would otherwise be glued into one paragraph.
+
+/**
+ * The source markdown cross-links lessons as `./02-begruessung.md`, which does
+ * not exist on the built site. Rewrite those to the real route
+ * `/<level>/<slug>/` so the in-lesson links work.
+ */
+function fixLessonLinks(html, level) {
+  return html
+    // ./02-begruessung.md -> /a1/02-begruessung/
+    .replace(/href="\.\/(\d{2}-[a-z0-9-]+)\.md"/g, (_m, slug) => `href="/${level}/${slug}/"`)
+    // ./wortschatz.md -> /a1/wortschatz/
+    .replace(/href="\.\/wortschatz\.md"/g, `href="/${level}/wortschatz/"`);
+}
+
+// mdToHtml handles markdown parsing, table wrapping and **bold** inside
+// inline code (see src/lib/md.ts); only the lesson-specific link rewriting is
+// left to do here.
+const render = (md) => fixLessonLinks(mdToHtml(md), lesson.level);
+
+// The "**Next:** [Lektion NN: ...](./NN-....md)" line at the end of a lesson
+// duplicates the prev/next card at the bottom of the page, so drop it. But the
+// last lesson of each level has no next card and its line carries real advice
+// ("Review all of A1, then take a Goethe mock exam") — keep those, i.e. only
+// remove lines that are nothing but a link.
+const afterClean = parts.after.replace(
+  /^\*\*Next:\*\*\s*\[[^\]]*\]\([^)]*\)\s*$/m,
+  ""
+);
+
+const htmlBefore = render(bodyClean);
+const htmlExercises = render(parts.exercises);
+const htmlAnswers = render(parts.answers);
+const htmlAfter = render(afterClean);
+---
+<BaseLayout>
+  <Header active="learn" />
+
+  <main class="max-w-3xl mx-auto px-4 py-8 pb-28">
+    <!-- breadcrumb -->
+    <a
+      href={`/${lesson.level}/`}
+      class="text-sm font-bold mb-5 inline-block"
+      style="color: var(--text-muted)">← {info.label} · {info.name}</a
+    >
+
+    <!-- header card -->
+    <div class="card mb-6">
+      <div class="flex items-start justify-between gap-3 mb-3">
+        <span class={`pill ${info.color}`} style="padding:0.35rem 0.9rem">{info.label}</span>
+        <span class="text-xs font-bold" style="color: var(--text-faint)">
+          Lesson {lesson.num} / {levelLessons.length}
+        </span>
+      </div>
+      <h1 class="text-2xl mb-2">{lesson.title}</h1>
+      <div class="flex flex-wrap gap-4 text-xs font-bold" style="color: var(--text-muted)">
+        <span>⏱ {lesson.target || "30 minutes"}</span>
+        <span>📝 {lesson.exercises} exercises</span>
+        <span>📄 {lesson.words.toLocaleString()} words</span>
+      </div>
+    </div>
+
+    <!-- body -->
+    <article class="prose-de" set:html={htmlBefore} />
+
+    <!-- exercises (interactive) -->
+    {
+      parts.exercises.trim() && (
+        <section class="mt-10">
+          <article class="prose-de" set:html={htmlExercises} />
+
+          {parts.answers.trim() && (
+            <div class="mt-6">
+              <button id="reveal" class="btn btn-secondary" style="width:100%">
+                Show answer key
+              </button>
+              <div
+                id="answers"
+                class="card mt-4"
+                style="display:none;border-color:var(--color-bee);background:color-mix(in srgb, var(--color-bee) 8%, var(--surface));"
+              >
+                <article class="prose-de" set:html={htmlAnswers} />
+              </div>
+            </div>
+          )}
+        </section>
+      )
+    }
+
+    <!-- checklist + notes -->
+    <article id="lesson-after" class="prose-de" set:html={htmlAfter} />
+
+    <!-- complete button -->
+    <section class="mt-10">
+      <button id="complete" class="btn btn-primary" style="width:100%">
+        Mark lesson complete
+      </button>
+      <p id="complete-note" class="text-center text-xs mt-3" style="color: var(--text-faint)">
+        Progress is stored in this browser.
+      </p>
+    </section>
+
+    <!-- prev / next: stacked on phones so long titles cannot overflow -->
+    <nav class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-10">
+      {
+        prev ? (
+          <a
+            href={`/${lesson.level}/${prev.slug}/`}
+            class="card card-hover flex-1 min-w-0"
+            style="color:inherit"
+          >
+            <div class="text-xs font-bold" style="color: var(--text-faint)">
+              ← Previous
+            </div>
+            <div class="text-sm font-extrabold truncate" style="color: var(--text-strong)">
+              {prev.title}
+            </div>
+          </a>
+        ) : (
+          <div class="flex-1 hidden sm:block" />
+        )
+      }
+      {
+        next ? (
+          <a
+            href={`/${lesson.level}/${next.slug}/`}
+            class="card card-hover flex-1 min-w-0 sm:text-right"
+            style="color:inherit"
+          >
+            <div class="text-xs font-bold" style="color: var(--text-faint)">
+              Next →
+            </div>
+            <div class="text-sm font-extrabold truncate" style="color: var(--text-strong)">
+              {next.title}
+            </div>
+          </a>
+        ) : (
+          <div class="flex-1 hidden sm:block" />
+        )
+      }
+    </nav>
+  </main>
+
+  <script is:inline define:vars={{ lessonId: `${lesson.level}/${lesson.slug}` }}>
+    const KEY = "gv-progress-v1";
+
+    function load() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+    function save(s) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(s));
+      } catch {}
+    }
+
+    // reveal answers
+    const reveal = document.getElementById("reveal");
+    const answers = document.getElementById("answers");
+    reveal?.addEventListener("click", () => {
+      const open = answers.style.display !== "none";
+      answers.style.display = open ? "none" : "block";
+      reveal.textContent = open ? "Show answer key" : "Hide answer key";
+      if (!open) answers.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    // complete toggle
+    const btn = document.getElementById("complete");
+    const note = document.getElementById("complete-note");
+    const state = load();
+    state.lessons = state.lessons || {};
+
+    function paint() {
+      const isDone = !!state.lessons[lessonId];
+      if (isDone) {
+        btn.textContent = "✓ Completed";
+        btn.className = "btn btn-ghost";
+        note.textContent = "Tap again to mark as not done.";
+      } else {
+        btn.textContent = "Mark lesson complete";
+        btn.className = "btn btn-primary";
+        note.textContent = "Progress is stored in this browser.";
+      }
+    }
+
+    btn?.addEventListener("click", () => {
+      state.lessons[lessonId] = !state.lessons[lessonId];
+      // streak: count distinct days
+      const today = new Date().toISOString().slice(0, 10);
+      state.days = state.days || [];
+      if (state.lessons[lessonId] && !state.days.includes(today)) state.days.push(today);
+      state.streak = computeStreak(state.days);
+      save(state);
+      paint();
+    });
+
+    function computeStreak(days) {
+      if (!days.length) return 0;
+      const set = new Set(days);
+      let n = 0;
+      const d = new Date();
+      for (;;) {
+        const key = d.toISOString().slice(0, 10);
+        if (set.has(key)) {
+          n++;
+          d.setDate(d.getDate() - 1);
+        } else break;
+      }
+      return n;
+    }
+
+    paint();
+
+    // ---- interactive checklist ------------------------------------------
+    // markdown task lists render with `disabled` inputs, which look like a
+    // dead UI. Re-enable them and remember the ticks per lesson.
+    const CHECK_KEY = "gv-checklist-v1";
+
+    function loadChecks() {
+      try {
+        return JSON.parse(localStorage.getItem(CHECK_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+    function saveChecks(v) {
+      try {
+        localStorage.setItem(CHECK_KEY, JSON.stringify(v));
+      } catch {}
+    }
+
+    const boxes = document.querySelectorAll("#lesson-after input[type=checkbox]");
+    if (boxes.length) {
+      const all = loadChecks();
+      const mine = all[lessonId] || {};
+
+      boxes.forEach((box, i) => {
+        box.disabled = false;
+        box.checked = !!mine[i];
+        box.style.cursor = "pointer";
+        box.style.width = "1.05rem";
+        box.style.height = "1.05rem";
+        box.style.accentColor = "var(--color-feather)";
+
+        box.addEventListener("change", () => {
+          const cur = loadChecks();
+          cur[lessonId] = cur[lessonId] || {};
+          cur[lessonId][i] = box.checked;
+          saveChecks(cur);
+        });
+      });
+    }
+  </script>
+</BaseLayout>

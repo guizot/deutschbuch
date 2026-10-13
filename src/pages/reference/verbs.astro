@@ -1,0 +1,62 @@
+---
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RefSearch from "../../components/RefSearch.astro";
+import RefGuide from "../../components/RefGuide.astro";
+import verbs from "../../data/verbs.json";
+import "../../styles/global.css";
+
+const TYPE_LABEL = {
+  core: "core",
+  modal: "modal",
+  strong: "strong",
+  weak: "weak",
+  separable: "separable",
+  reflexive: "reflexive",
+  ieren: "-ieren",
+};
+
+// Decorate for display
+const items = verbs.map((v) => ({
+  ...v,
+  typeLabel: TYPE_LABEL[v.type] || v.type,
+}));
+---
+<BaseLayout>
+  <Header active="reference" />
+  <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
+    <a href="/reference/" class="text-sm font-bold mb-5 inline-block" style="color:var(--text-muted)"
+      >← Reference</a
+    >
+    <h1 class="text-3xl mb-2">⚡ Verbtabellen</h1>
+    <p class="mb-3" style="color:var(--text-muted)">
+      Conjugation tables for {items.length} verbs: Präsens, Präteritum and Perfekt.
+    </p>
+    <p class="text-xs mb-8" style="color:var(--text-faint)">
+      Learn the three principal forms as a triple: sprechen – sprach – gesprochen.
+    </p>
+
+    <RefSearch
+      items={items}
+      searchKeys={["inf", "en", "ich", "du", "er", "praet", "perf"]}
+      levelFilter={false}
+      placeholder="Search a verb… e.g. nehmen, to speak, ging"
+      columns={[
+        { key: "inf", label: "Infinitiv" },
+        { key: "en", label: "English" },
+        { key: "ich", label: "ich" },
+        { key: "du", label: "du" },
+        { key: "er", label: "er/sie/es" },
+        { key: "praet", label: "Präteritum" },
+        { key: "perf", label: "Perfekt" },
+        { key: "typeLabel", label: "Type" },
+      ]}
+    />
+
+    <RefGuide
+      name="verbtabellen.md"
+      title="📘 Conjugation rules"
+      intro="The principal forms, the endings behind every table, and the Konjunktiv II."
+    />
+  </main>
+</BaseLayout>

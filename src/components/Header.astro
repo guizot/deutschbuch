@@ -1,0 +1,82 @@
+---
+import ThemeToggle from "../components/ThemeToggle.astro";
+
+interface Props {
+  active?: string;
+}
+
+const { active = "" } = Astro.props;
+
+// icon for the mobile bottom bar, label for the desktop nav
+const links = [
+  { href: "/", label: "Learn", key: "learn", icon: "🦉" },
+  { href: "/search", label: "Search", key: "search", icon: "🔍" },
+  { href: "/reference", label: "Reference", key: "reference", icon: "📖" },
+  { href: "/progress", label: "Progress", key: "progress", icon: "📊" },
+  { href: "/about", label: "About", key: "about", icon: "ℹ️" },
+];
+---
+<!-- Top bar: brand + (desktop only) the full nav + theme toggle -->
+<header
+  class="sticky top-0 z-50 border-b-2"
+  style="background: var(--surface); border-color: var(--border);"
+>
+  <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+    <a href="/" class="flex items-center gap-2 shrink-0">
+      <span class="text-2xl">🦉</span>
+      <span class="font-black text-lg" style="color: var(--text-strong)">
+        German&nbsp;Viewer
+      </span>
+    </a>
+
+    <!-- Desktop nav: the full labels only fit from ~640px up. Below that the
+         bottom bar takes over, which is why the top nav used to be clipped. -->
+    <nav class="hidden sm:flex items-center gap-1">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="px-3 py-2 rounded-xl text-sm font-extrabold whitespace-nowrap transition-colors"
+            style={
+              active === l.key
+                ? "background: color-mix(in srgb, var(--color-feather) 16%, transparent); color: var(--color-feather);"
+                : "color: var(--text-muted);"
+            }
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <ThemeToggle />
+  </div>
+</header>
+
+<!-- Mobile bottom bar: five icon tabs, the pattern native apps (and Duolingo)
+     use. Replaces the horizontal top nav on narrow screens so nothing is
+     clipped. -->
+<nav
+  class="sm:hidden fixed bottom-0 inset-x-0 z-50 border-t-2"
+  style="background: var(--surface); border-color: var(--border); padding-bottom: env(safe-area-inset-bottom);"
+  aria-label="Main navigation"
+>
+  <div class="flex items-stretch justify-around">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          class="flex flex-col items-center gap-0.5 py-2 px-1 flex-1 min-w-0 transition-colors"
+          style={
+            active === l.key ? "color: var(--color-feather);" : "color: var(--text-muted);"
+          }
+        >
+          <span class="text-xl leading-none">{l.icon}</span>
+          <span class="text-[10px] font-extrabold truncate w-full text-center">
+            {l.label}
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</nav>

@@ -1,0 +1,140 @@
+---
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LEVELS } from "../data/site.ts";
+import meta from "../content/meta.json";
+import "../styles/global.css";
+
+const byLevel = Object.fromEntries(
+  LEVELS.map((l) => [l.id, meta.filter((m) => m.level === l.id)])
+);
+---
+<BaseLayout>
+  <Header active="progress" />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <h1 class="text-3xl mb-2">Your progress</h1>
+    <p class="mb-10" style="color: var(--text-muted)">
+      Stored in this browser only. Nothing is sent anywhere.
+    </p>
+
+    <!-- stat cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+      {
+        [
+          ["🔥", "Streak", "stat-streak", "var(--color-fox)"],
+          ["⭐", "XP", "stat-xp", "var(--color-bee)"],
+          ["✅", "Lessons", "stat-lessons", "var(--color-feather)"],
+          ["📚", "Remaining", "stat-left", "var(--color-macaw)"],
+        ].map(([icon, label, id, color]) => (
+          <div class="card text-center">
+            <div class="text-2xl mb-1">{icon}</div>
+            <div class="text-2xl font-black" id={id} style={`color:${color}`}>
+              0
+            </div>
+            <div
+              class="text-[10px] font-extrabold uppercase tracking-wider"
+              style="color: var(--text-faint)"
+            >
+              {label}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="text-xl mb-5">By level</h2>
+    <div class="space-y-6">
+      {
+        LEVELS.map((lv) => {
+          const lessons = byLevel[lv.id] || [];
+          return (
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class={`pill ${lv.color}`} style="padding:0.25rem 0.7rem">
+                    {lv.label}
+                  </span>
+                  <span class="text-sm font-extrabold" style="color: var(--text-strong)">
+                    {lv.name}
+                  </span>
+                </div>
+                <span
+                  class="text-xs font-bold"
+                  style="color: var(--text-muted)"
+                  data-count={lv.id}
+                >
+                  0/{lessons.length}
+                </span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" data-fill={lv.id} style="width:0%" />
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <div class="mt-10 flex gap-3">
+      <button id="export" class="btn btn-ghost" style="flex:1">Export progress</button>
+      <button id="reset" class="btn btn-danger" style="flex:1">Reset</button>
+    </div>
+    <p class="text-center text-xs mt-3" style="color: var(--text-faint)">
+      Export gives you a JSON file you can keep as a backup.
+    </p>
+  </main>
+
+  <script is:inline define:vars={{ meta, levels: LEVELS.map((l) => l.id) }}>
+    const KEY = "gv-progress-v1";
+
+    function load() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+    function save(s) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(s));
+      } catch {}
+    }
+
+    const state = load();
+    const done = state.lessons || {};
+    const doneCount = Object.values(done).filter(Boolean).length;
+
+    document.getElementById("stat-streak").textContent = String(state.streak || 0);
+    document.getElementById("stat-xp").textContent = String(doneCount * 10);
+    document.getElementById("stat-lessons").textContent = String(doneCount);
+    document.getElementById("stat-left").textContent = String(meta.length - doneCount);
+
+    for (const lv of levels) {
+      const ls = meta.filter((m) => m.level === lv);
+      let n = 0;
+      for (const l of ls) if (done[lv + "/" + l.slug]) n++;
+      const pct = ls.length ? (n / ls.length) * 100 : 0;
+      const fill = document.querySelector(`[data-fill="${lv}"]`);
+      const cnt = document.querySelector(`[data-count="${lv}"]`);
+      if (fill) fill.style.width = pct + "%";
+      if (cnt) cnt.textContent = n + "/" + ls.length;
+    }
+
+    document.getElementById("export").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "german-progress.json";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      if (confirm("Reset all progress? This cannot be undone.")) {
+        save({});
+        location.reload();
+      }
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,233 @@
+---
+// Shared search island for the reference tools.
+// Vanilla JS, no framework. Handles text search + level filter + a count.
+interface Props {
+  items: any[];
+  /** fields to search in */
+  searchKeys: string[];
+  /** key holding the level tag(s) */
+  levelKey?: string;
+  /** show the A1–C1 filter row (off for tables with no CEFR level, e.g. verbs) */
+  levelFilter?: boolean;
+  placeholder?: string;
+  columns: { key: string; label: string; mono?: boolean }[];
+  /** optional: show article filter (der/die/das) */
+  articleFilter?: boolean;
+  limit?: number;
+}
+const {
+  items,
+  searchKeys,
+  levelKey = "level",
+  levelFilter = true,
+  placeholder = "Search…",
+  columns,
+  articleFilter = false,
+  limit = 300,
+} = Astro.props;
+
+const levels = ["A1", "A2", "B1", "B2", "C1"];
+---
+<div class="mb-6 space-y-3">
+  <input
+    id="q"
+    type="search"
+    placeholder={placeholder}
+    class="w-full px-4 py-3 font-bold outline-none"
+    style="background:var(--surface);border:2px solid var(--border);border-radius:16px;color:var(--text);"
+    autocomplete="off"
+  />
+
+  {
+    (levelFilter || articleFilter) && (
+      <div class="flex flex-wrap gap-2 items-center">
+        {levelFilter && (
+          <>
+            <button
+              class="filter-lv btn btn-ghost"
+              data-lv=""
+              style="padding:0.4rem 0.9rem;font-size:0.75rem"
+            >
+              All
+            </button>
+            {levels.map((lv) => (
+              <button
+                class="filter-lv btn btn-ghost"
+                data-lv={lv}
+                style="padding:0.4rem 0.9rem;font-size:0.75rem"
+              >
+                {lv}
+              </button>
+            ))}
+          </>
+        )}
+        {articleFilter && (
+          <>
+            <span class="mx-1" style="color:var(--border-strong)">
+              |
+            </span>
+            {["der", "die", "das"].map((a) => (
+              <button
+                class="filter-art btn btn-ghost"
+                data-art={a}
+                style="padding:0.4rem 0.9rem;font-size:0.75rem"
+              >
+                {a}
+              </button>
+            ))}
+          </>
+        )}
+      </div>
+    )
+  }
+
+  <div class="text-xs font-bold" style="color: var(--text-muted)">
+    <span id="count">{items.length}</span> results
+  </div>
+</div>
+
+<div id="empty" class="card text-center" style="display:none">
+  <p style="color:var(--text-muted)">No results. Try another word.</p>
+</div>
+
+<div
+  id="tablewrap"
+  class="card"
+  style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch"
+>
+  <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
+    <thead>
+      <tr style="background:var(--surface-2)">
+        {
+          columns.map((c) => (
+            <th
+              class="text-left px-4 py-3 font-extrabold"
+              style="color:var(--text-strong);border-bottom:2px solid var(--border)"
+            >
+              {c.label}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<p id="limit-note" class="text-center text-xs mt-4" style="color: var(--text-faint);display:none">
+</p>
+<p class="text-center text-xs mt-4" style="color: var(--text-faint)">
+  Data comes from the same markdown files as the lessons.
+</p>
+
+<script
+  is:inline
+  define:vars={{ items, searchKeys, levelKey, columns, limit, articleFilter }}
+>
+  const rowsEl = document.getElementById("rows");
+  const countEl = document.getElementById("count");
+  const emptyEl = document.getElementById("empty");
+  const qEl = document.getElementById("q");
+
+  let activeLevel = "";
+  let activeArt = "";
+
+  function norm(s) {
+    return String(s || "").toLowerCase();
+  }
+
+  function render() {
+    const q = norm(qEl.value).trim();
+    const matches = [];
+
+    for (const it of items) {
+      // level filter
+      if (activeLevel) {
+        const lv = String(it[levelKey] || "");
+        if (!lv.includes(activeLevel)) continue;
+      }
+      // article filter (nouns)
+      if (articleFilter && activeArt) {
+        if (it.art !== activeArt) continue;
+      }
+      // text search
+      if (q) {
+        let hit = false;
+        for (const k of searchKeys) {
+          if (norm(it[k]).includes(q)) {
+            hit = true;
+            break;
+          }
+        }
+        if (!hit) continue;
+      }
+      matches.push(it);
+    }
+
+    const out = matches.slice(0, limit);
+
+    // Show the true number of matches; note when the table is truncated.
+    countEl.textContent = String(matches.length);
+    const noteEl = document.getElementById("limit-note");
+    if (noteEl) {
+      noteEl.style.display = matches.length > limit ? "" : "none";
+      noteEl.textContent = `Showing first ${limit} of ${matches.length} matches — type to narrow down.`;
+    }
+
+    emptyEl.style.display = matches.length ? "none" : "block";
+    document.getElementById("tablewrap").style.display = matches.length ? "" : "none";
+
+    rowsEl.innerHTML = out
+      .map((it) => {
+        const tds = columns
+          .map((c) => {
+            let v = it[c.key] ?? "";
+            if (c.key === "level") v = it.level || "";
+            const style =
+              "padding:0.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;";
+            const mono = c.mono ? "font-family:ui-monospace,monospace;font-size:0.85em;" : "";
+            // Many dictionary entries have no plural/pattern (verbs, adjectives,
+            // adverbs). Show a muted dash so the cell reads as "nothing here"
+            // instead of looking like a rendering bug.
+            if (!String(v).trim()) {
+              return `<td style="${style}${mono}color:var(--text-faint)">–</td>`;
+            }
+            return `<td style="${style}${mono}">${escapeHtml(v)}</td>`;
+          })
+          .join("");
+        return `<tr>${tds}</tr>`;
+      })
+      .join("");
+  }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  // filters
+  document.querySelectorAll(".filter-lv").forEach((b) => {
+    b.addEventListener("click", () => {
+      activeLevel = b.dataset.lv;
+      document
+        .querySelectorAll(".filter-lv")
+        .forEach((x) => x.classList.remove("btn-primary"));
+      b.classList.add("btn-primary");
+      render();
+    });
+  });
+  document.querySelectorAll(".filter-art").forEach((b) => {
+    b.addEventListener("click", () => {
+      activeArt = activeArt === b.dataset.art ? "" : b.dataset.art;
+      document.querySelectorAll(".filter-art").forEach((x) => {
+        x.classList.toggle("btn-primary", x.dataset.art === activeArt);
+      });
+      render();
+    });
+  });
+
+  qEl.addEventListener("input", render);
+  render();
+</script>

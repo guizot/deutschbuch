@@ -1,0 +1,119 @@
+---
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LEVELS } from "../../data/site.ts";
+import meta from "../../content/meta.json";
+import "../../styles/global.css";
+
+export function getStaticPaths() {
+  return LEVELS.map((lv) => ({ params: { level: lv.id } }));
+}
+
+const { level } = Astro.params;
+const info = LEVELS.find((l) => l.id === level);
+const lessons = meta.filter((m) => m.level === level);
+---
+<BaseLayout>
+  <Header active="learn" />
+
+  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
+    <a href="/" class="text-sm font-bold mb-6 inline-block" style="color: var(--text-muted)">
+      ← All levels
+    </a>
+
+    <div class="flex items-center gap-3 mb-2">
+      <span class={`pill ${info.color}`} style="padding:0.4rem 1rem;font-size:1rem">
+        {info.label}
+      </span>
+      <h1 class="text-3xl">{info.name}</h1>
+    </div>
+    <p class="mb-1" style="color: var(--text-muted)">{info.blurb}</p>
+    <p class="text-sm mb-8" style="color: var(--text-faint)">
+      {info.hours} cumulative · {lessons.length} lessons
+    </p>
+
+    <a
+      href={`/${level}/wortschatz/`}
+      class="card card-hover flex items-center gap-4 no-underline mb-6"
+      style="color:inherit"
+    >
+      <div class="text-2xl">📚</div>
+      <div class="min-w-0 flex-1">
+        <div class="font-extrabold" style="color: var(--text-strong)">
+          {info.label} Vocabulary
+        </div>
+        <div class="text-xs" style="color: var(--text-faint)">
+          All {info.label} words grouped by topic
+        </div>
+      </div>
+      <span class="text-lg" style="color: var(--text-faint)">›</span>
+    </a>
+
+    <div class="mb-8">
+      <div class="progress-track">
+        <div class="progress-fill" id="level-fill" style="width:0%"></div>
+      </div>
+      <p class="text-xs mt-2 font-bold" style="color: var(--text-muted)">
+        <span id="level-done">0</span> / {lessons.length} complete
+      </p>
+    </div>
+
+    <div class="space-y-3">
+      {
+        lessons.map((l) => (
+          <a
+            href={`/${level}/${l.slug}/`}
+            class="card card-hover flex items-center gap-4 no-underline"
+            data-lesson={`${level}/${l.slug}`}
+            style="color:inherit"
+          >
+            <div
+              class="w-11 h-11 rounded-full flex items-center justify-center font-extrabold shrink-0 node-badge"
+              style="background: var(--surface-2); color: var(--text-muted); border:2px solid var(--border);"
+            >
+              {l.num}
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="font-extrabold truncate" style="color: var(--text-strong)">
+                {l.title}
+              </div>
+              <div class="text-xs" style="color: var(--text-faint)">
+                {l.target || "30 min"} · {l.exercises} exercises
+              </div>
+            </div>
+            <span class="text-lg" style="color: var(--text-faint)">›</span>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+
+  <script>
+    const KEY = "gv-progress-v1";
+    let state = {};
+    try {
+      state = JSON.parse(localStorage.getItem(KEY) || "{}");
+    } catch {}
+    const done = state.lessons || {};
+
+    let n = 0;
+    document.querySelectorAll("[data-lesson]").forEach((el) => {
+      const id = el.dataset.lesson;
+      if (done[id]) {
+        n++;
+        const badge = el.querySelector(".node-badge");
+        if (badge) {
+          badge.textContent = "✓";
+          badge.style.background = "var(--color-feather)";
+          badge.style.color = "#fff";
+          badge.style.borderColor = "var(--color-feather-shadow)";
+        }
+      }
+    });
+
+    const total = document.querySelectorAll("[data-lesson]").length;
+    document.getElementById("level-done").textContent = String(n);
+    document.getElementById("level-fill").style.width =
+      total ? (n / total) * 100 + "%" : "0%";
+  </script>
+</BaseLayout>

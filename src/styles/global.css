@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Dark mode: class-based, toggled by an inline script in <head> so there is
+   no flash of the wrong theme on first paint.
+   ========================================================================== */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   DESIGN TOKENS — a Duolingo-flavoured palette.
+   Light and dark values live side by side; the .dark class swaps them.
+   ========================================================================== */
+@theme {
+  --font-sans: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+
+  /* Brand colours (identical in both themes) */
+  --color-feather: #58cc02;        /* primary green            */
+  --color-feather-shadow: #58a700; /* its 3D bottom edge       */
+  --color-macaw: #1cb0f6;          /* secondary blue           */
+  --color-macaw-shadow: #1899d6;
+  --color-cardinal: #ff4b4b;       /* error / danger red       */
+  --color-cardinal-shadow: #d33131;
+  --color-bee: #ffc800;            /* XP / streak yellow       */
+  --color-bee-shadow: #e5a900;
+  --color-beetle: #ce82ff;         /* purple accent            */
+  --color-beetle-shadow: #a568cc;
+  --color-fox: #ff9600;            /* orange accent            */
+  --color-fox-shadow: #cc7800;
+
+  --radius-card: 16px;
+  --radius-btn: 16px;
+
+  /* Light theme surfaces */
+  --color-polar: #f7f7f7;
+  --color-snow: #ffffff;
+  --color-swan: #e5e5e5;
+  --color-eel: #4b4b4b;
+  --color-wolf: #777777;
+  --color-hare: #afafaf;
+}
+
+/* Semantic variables that flip between themes */
+:root {
+  --bg: #f7f7f7;
+  --surface: #ffffff;
+  --surface-2: #f7f7f7;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
+  --text: #4b4b4b;
+  --text-strong: #3c3c3c;
+  --text-muted: #777777;
+  --text-faint: #afafaf;
+  --shadow-soft: 0 2px 0 0 #e5e5e5;
+}
+
+.dark {
+  /* Duolingo's dark theme is a green-tinted teal, not plain grey. */
+  --bg: #131f24;
+  --surface: #1f2c34;
+  --surface-2: #263740;
+  --border: #37464f;
+  --border-strong: #4a5c66;
+  --text: #f1f7fb;
+  --text-strong: #ffffff;
+  --text-muted: #8fa3ad;
+  --text-faint: #64757e;
+  --shadow-soft: 0 2px 0 0 #0d171c;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1, h2, h3, h4 {
+  color: var(--text-strong);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-feather) 30%, transparent);
+}
+
+/* Focus ring, visible and on-brand */
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-macaw) 60%, transparent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   COMPONENT LAYER — the Duolingo building blocks
+   ========================================================================== */
+@layer components {
+
+  /* --- Chunky 3D button: the signature Duolingo control ----------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius-btn);
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    transition: filter 0.12s ease, transform 0.06s ease;
+  }
+  .btn:active {
+    transform: translateY(4px);
+    border-bottom-width: 0 !important;
+    margin-bottom: 4px;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.4);
+  }
+
+  .btn-primary {
+    background: var(--color-feather);
+    color: #ffffff;
+    border-bottom: 4px solid var(--color-feather-shadow);
+  }
+  .btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
+
+  .btn-secondary {
+    background: var(--color-macaw);
+    color: #ffffff;
+    border-bottom: 4px solid var(--color-macaw-shadow);
+  }
+  .btn-secondary:hover:not(:disabled) { filter: brightness(1.06); }
+
+  .btn-danger {
+    background: var(--color-cardinal);
+    color: #ffffff;
+    border-bottom: 4px solid var(--color-cardinal-shadow);
+  }
+
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text-muted);
+    border: 2px solid var(--border);
+    border-bottom-width: 4px;
+    border-bottom-color: var(--border-strong);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    color: var(--text-strong);
+    background: var(--surface-2);
+  }
+
+  /* --- Card ------------------------------------------------------------- */
+  .card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 1.25rem;
+    transition: transform 0.12s ease, border-color 0.12s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+  }
+
+  /* --- Progress bar ----------------------------------------------------- */
+  .progress-track {
+    background: var(--border);
+    border-radius: 999px;
+    height: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    background: var(--color-feather);
+    height: 100%;
+    border-radius: 999px;
+    position: relative;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  /* Inner highlight, the little shine Duolingo puts on its bars */
+  .progress-fill::after {
+    content: "";
+    position: absolute;
+    inset: 4px 6px auto 6px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* --- Skill node (the lesson bubble on the path) ----------------------- */
+  .skill-node {
+    width: 72px;
+    height: 72px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    /* White on the bright brand colours is low-contrast; a layered shadow
+       keeps the number crisp without dulling the colour. */
+    text-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.35),
+      0 0 3px rgba(0, 0, 0, 0.3);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.22);
+    position: relative;
+    transition: transform 0.12s ease;
+  }
+  .skill-node:hover { transform: scale(1.06); }
+  .skill-node:active { transform: translateY(3px); border-bottom-width: 2px; }
+
+  /* Each CEFR level gets its own colour so the path reads as a journey.
+     This mirrors how Duolingo tints its unit bubbles. --node-glow feeds the
+     pulse animation so the halo always matches the node. */
+  .node-a1 { background: var(--color-feather); border-bottom-color: var(--color-feather-shadow); --node-glow: var(--color-feather); }
+  .node-a2 { background: var(--color-macaw);   border-bottom-color: var(--color-macaw-shadow);   --node-glow: var(--color-macaw); }
+  .node-b1 { background: var(--color-bee);     border-bottom-color: var(--color-bee-shadow); color: #5a4200; --node-glow: var(--color-bee); }
+  .node-b2 { background: var(--color-fox);     border-bottom-color: var(--color-fox-shadow);   --node-glow: var(--color-fox); }
+  .node-c1 { background: var(--color-beetle);  border-bottom-color: var(--color-beetle-shadow); --node-glow: var(--color-beetle); }
+
+  .skill-locked {
+    background: var(--border);
+    color: var(--text-faint);
+    border-bottom-color: var(--border-strong);
+    cursor: not-allowed;
+    --node-glow: var(--border-strong);
+  }
+
+  /* Completed lessons turn gold with a check mark. */
+  .skill-done {
+    background: var(--color-bee) !important;
+    border-bottom-color: var(--color-bee-shadow) !important;
+    color: #5a4200 !important;
+    --node-glow: var(--color-bee);
+    animation: none !important;
+  }
+
+  /* Only the next lesson in line gets the pulsing halo, so the path shows
+     you where to continue instead of 76 circles blinking at once. */
+  .skill-current {
+    animation: node-pulse 2s ease-in-out infinite;
+  }
+
+  /* --- Badge / pill ----------------------------------------------------- */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  /* --- Level colour chips (A1..C1) -------------------------------------- */
+  .lv-a1 { background: var(--color-feather); color: #fff; }
+  .lv-a2 { background: var(--color-macaw);    color: #fff; }
+  .lv-b1 { background: var(--color-bee);      color: #5a4200; }
+  .lv-b2 { background: var(--color-fox);      color: #fff; }
+  .lv-c1 { background: var(--color-beetle);   color: #fff; }
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--node-glow, var(--color-feather)) 55%, transparent); }
+  50%      { box-shadow: 0 0 0 12px color-mix(in srgb, var(--node-glow, var(--color-feather)) 0%, transparent); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.3s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   PROSE — styling for rendered lesson markdown
+   ========================================================================== */
+.prose-de h2 {
+  font-size: 1.5rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+}
+.prose-de h3 {
+  font-size: 1.15rem;
+  margin-top: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+.prose-de p { margin: 0.85rem 0; line-height: 1.75; }
+.prose-de ul, .prose-de ol { margin: 0.85rem 0 0.85rem 1.4rem; line-height: 1.75; }
+.prose-de ul { list-style: disc; }
+
+/* Interactive checklist: markdown task lists would otherwise render with
+   disabled, washed-out boxes that look broken on a phone. */
+.prose-de ul:has(input[type=checkbox]) { list-style: none; margin-left: 0.2rem; }
+.prose-de li:has(input[type=checkbox]) {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0.45rem 0;
+}
+.prose-de input[type=checkbox] {
+  flex: 0 0 auto;
+  margin-top: 0.32rem;
+  accent-color: var(--color-feather);
+}
+.prose-de ol { list-style: decimal; }
+.prose-de li { margin: 0.3rem 0; }
+.prose-de strong { color: var(--text-strong); font-weight: 800; }
+.prose-de a { color: var(--color-macaw); text-decoration: underline; }
+
+/* Tables get a scroll wrapper so wide tables scroll sideways on phones
+   instead of squeezing their columns into unreadable slivers. */
+.prose-de .table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.1rem 0;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+}
+.prose-de table {
+  width: 100%;
+  min-width: 30rem; /* keeps columns readable on a phone; the wrapper scrolls */
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+  margin: 0;
+}
+.prose-de .table-scroll table { border: none; border-radius: 0; }
+.prose-de thead { background: var(--surface-2); }
+.prose-de th {
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  font-weight: 800;
+  color: var(--text-strong);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+.prose-de td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.prose-de tbody tr:last-child td { border-bottom: none; }
+.prose-de tbody tr:hover { background: var(--surface-2); }
+
+.prose-de code {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.88em;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+/* Emphasis inside an example (`Ich **will** ...`): the sources bold the key
+   word of a sentence. Make it stand out clearly against the code, not just
+   one weight step up. */
+.prose-de code strong {
+  font-weight: 800;
+  color: var(--color-macaw);
+}
+.prose-de pre {
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.1rem 0;
+}
+.prose-de pre code { background: none; border: none; padding: 0; }
+
+.prose-de hr {
+  border: none;
+  border-top: 2px dashed var(--border);
+  margin: 2rem 0;
+}
+.prose-de blockquote {
+  border-left: 4px solid var(--color-feather);
+  background: var(--surface-2);
+  padding: 0.75rem 1rem;
+  border-radius: 0 12px 12px 0;
+  margin: 1rem 0;
+}
+
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

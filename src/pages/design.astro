@@ -1,0 +1,158 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import ChunkyButton from "../components/ChunkyButton.astro";
+import ProgressBar from "../components/ProgressBar.astro";
+import SkillNode from "../components/SkillNode.astro";
+import "../styles/global.css";
+---
+<BaseLayout>
+  <Header active="design" />
+  <main class="max-w-5xl mx-auto px-4 py-10 space-y-12">
+    <section>
+      <h1 class="text-4xl mb-2">Design System</h1>
+      <p style="color: var(--text-muted)">
+        A living style guide. Every component below is the real one used across the site.
+      </p>
+    </section>
+
+    <!-- Colours -->
+    <section>
+      <h2 class="text-2xl mb-4">Brand colours</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {
+          [
+            ["Feather", "#58CC02"],
+            ["Macaw", "#1CB0F6"],
+            ["Cardinal", "#FF4B4B"],
+            ["Bee", "#FFC800"],
+            ["Beetle", "#CE82FF"],
+            ["Fox", "#FF9600"],
+            ["Eel", "#4B4B4B"],
+            ["Wolf", "#777777"],
+          ].map(([name, hex]) => (
+            <div class="card p-0 overflow-hidden">
+              <div style={`background:${hex};height:72px`} />
+              <div class="p-3">
+                <div class="font-extrabold text-sm" style="color: var(--text-strong)">{name}</div>
+                <div class="text-xs font-mono" style="color: var(--text-muted)">{hex}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Level chips -->
+    <section>
+      <h2 class="text-2xl mb-4">Level chips</h2>
+      <div class="flex flex-wrap gap-2">
+        {["a1", "a2", "b1", "b2", "c1"].map((lv) => (
+          <span class={`pill lv-${lv}`} style="padding:0.4rem 1rem;font-size:0.85rem">
+            {lv.toUpperCase()}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section>
+      <h2 class="text-2xl mb-4">Chunky 3D buttons</h2>
+      <p class="mb-4 text-sm" style="color: var(--text-muted)">
+        Press one — it sinks 4px. That is the signature Duolingo interaction.
+      </p>
+      <div class="flex flex-wrap gap-3 items-center">
+        <ChunkyButton label="Primary" variant="primary" />
+        <ChunkyButton label="Secondary" variant="secondary" />
+        <ChunkyButton label="Danger" variant="danger" />
+        <ChunkyButton label="Ghost" variant="ghost" />
+        <ChunkyButton label="Small" variant="primary" size="sm" />
+        <ChunkyButton label="Large" variant="primary" size="lg" />
+        <ChunkyButton label="Disabled" variant="primary" disabled />
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section>
+      <h2 class="text-2xl mb-4">Cards</h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        {
+          [
+            ["Card title", "A plain card with a 2px border and 16px radius."],
+            ["Hover me", "This one lifts 2px on hover."],
+            ["Third card", "Cards hold lessons, references and stats."],
+          ].map(([t, d], i) => (
+            <div class={`card ${i === 1 ? "card-hover" : ""}`}>
+              <div class="text-lg font-extrabold mb-1" style="color: var(--text-strong)">{t}</div>
+              <p class="text-sm" style="color: var(--text-muted)">{d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Progress -->
+    <section>
+      <h2 class="text-2xl mb-4">Progress bars</h2>
+      <div class="space-y-5 max-w-lg">
+        <ProgressBar label="A1" value={6} max={8} />
+        <ProgressBar label="A2" value={3} max={15} color="var(--color-macaw)" />
+        <ProgressBar label="B1" value={22} max={22} color="var(--color-bee)" />
+      </div>
+    </section>
+
+    <!-- Skill nodes -->
+    <section>
+      <h2 class="text-2xl mb-4">Skill nodes</h2>
+      <p class="mb-4 text-sm" style="color: var(--text-muted)">
+        Locked, active (pulsing ring), and done.
+      </p>
+      <div class="card flex items-center justify-center gap-10 py-10">
+        <SkillNode n={1} label="Locked" state="locked" />
+        <SkillNode n={2} label="Active" state="active" />
+        <SkillNode n={3} label="Done" state="done" />
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section>
+      <h2 class="text-2xl mb-4">Typography — Nunito</h2>
+      <div class="card space-y-2">
+        <div class="text-4xl font-black" style="color: var(--text-strong)">Heading 1</div>
+        <div class="text-2xl font-extrabold" style="color: var(--text-strong)">Heading 2</div>
+        <div class="text-lg font-bold" style="color: var(--text-strong)">Heading 3</div>
+        <p class="text-base">Body text, weight 600, comfortable for long reading.</p>
+        <p class="text-sm" style="color: var(--text-muted)">Muted caption text.</p>
+        <p class="text-xs uppercase font-extrabold tracking-wider" style="color: var(--text-faint)">
+          Label / overline
+        </p>
+      </div>
+    </section>
+
+    <!-- Prose sample -->
+    <section>
+      <h2 class="text-2xl mb-4">Rendered markdown (lesson prose)</h2>
+      <div class="card prose-de">
+        <h2>Sample section</h2>
+        <p>
+          A paragraph with <strong>bold text</strong>, <code>inline code</code>, and a
+          <a href="#">link</a>.
+        </p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Case</th><th>Maskulin</th><th>Feminin</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Nominativ</td><td>der</td><td>die</td></tr>
+              <tr><td>Akkusativ</td><td>den</td><td>die</td></tr>
+              <tr><td>Dativ</td><td>dem</td><td>der</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <blockquote>Ein Beispiel für ein Zitat.</blockquote>
+        <ul><li>First item</li><li>Second item</li></ul>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

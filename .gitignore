@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# build output (rebuilt by systemd / `npx astro build`)
+dist/
+
+# astro generated types & cache
+.astro/
+
+# runtime log written by the systemd unit
+*.log
+
+# editor / OS noise
+.DS_Store
+*.swp

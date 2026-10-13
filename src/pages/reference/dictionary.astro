@@ -1,0 +1,38 @@
+---
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RefSearch from "../../components/RefSearch.astro";
+import RefGuide from "../../components/RefGuide.astro";
+import dict from "../../data/dictionary.json";
+import "../../styles/global.css";
+---
+<BaseLayout>
+  <Header active="reference" />
+  <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
+    <a href="/reference/" class="text-sm font-bold mb-5 inline-block" style="color:var(--text-muted)"
+      >← Reference</a
+    >
+    <h1 class="text-3xl mb-2">📖 Wörterbuch</h1>
+    <p class="mb-8" style="color:var(--text-muted)">
+      Every word from the course, A–Z, with its level. Nouns keep their article.
+    </p>
+
+    <RefSearch
+      items={dict}
+      searchKeys={["de", "en", "extra"]}
+      placeholder="Search German or English… e.g. Haus, to go, Dativ"
+      columns={[
+        { key: "de", label: "Deutsch" },
+        { key: "en", label: "English" },
+        { key: "extra", label: "Plural / Pattern" },
+        { key: "level", label: "Level" },
+      ]}
+    />
+
+    <RefGuide
+      name="woerterbuch.md"
+      title="📘 How to use this dictionary"
+      intro="What each column means and how the level tags work."
+    />
+  </main>
+</BaseLayout>

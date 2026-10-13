@@ -1,0 +1,153 @@
+---
+// Progress state lives in localStorage. This island only reads it and paints
+// the skill path nodes + streak. Zero framework, ~2 KB of vanilla JS.
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LEVELS } from "../data/site.ts";
+import meta from "../content/meta.json";
+import "../styles/global.css";
+
+const byLevel = Object.fromEntries(
+  LEVELS.map((l) => [l.id, meta.filter((m) => m.level === l.id)])
+);
+
+const totalLessons = meta.length;
+---
+<BaseLayout>
+  <Header active="learn" />
+
+  <main class="max-w-3xl mx-auto px-4 pb-24">
+    <!-- Streak / XP bar -->
+    <section class="sticky top-16 z-40 py-3" style="background: var(--bg);">
+      <div class="card flex items-center justify-between" style="padding: 0.7rem 1rem;">
+        <div class="flex items-center gap-5">
+          <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-fox);">
+            🔥 <span id="stat-streak">0</span>
+          </span>
+          <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-bee);">
+            ⭐ <span id="stat-xp">0</span>
+          </span>
+        </div>
+        <span class="text-sm font-extrabold" style="color: var(--text-muted);">
+          <span id="stat-done">0</span>/<span>{totalLessons}</span> lessons
+        </span>
+      </div>
+    </section>
+
+    <!-- Overall progress -->
+    <section class="mb-10">
+      <div class="progress-track">
+        <div class="progress-fill" id="overall-fill" style="width:0%"></div>
+      </div>
+    </section>
+
+    <!-- Level sections -->
+    {
+      LEVELS.map((lv) => {
+        const lessons = byLevel[lv.id] || [];
+        return (
+          <section class="mb-14" data-level={lv.id}>
+            <div class="flex items-center gap-3 mb-2">
+              <span class={`pill ${lv.color}`} style="padding:0.35rem 0.9rem;font-size:0.9rem">
+                {lv.label}
+              </span>
+              <h2 class="text-xl">{lv.name}</h2>
+            </div>
+            <p class="text-sm mb-6" style="color: var(--text-muted)">
+              {lv.blurb} · <span style="color:var(--text-faint)">{lv.hours}</span>
+            </p>
+
+            <div class="flex flex-col items-center gap-3">
+              {lessons.map((l, i) => {
+                const side = i % 3 === 0 ? "left" : i % 3 === 2 ? "right" : "center";
+                const offset =
+                  side === "left" ? "-52px" : side === "right" ? "52px" : "0px";
+                return (
+                  <div class="flex flex-col items-center gap-2" style={`transform:translateX(${offset})`}>
+                    <a
+                      href={`/${lv.id}/${l.slug}/`}
+                      class={`skill-node node-${lv.id}`}
+                      data-lesson={`${lv.id}/${l.slug}`}
+                      data-level={lv.id}
+                      title={l.title}
+                      aria-label={l.title}
+                    >
+                      <span class="node-inner">{l.num}</span>
+                    </a>
+                    <span
+                      class="text-xs font-extrabold text-center max-w-[170px] leading-snug"
+                      style="color: var(--text-strong)"
+                    >
+                      {l.title}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div class="text-center mt-8">
+              <a
+                href={`/${lv.id}/`}
+                class="btn btn-ghost"
+                style="padding:0.6rem 1.2rem;font-size:0.8rem"
+              >
+                View {lv.label} overview
+              </a>
+            </div>
+          </section>
+        );
+      })
+    }
+
+    <!-- Reference CTA -->
+    <section class="card text-center" style="border-color: var(--color-macaw);">
+      <div class="text-3xl mb-2">📖</div>
+      <h2 class="text-xl mb-1">Reference library</h2>
+      <p class="text-sm mb-4" style="color: var(--text-muted)">
+        Dictionary, nouns, verbs, phrases and the grammar cheat sheet.
+      </p>
+      <a href="/reference/" class="btn btn-secondary">Open reference</a>
+    </section>
+  </main>
+
+  <script>
+    // ---- progress state (localStorage) -------------------------------------
+    const KEY = "gv-progress-v1";
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    const state = loadState();
+    const done = state.lessons || {};
+    const doneCount = Object.values(done).filter(Boolean).length;
+
+    // Paint node states
+    const nodes = [...document.querySelectorAll("[data-lesson]")];
+    let currentMarked = false;
+
+    nodes.forEach((node) => {
+      const id = node.dataset.lesson;
+      if (done[id]) {
+        node.classList.add("skill-done");
+        node.querySelector(".node-inner").textContent = "✓";
+      } else if (!currentMarked) {
+        // First lesson not yet completed: this is where the learner continues.
+        node.classList.add("skill-current");
+        currentMarked = true;
+      }
+    });
+
+    // Stats
+    document.getElementById("stat-done").textContent = String(doneCount);
+    document.getElementById("stat-xp").textContent = String(doneCount * 10);
+    document.getElementById("stat-streak").textContent = String(state.streak || 0);
+    const total = document.querySelectorAll("[data-lesson]").length;
+    document.getElementById("overall-fill").style.width =
+      total ? (doneCount / total) * 100 + "%" : "0%";
+  </script>
+</BaseLayout>

@@ -1,0 +1,52 @@
+---
+interface Props {
+  n: number;
+  label: string;
+  state?: "locked" | "active" | "done";
+  href?: string;
+  /** alternate side of the path, for the zig-zag layout */
+  side?: "left" | "center" | "right";
+  /** CEFR level, drives the node colour (defaults to a1 green) */
+  level?: "a1" | "a2" | "b1" | "b2" | "c1";
+}
+const {
+  n,
+  label,
+  state = "active",
+  href,
+  side = "center",
+  level = "a1",
+} = Astro.props;
+
+// Colour comes from the level; state overrides it when locked or done.
+const cls =
+  state === "locked"
+    ? "skill-locked"
+    : state === "done"
+      ? "skill-done"
+      : `node-${level}`;
+
+const icon = state === "locked" ? "🔒" : state === "done" ? "✓" : String(n);
+
+const offset =
+  side === "left" ? "-56px" : side === "right" ? "56px" : "0px";
+---
+<div class="flex flex-col items-center gap-2" style={`transform: translateX(${offset})`}>
+  {
+    href && state !== "locked" ? (
+      <a href={href} class={`skill-node ${cls}`} title={label} aria-label={label}>
+        <span>{icon}</span>
+      </a>
+    ) : (
+      <div class={`skill-node ${cls}`} title={label} aria-label={label}>
+        <span>{icon}</span>
+      </div>
+    )
+  }
+  <span
+    class="text-xs font-bold text-center max-w-[130px] leading-tight"
+    style="color: var(--text-muted)"
+  >
+    {label}
+  </span>
+</div>

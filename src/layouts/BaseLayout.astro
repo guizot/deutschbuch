@@ -1,0 +1,33 @@
+---
+// Inline theme bootstrap. Runs before first paint so there is no flash of
+// the wrong theme. Kept tiny and inlined on purpose.
+const themeScript = `
+(function () {
+  try {
+    var stored = localStorage.getItem('gv-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var dark = stored ? stored === 'dark' : prefersDark;
+    if (dark) document.documentElement.classList.add('dark');
+  } catch (e) {}
+})();
+`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>German Viewer</title>
+    <meta name="description" content="Duolingo-style viewer for the German A1-C1 course." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline set:html={themeScript} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

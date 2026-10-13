@@ -1,0 +1,32 @@
+---
+// Toggles .dark on <html> and persists the choice.
+---
+<button
+  id="theme-toggle"
+  class="btn btn-ghost"
+  style="padding: 0.5rem 0.75rem; font-size: 1.1rem; text-transform: none; letter-spacing: 0;"
+  aria-label="Toggle dark mode"
+  title="Toggle dark mode"
+>
+  <span id="theme-icon">🌙</span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const icon = document.getElementById("theme-icon");
+  const btn = document.getElementById("theme-toggle");
+
+  function paint() {
+    const dark = root.classList.contains("dark");
+    if (icon) icon.textContent = dark ? "☀️" : "🌙";
+  }
+  paint();
+
+  btn?.addEventListener("click", () => {
+    root.classList.toggle("dark");
+    try {
+      localStorage.setItem("gv-theme", root.classList.contains("dark") ? "dark" : "light");
+    } catch (e) {}
+    paint();
+  });
+</script>

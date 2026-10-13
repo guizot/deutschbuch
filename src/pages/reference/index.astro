@@ -1,0 +1,48 @@
+---
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { REFERENCES } from "../../data/site.ts";
+import "../../styles/global.css";
+---
+<BaseLayout>
+  <Header active="reference" />
+
+  <main class="max-w-4xl mx-auto px-4 py-10 pb-24">
+    <h1 class="text-3xl mb-2">Reference library</h1>
+    <p class="mb-10" style="color: var(--text-muted)">
+      Five tools that cover the whole course. Built from the same source files, so they are always
+      in sync with the lessons.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      {
+        REFERENCES.map((r) => (
+          <a
+            href={`/reference/${r.slug}/`}
+            class="card card-hover no-underline"
+            style="color:inherit"
+          >
+            <div class="flex items-start gap-4">
+              <div
+                class={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 ${r.color}`}
+              >
+                {r.emoji}
+              </div>
+              <div class="min-w-0">
+                <div class="font-extrabold text-lg" style="color: var(--text-strong)">
+                  {r.title}
+                </div>
+                <p class="text-sm mb-2" style="color: var(--text-muted)">
+                  {r.desc}
+                </p>
+                <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+                  {r.count}
+                </span>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>
