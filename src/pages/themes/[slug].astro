@@ -13,33 +13,48 @@ export function getStaticPaths() {
 
 const { theme } = Astro.props;
 const total = theme.groups.reduce((n, g) => n + g.words.length, 0);
+
+// Noun themes get the der/die/das filter; adjective/number themes do not.
+const hasArticles = theme.groups.some((g) => g.words.some((w) => w.art));
+const hasPlurals = theme.groups.some((g) => g.words.some((w) => w.plural));
+const columns = theme.columns ?? [
+  { key: "de", label: "Deutsch" },
+  { key: "en", label: "English" },
+  ...(hasPlurals ? [{ key: "plural", label: "Plural" }] : []),
+  { key: "level", label: "Level" },
+];
 ---
 <BaseLayout>
   <Header active="themes" />
 
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
-    <BackLink fallback="/themes/" label="Themen" />
+    <BackLink fallback="/themes/" label="Topics" />
 
     <h1 class="text-3xl mb-2 flex items-center gap-2">
       <Icon name={theme.icon} size={30} style={`color: ${theme.tint}`} />
       {theme.title}
       <span class="text-lg font-bold" style="color: var(--text-faint)">{theme.subtitle}</span>
     </h1>
-    <p class="mb-8" style="color: var(--text-muted)">{theme.intro}</p>
+    <p class="mb-8" style="color: var(--text-muted)" set:html={theme.intro} />
 
-    <ThemeWords groups={theme.groups} placeholder={`Search ${total} words… e.g. Hund, cat, die`} />
+    <ThemeWords
+      groups={theme.groups}
+      columns={columns}
+      showArticles={hasArticles}
+      placeholder={`Search ${total} words…`}
+    />
 
     {
       theme.notes?.length > 0 && (
         <section class="mt-14 pt-8 border-t-2" style="border-color: var(--border)">
-          <h2 class="text-2xl mb-4 flex items-center gap-2" style="color: var(--color-fox)">
+          <h2 class="text-2xl mb-4 flex items-center gap-2" style={`color: ${theme.tint}`}>
             <Icon name="bulb" size={26} />
             <span style="color: var(--text-strong)">Things to remember</span>
           </h2>
           <ul class="space-y-3">
             {theme.notes.map((n) => (
               <li class="flex gap-3">
-                <span style="color: var(--color-fox); flex-shrink:0">•</span>
+                <span style={`color: ${theme.tint}; flex-shrink:0`}>•</span>
                 <span style="color: var(--text)" set:html={n} />
               </li>
             ))}

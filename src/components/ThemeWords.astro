@@ -5,12 +5,16 @@
 // (pets, farm animals, birds…). This renders one section per group, and the
 // search box hides the groups that no longer have a match — so the page reads
 // as a phrasebook until you start typing.
+//
+// Columns are per-theme: a noun needs a plural, an adjective does not, and a
+// colour needs a swatch. A column of type "swatch" paints the word's `hex`.
 interface Word {
   de: string;
   art?: string;
   en: string;
   plural?: string;
   level?: string;
+  hex?: string;
 }
 interface Group {
   id: string;
@@ -18,14 +22,39 @@ interface Group {
   en?: string;
   words: Word[];
 }
+interface Column {
+  key: string;
+  label: string;
+  type?: "text" | "swatch";
+}
 interface Props {
   groups: Group[];
+  columns?: Column[];
   placeholder?: string;
+  /** show the der/die/das filter (noun themes only) */
+  showArticles?: boolean;
 }
-const { groups, placeholder = "Search…" } = Astro.props;
+const {
+  groups,
+  columns = [
+    { key: "de", label: "Deutsch" },
+    { key: "en", label: "English" },
+    { key: "plural", label: "Plural" },
+    { key: "level", label: "Level" },
+  ],
+  placeholder = "Search…",
+  showArticles = true,
+} = Astro.props;
 
 const levels = ["A1", "A2", "B1", "B2", "C1"];
 const total = groups.reduce((n, g) => n + g.words.length, 0);
+
+/** Read a word's field for a column without an `as` cast (which the Astro
+ *  template parser cannot handle inline). */
+function field(w: Word, key: string): string {
+  const v = (w as unknown as Record<string, unknown>)[key];
+  return v == null ? "" : String(v);
+}
 ---
 
 <div class="mb-6 space-y-3">
@@ -47,12 +76,16 @@ const total = groups.reduce((n, g) => n + g.words.length, 0);
         {lv}
       </button>
     ))}
-    <span class="mx-1" style="color:var(--border-strong)">|</span>
-    {["der", "die", "das"].map((a) => (
-      <button class="filter-art btn btn-ghost" data-art={a} style="padding:0.4rem 0.9rem;font-size:0.75rem">
-        {a}
-      </button>
-    ))}
+    {showArticles && (
+      <>
+        <span class="mx-1" style="color:var(--border-strong)">|</span>
+        {["der", "die", "das"].map((a) => (
+          <button class="filter-art btn btn-ghost" data-art={a} style="padding:0.4rem 0.9rem;font-size:0.75rem">
+            {a}
+          </button>
+        ))}
+      </>
+    )}
   </div>
 
   <div class="text-xs font-bold" style="color: var(--text-muted)">
@@ -75,10 +108,14 @@ const total = groups.reduce((n, g) => n + g.words.length, 0);
         <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
           <thead>
             <tr style="background:var(--surface-2)">
-              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Deutsch</th>
-              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">English</th>
-              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Plural</th>
-              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Level</th>
+              {columns.map((c) => (
+                <th
+                  class="text-left px-4 py-3 font-extrabold"
+                  style="color:var(--text-strong);border-bottom:2px solid var(--border)"
+                >
+                  {c.label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
@@ -90,10 +127,34 @@ const total = groups.reduce((n, g) => n + g.words.length, 0);
                 data-art={w.art || ""}
                 data-level={w.level || ""}
               >
-                <td class="px-4 py-2 font-bold" style="border-bottom:1px solid var(--border);color:var(--text-strong)">{w.de}</td>
-                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text)">{w.en}</td>
-                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text-muted)">{w.plural || "–"}</td>
-                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text-faint)">{w.level || "–"}</td>
+                {columns.map((c) => {
+                  const value = field(w, c.key);
+                  const cellStyle = "padding:0.6rem 1rem;border-bottom:1px solid var(--border);";
+                  if (c.type === "swatch") {
+                    return (
+                      <td style={cellStyle}>
+                        <span class="inline-flex items-center gap-2">
+                          <span
+                            style={`display:inline-block;width:1.1rem;height:1.1rem;border-radius:0.35rem;border:1px solid var(--border-strong);background:${value}`}
+                          />
+                          <span style="color:var(--text-strong);font-weight:700">{w.de}</span>
+                        </span>
+                      </td>
+                    );
+                  }
+                  if (c.key === "de") {
+                    return (
+                      <td style={`${cellStyle}font-weight:700;color:var(--text-strong)`}>{value}</td>
+                    );
+                  }
+                  if (c.key === "level") {
+                    return <td style={`${cellStyle}color:var(--text-faint)`}>{value || "–"}</td>;
+                  }
+                  if (!value.trim()) {
+                    return <td style={`${cellStyle}color:var(--text-faint)`}>–</td>;
+                  }
+                  return <td style={`${cellStyle}color:var(--text-muted)`}>{value}</td>;
+                })}
               </tr>
             ))}
           </tbody>

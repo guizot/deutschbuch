@@ -383,6 +383,8 @@ h1, h2, h3, h4 {
   .lv-b1 { background: var(--color-bee);      color: #5a4200; }
   .lv-b2 { background: var(--color-fox);      color: #fff; }
   .lv-c1 { background: var(--color-beetle);   color: #fff; }
+  /* Extra chip colour for the Topics grid, so six cards can all differ. */
+  .lv-red { background: var(--color-cardinal); color: #fff; }
 }
 
 /* ==========================================================================

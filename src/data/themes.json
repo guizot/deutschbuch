@@ -16,14 +16,62 @@
           "title": "Haustiere",
           "en": "Pets",
           "words": [
-            { "de": "der Hund", "art": "der", "en": "dog", "plural": "die Hunde", "level": "A1" },
-            { "de": "die Katze", "art": "die", "en": "cat", "plural": "die Katzen", "level": "A1" },
-            { "de": "das Kaninchen", "art": "das", "en": "rabbit", "plural": "die Kaninchen", "level": "A2" },
-            { "de": "der Hamster", "art": "der", "en": "hamster", "plural": "die Hamster", "level": "A2" },
-            { "de": "das Meerschweinchen", "art": "das", "en": "guinea pig", "plural": "die Meerschweinchen", "level": "A2" },
-            { "de": "der Wellensittich", "art": "der", "en": "budgerigar", "plural": "die Wellensittiche", "level": "B1" },
-            { "de": "der Goldfisch", "art": "der", "en": "goldfish", "plural": "die Goldfische", "level": "A2" },
-            { "de": "die Schildkröte", "art": "die", "en": "turtle, tortoise", "plural": "die Schildkröten", "level": "A2" }
+            {
+              "de": "der Hund",
+              "art": "der",
+              "en": "dog",
+              "plural": "die Hunde",
+              "level": "A1"
+            },
+            {
+              "de": "die Katze",
+              "art": "die",
+              "en": "cat",
+              "plural": "die Katzen",
+              "level": "A1"
+            },
+            {
+              "de": "das Kaninchen",
+              "art": "das",
+              "en": "rabbit",
+              "plural": "die Kaninchen",
+              "level": "A2"
+            },
+            {
+              "de": "der Hamster",
+              "art": "der",
+              "en": "hamster",
+              "plural": "die Hamster",
+              "level": "A2"
+            },
+            {
+              "de": "das Meerschweinchen",
+              "art": "das",
+              "en": "guinea pig",
+              "plural": "die Meerschweinchen",
+              "level": "A2"
+            },
+            {
+              "de": "der Wellensittich",
+              "art": "der",
+              "en": "budgerigar",
+              "plural": "die Wellensittiche",
+              "level": "B1"
+            },
+            {
+              "de": "der Goldfisch",
+              "art": "der",
+              "en": "goldfish",
+              "plural": "die Goldfische",
+              "level": "A2"
+            },
+            {
+              "de": "die Schildkröte",
+              "art": "die",
+              "en": "turtle, tortoise",
+              "plural": "die Schildkröten",
+              "level": "A2"
+            }
           ]
         },
         {
@@ -31,16 +79,76 @@
           "title": "Bauernhoftiere",
           "en": "Farm animals",
           "words": [
-            { "de": "das Pferd", "art": "das", "en": "horse", "plural": "die Pferde", "level": "A1" },
-            { "de": "die Kuh", "art": "die", "en": "cow", "plural": "die Kühe", "level": "A1" },
-            { "de": "das Schwein", "art": "das", "en": "pig", "plural": "die Schweine", "level": "A1" },
-            { "de": "das Schaf", "art": "das", "en": "sheep", "plural": "die Schafe", "level": "A1" },
-            { "de": "die Ziege", "art": "die", "en": "goat", "plural": "die Ziegen", "level": "A2" },
-            { "de": "das Huhn", "art": "das", "en": "chicken, hen", "plural": "die Hühner", "level": "A1" },
-            { "de": "der Hahn", "art": "der", "en": "rooster", "plural": "die Hähne", "level": "A2" },
-            { "de": "die Ente", "art": "die", "en": "duck", "plural": "die Enten", "level": "A1" },
-            { "de": "die Gans", "art": "die", "en": "goose", "plural": "die Gänse", "level": "A2" },
-            { "de": "der Esel", "art": "der", "en": "donkey", "plural": "die Esel", "level": "A2" }
+            {
+              "de": "das Pferd",
+              "art": "das",
+              "en": "horse",
+              "plural": "die Pferde",
+              "level": "A1"
+            },
+            {
+              "de": "die Kuh",
+              "art": "die",
+              "en": "cow",
+              "plural": "die Kühe",
+              "level": "A1"
+            },
+            {
+              "de": "das Schwein",
+              "art": "das",
+              "en": "pig",
+              "plural": "die Schweine",
+              "level": "A1"
+            },
+            {
+              "de": "das Schaf",
+              "art": "das",
+              "en": "sheep",
+              "plural": "die Schafe",
+              "level": "A1"
+            },
+            {
+              "de": "die Ziege",
+              "art": "die",
+              "en": "goat",
+              "plural": "die Ziegen",
+              "level": "A2"
+            },
+            {
+              "de": "das Huhn",
+              "art": "das",
+              "en": "chicken, hen",
+              "plural": "die Hühner",
+              "level": "A1"
+            },
+            {
+              "de": "der Hahn",
+              "art": "der",
+              "en": "rooster",
+              "plural": "die Hähne",
+              "level": "A2"
+            },
+            {
+              "de": "die Ente",
+              "art": "die",
+              "en": "duck",
+              "plural": "die Enten",
+              "level": "A1"
+            },
+            {
+              "de": "die Gans",
+              "art": "die",
+              "en": "goose",
+              "plural": "die Gänse",
+              "level": "A2"
+            },
+            {
+              "de": "der Esel",
+              "art": "der",
+              "en": "donkey",
+              "plural": "die Esel",
+              "level": "A2"
+            }
           ]
         },
         {
@@ -48,24 +156,132 @@
           "title": "Wildtiere",
           "en": "Wild animals",
           "words": [
-            { "de": "der Fuchs", "art": "der", "en": "fox", "plural": "die Füchse", "level": "A2" },
-            { "de": "der Wolf", "art": "der", "en": "wolf", "plural": "die Wölfe", "level": "A2" },
-            { "de": "der Bär", "art": "der", "en": "bear", "plural": "die Bären", "level": "A2" },
-            { "de": "der Hirsch", "art": "der", "en": "deer, stag", "plural": "die Hirsche", "level": "B1" },
-            { "de": "das Reh", "art": "das", "en": "roe deer", "plural": "die Rehe", "level": "B1" },
-            { "de": "das Wildschwein", "art": "das", "en": "wild boar", "plural": "die Wildschweine", "level": "B1" },
-            { "de": "der Hase", "art": "der", "en": "hare", "plural": "die Hasen", "level": "A1" },
-            { "de": "das Eichhörnchen", "art": "das", "en": "squirrel", "plural": "die Eichhörnchen", "level": "A2" },
-            { "de": "der Igel", "art": "der", "en": "hedgehog", "plural": "die Igel", "level": "A2" },
-            { "de": "der Löwe", "art": "der", "en": "lion", "plural": "die Löwen", "level": "A2" },
-            { "de": "der Tiger", "art": "der", "en": "tiger", "plural": "die Tiger", "level": "A2" },
-            { "de": "der Elefant", "art": "der", "en": "elephant", "plural": "die Elefanten", "level": "A2" },
-            { "de": "der Affe", "art": "der", "en": "monkey, ape", "plural": "die Affen", "level": "A2" },
-            { "de": "die Giraffe", "art": "die", "en": "giraffe", "plural": "die Giraffen", "level": "A2" },
-            { "de": "das Zebra", "art": "das", "en": "zebra", "plural": "die Zebras", "level": "A2" },
-            { "de": "das Kamel", "art": "das", "en": "camel", "plural": "die Kamele", "level": "B1" },
-            { "de": "die Schlange", "art": "die", "en": "snake", "plural": "die Schlangen", "level": "A2" },
-            { "de": "das Krokodil", "art": "das", "en": "crocodile", "plural": "die Krokodile", "level": "B1" }
+            {
+              "de": "der Fuchs",
+              "art": "der",
+              "en": "fox",
+              "plural": "die Füchse",
+              "level": "A2"
+            },
+            {
+              "de": "der Wolf",
+              "art": "der",
+              "en": "wolf",
+              "plural": "die Wölfe",
+              "level": "A2"
+            },
+            {
+              "de": "der Bär",
+              "art": "der",
+              "en": "bear",
+              "plural": "die Bären",
+              "level": "A2"
+            },
+            {
+              "de": "der Hirsch",
+              "art": "der",
+              "en": "deer, stag",
+              "plural": "die Hirsche",
+              "level": "B1"
+            },
+            {
+              "de": "das Reh",
+              "art": "das",
+              "en": "roe deer",
+              "plural": "die Rehe",
+              "level": "B1"
+            },
+            {
+              "de": "das Wildschwein",
+              "art": "das",
+              "en": "wild boar",
+              "plural": "die Wildschweine",
+              "level": "B1"
+            },
+            {
+              "de": "der Hase",
+              "art": "der",
+              "en": "hare",
+              "plural": "die Hasen",
+              "level": "A1"
+            },
+            {
+              "de": "das Eichhörnchen",
+              "art": "das",
+              "en": "squirrel",
+              "plural": "die Eichhörnchen",
+              "level": "A2"
+            },
+            {
+              "de": "der Igel",
+              "art": "der",
+              "en": "hedgehog",
+              "plural": "die Igel",
+              "level": "A2"
+            },
+            {
+              "de": "der Löwe",
+              "art": "der",
+              "en": "lion",
+              "plural": "die Löwen",
+              "level": "A2"
+            },
+            {
+              "de": "der Tiger",
+              "art": "der",
+              "en": "tiger",
+              "plural": "die Tiger",
+              "level": "A2"
+            },
+            {
+              "de": "der Elefant",
+              "art": "der",
+              "en": "elephant",
+              "plural": "die Elefanten",
+              "level": "A2"
+            },
+            {
+              "de": "der Affe",
+              "art": "der",
+              "en": "monkey, ape",
+              "plural": "die Affen",
+              "level": "A2"
+            },
+            {
+              "de": "die Giraffe",
+              "art": "die",
+              "en": "giraffe",
+              "plural": "die Giraffen",
+              "level": "A2"
+            },
+            {
+              "de": "das Zebra",
+              "art": "das",
+              "en": "zebra",
+              "plural": "die Zebras",
+              "level": "A2"
+            },
+            {
+              "de": "das Kamel",
+              "art": "das",
+              "en": "camel",
+              "plural": "die Kamele",
+              "level": "B1"
+            },
+            {
+              "de": "die Schlange",
+              "art": "die",
+              "en": "snake",
+              "plural": "die Schlangen",
+              "level": "A2"
+            },
+            {
+              "de": "das Krokodil",
+              "art": "das",
+              "en": "crocodile",
+              "plural": "die Krokodile",
+              "level": "B1"
+            }
           ]
         },
         {
@@ -73,14 +289,62 @@
           "title": "Vögel",
           "en": "Birds",
           "words": [
-            { "de": "der Vogel", "art": "der", "en": "bird", "plural": "die Vögel", "level": "A1" },
-            { "de": "die Taube", "art": "die", "en": "pigeon, dove", "plural": "die Tauben", "level": "A2" },
-            { "de": "die Möwe", "art": "die", "en": "seagull", "plural": "die Möwen", "level": "B1" },
-            { "de": "die Eule", "art": "die", "en": "owl", "plural": "die Eulen", "level": "B1" },
-            { "de": "der Adler", "art": "der", "en": "eagle", "plural": "die Adler", "level": "B1" },
-            { "de": "der Schwan", "art": "der", "en": "swan", "plural": "die Schwäne", "level": "B1" },
-            { "de": "der Pinguin", "art": "der", "en": "penguin", "plural": "die Pinguine", "level": "A2" },
-            { "de": "der Papagei", "art": "der", "en": "parrot", "plural": "die Papageien", "level": "A2" }
+            {
+              "de": "der Vogel",
+              "art": "der",
+              "en": "bird",
+              "plural": "die Vögel",
+              "level": "A1"
+            },
+            {
+              "de": "die Taube",
+              "art": "die",
+              "en": "pigeon, dove",
+              "plural": "die Tauben",
+              "level": "A2"
+            },
+            {
+              "de": "die Möwe",
+              "art": "die",
+              "en": "seagull",
+              "plural": "die Möwen",
+              "level": "B1"
+            },
+            {
+              "de": "die Eule",
+              "art": "die",
+              "en": "owl",
+              "plural": "die Eulen",
+              "level": "B1"
+            },
+            {
+              "de": "der Adler",
+              "art": "der",
+              "en": "eagle",
+              "plural": "die Adler",
+              "level": "B1"
+            },
+            {
+              "de": "der Schwan",
+              "art": "der",
+              "en": "swan",
+              "plural": "die Schwäne",
+              "level": "B1"
+            },
+            {
+              "de": "der Pinguin",
+              "art": "der",
+              "en": "penguin",
+              "plural": "die Pinguine",
+              "level": "A2"
+            },
+            {
+              "de": "der Papagei",
+              "art": "der",
+              "en": "parrot",
+              "plural": "die Papageien",
+              "level": "A2"
+            }
           ]
         },
         {
@@ -88,14 +352,62 @@
           "title": "Meerestiere",
           "en": "Sea creatures",
           "words": [
-            { "de": "der Fisch", "art": "der", "en": "fish", "plural": "die Fische", "level": "A1" },
-            { "de": "der Hai", "art": "der", "en": "shark", "plural": "die Haie", "level": "B1" },
-            { "de": "der Wal", "art": "der", "en": "whale", "plural": "die Wale", "level": "B1" },
-            { "de": "der Delfin", "art": "der", "en": "dolphin", "plural": "die Delfine", "level": "B1" },
-            { "de": "der Oktopus", "art": "der", "en": "octopus", "plural": "die Oktopusse", "level": "B1" },
-            { "de": "die Krabbe", "art": "die", "en": "crab", "plural": "die Krabben", "level": "B1" },
-            { "de": "die Qualle", "art": "die", "en": "jellyfish", "plural": "die Quallen", "level": "B1" },
-            { "de": "der Seestern", "art": "der", "en": "starfish", "plural": "die Seesterne", "level": "B1" }
+            {
+              "de": "der Fisch",
+              "art": "der",
+              "en": "fish",
+              "plural": "die Fische",
+              "level": "A1"
+            },
+            {
+              "de": "der Hai",
+              "art": "der",
+              "en": "shark",
+              "plural": "die Haie",
+              "level": "B1"
+            },
+            {
+              "de": "der Wal",
+              "art": "der",
+              "en": "whale",
+              "plural": "die Wale",
+              "level": "B1"
+            },
+            {
+              "de": "der Delfin",
+              "art": "der",
+              "en": "dolphin",
+              "plural": "die Delfine",
+              "level": "B1"
+            },
+            {
+              "de": "der Oktopus",
+              "art": "der",
+              "en": "octopus",
+              "plural": "die Oktopusse",
+              "level": "B1"
+            },
+            {
+              "de": "die Krabbe",
+              "art": "die",
+              "en": "crab",
+              "plural": "die Krabben",
+              "level": "B1"
+            },
+            {
+              "de": "die Qualle",
+              "art": "die",
+              "en": "jellyfish",
+              "plural": "die Quallen",
+              "level": "B1"
+            },
+            {
+              "de": "der Seestern",
+              "art": "der",
+              "en": "starfish",
+              "plural": "die Seesterne",
+              "level": "B1"
+            }
           ]
         },
         {
@@ -103,14 +415,62 @@
           "title": "Insekten",
           "en": "Insects",
           "words": [
-            { "de": "die Biene", "art": "die", "en": "bee", "plural": "die Bienen", "level": "A2" },
-            { "de": "die Fliege", "art": "die", "en": "fly", "plural": "die Fliegen", "level": "A2" },
-            { "de": "die Mücke", "art": "die", "en": "mosquito", "plural": "die Mücken", "level": "A2" },
-            { "de": "die Ameise", "art": "die", "en": "ant", "plural": "die Ameisen", "level": "A2" },
-            { "de": "der Schmetterling", "art": "der", "en": "butterfly", "plural": "die Schmetterlinge", "level": "A2" },
-            { "de": "die Spinne", "art": "die", "en": "spider", "plural": "die Spinnen", "level": "A2" },
-            { "de": "der Käfer", "art": "der", "en": "beetle", "plural": "die Käfer", "level": "B1" },
-            { "de": "die Libelle", "art": "die", "en": "dragonfly", "plural": "die Libellen", "level": "B1" }
+            {
+              "de": "die Biene",
+              "art": "die",
+              "en": "bee",
+              "plural": "die Bienen",
+              "level": "A2"
+            },
+            {
+              "de": "die Fliege",
+              "art": "die",
+              "en": "fly",
+              "plural": "die Fliegen",
+              "level": "A2"
+            },
+            {
+              "de": "die Mücke",
+              "art": "die",
+              "en": "mosquito",
+              "plural": "die Mücken",
+              "level": "A2"
+            },
+            {
+              "de": "die Ameise",
+              "art": "die",
+              "en": "ant",
+              "plural": "die Ameisen",
+              "level": "A2"
+            },
+            {
+              "de": "der Schmetterling",
+              "art": "der",
+              "en": "butterfly",
+              "plural": "die Schmetterlinge",
+              "level": "A2"
+            },
+            {
+              "de": "die Spinne",
+              "art": "die",
+              "en": "spider",
+              "plural": "die Spinnen",
+              "level": "A2"
+            },
+            {
+              "de": "der Käfer",
+              "art": "der",
+              "en": "beetle",
+              "plural": "die Käfer",
+              "level": "B1"
+            },
+            {
+              "de": "die Libelle",
+              "art": "die",
+              "en": "dragonfly",
+              "plural": "die Libellen",
+              "level": "B1"
+            }
           ]
         }
       ],
@@ -120,6 +480,1023 @@
         "<b>das Tier</b> (animal) is the general word; <b>das Haustier</b> is a pet.",
         "The plural of most animals here adds -e or -en: der Hund → die Hunde, die Katze → die Katzen.",
         "A few stay identical in the plural: der Hamster → die Hamster, das Zebra → die Zebras."
+      ]
+    },
+    {
+      "slug": "farben",
+      "title": "Farben",
+      "subtitle": "Colours",
+      "icon": "droplet",
+      "color": "lv-a2",
+      "tint": "var(--color-macaw)",
+      "desc": "14 colours with the exact shade and the CEFR level.",
+      "count": "14 words · 2 groups",
+      "intro": "Colours are adjectives, and German adjectives change their ending depending on what they describe. Learn the base colour first; the endings come later.",
+      "groups": [
+        {
+          "id": "grundfarben",
+          "title": "Grundfarben",
+          "en": "Basic colours",
+          "words": [
+            {
+              "de": "rot",
+              "en": "red",
+              "hex": "#e53935",
+              "level": "A1"
+            },
+            {
+              "de": "blau",
+              "en": "blue",
+              "hex": "#1e88e5",
+              "level": "A1"
+            },
+            {
+              "de": "gelb",
+              "en": "yellow",
+              "hex": "#fdd835",
+              "level": "A1"
+            },
+            {
+              "de": "grün",
+              "en": "green",
+              "hex": "#43a047",
+              "level": "A1"
+            },
+            {
+              "de": "schwarz",
+              "en": "black",
+              "hex": "#212121",
+              "level": "A1"
+            },
+            {
+              "de": "weiß",
+              "en": "white",
+              "hex": "#fafafa",
+              "level": "A1"
+            },
+            {
+              "de": "grau",
+              "en": "grey",
+              "hex": "#9e9e9e",
+              "level": "A1"
+            },
+            {
+              "de": "braun",
+              "en": "brown",
+              "hex": "#795548",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "weitere",
+          "title": "Weitere Farben",
+          "en": "More colours",
+          "words": [
+            {
+              "de": "orange",
+              "en": "orange",
+              "hex": "#fb8c00",
+              "level": "A1"
+            },
+            {
+              "de": "rosa",
+              "en": "pink",
+              "hex": "#ec407a",
+              "level": "A2"
+            },
+            {
+              "de": "lila",
+              "en": "purple",
+              "hex": "#8e24aa",
+              "level": "A2"
+            },
+            {
+              "de": "violett",
+              "en": "violet",
+              "hex": "#7b1fa2",
+              "level": "B1"
+            },
+            {
+              "de": "türkis",
+              "en": "turquoise",
+              "hex": "#26c6da",
+              "level": "B1"
+            },
+            {
+              "de": "golden",
+              "en": "golden",
+              "hex": "#ffb300",
+              "level": "B1"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Colours are adjectives: <b>das rote Auto</b> (the red car), <b>die rote Tür</b> (the red door).",
+        "With <b>sein</b> the colour stays plain: <b>Das Auto ist rot.</b>",
+        "<b>hell-</b> = light, <b>dunkel-</b> = dark: hellblau (light blue), dunkelgrün (dark green)."
+      ],
+      "columns": [
+        {
+          "key": "hex",
+          "label": "Farbe",
+          "type": "swatch"
+        },
+        {
+          "key": "en",
+          "label": "English"
+        },
+        {
+          "key": "level",
+          "label": "Level"
+        }
+      ]
+    },
+    {
+      "slug": "zahlen",
+      "title": "Zahlen",
+      "subtitle": "Numbers",
+      "icon": "hash",
+      "color": "lv-b1",
+      "tint": "var(--color-bee)",
+      "desc": "Numbers from 0 to a million, plus the ordinals you need for dates.",
+      "count": "38 words · 4 groups",
+      "intro": "Numbers are everywhere: prices, times, addresses, phone numbers. German builds them from the back — <b>einundzwanzig</b> is literally 'one-and-twenty'.",
+      "groups": [
+        {
+          "id": "null-bis-zwolf",
+          "title": "0 bis 12",
+          "en": "0 to 12",
+          "words": [
+            {
+              "de": "null",
+              "en": "zero",
+              "level": "A1"
+            },
+            {
+              "de": "eins",
+              "en": "one",
+              "level": "A1"
+            },
+            {
+              "de": "zwei",
+              "en": "two",
+              "level": "A1"
+            },
+            {
+              "de": "drei",
+              "en": "three",
+              "level": "A1"
+            },
+            {
+              "de": "vier",
+              "en": "four",
+              "level": "A1"
+            },
+            {
+              "de": "fünf",
+              "en": "five",
+              "level": "A1"
+            },
+            {
+              "de": "sechs",
+              "en": "six",
+              "level": "A1"
+            },
+            {
+              "de": "sieben",
+              "en": "seven",
+              "level": "A1"
+            },
+            {
+              "de": "acht",
+              "en": "eight",
+              "level": "A1"
+            },
+            {
+              "de": "neun",
+              "en": "nine",
+              "level": "A1"
+            },
+            {
+              "de": "zehn",
+              "en": "ten",
+              "level": "A1"
+            },
+            {
+              "de": "elf",
+              "en": "eleven",
+              "level": "A1"
+            },
+            {
+              "de": "zwölf",
+              "en": "twelve",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "teenager",
+          "title": "13 bis 19",
+          "en": "13 to 19",
+          "words": [
+            {
+              "de": "dreizehn",
+              "en": "thirteen",
+              "level": "A1"
+            },
+            {
+              "de": "vierzehn",
+              "en": "fourteen",
+              "level": "A1"
+            },
+            {
+              "de": "fünfzehn",
+              "en": "fifteen",
+              "level": "A1"
+            },
+            {
+              "de": "sechzehn",
+              "en": "sixteen",
+              "level": "A1"
+            },
+            {
+              "de": "siebzehn",
+              "en": "seventeen",
+              "level": "A1"
+            },
+            {
+              "de": "achtzehn",
+              "en": "eighteen",
+              "level": "A1"
+            },
+            {
+              "de": "neunzehn",
+              "en": "nineteen",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "zehner",
+          "title": "Zehner",
+          "en": "Tens",
+          "words": [
+            {
+              "de": "zwanzig",
+              "en": "twenty",
+              "level": "A1"
+            },
+            {
+              "de": "dreißig",
+              "en": "thirty",
+              "level": "A1"
+            },
+            {
+              "de": "vierzig",
+              "en": "forty",
+              "level": "A1"
+            },
+            {
+              "de": "fünfzig",
+              "en": "fifty",
+              "level": "A1"
+            },
+            {
+              "de": "sechzig",
+              "en": "sixty",
+              "level": "A1"
+            },
+            {
+              "de": "siebzig",
+              "en": "seventy",
+              "level": "A1"
+            },
+            {
+              "de": "achtzig",
+              "en": "eighty",
+              "level": "A1"
+            },
+            {
+              "de": "neunzig",
+              "en": "ninety",
+              "level": "A1"
+            },
+            {
+              "de": "hundert",
+              "en": "hundred",
+              "level": "A1"
+            },
+            {
+              "de": "tausend",
+              "en": "thousand",
+              "level": "A1"
+            },
+            {
+              "de": "eine Million",
+              "en": "a million",
+              "level": "A2"
+            }
+          ]
+        },
+        {
+          "id": "ordinalzahlen",
+          "title": "Ordinalzahlen",
+          "en": "Ordinals",
+          "words": [
+            {
+              "de": "erste",
+              "en": "first",
+              "level": "A1"
+            },
+            {
+              "de": "zweite",
+              "en": "second",
+              "level": "A1"
+            },
+            {
+              "de": "dritte",
+              "en": "third",
+              "level": "A1"
+            },
+            {
+              "de": "vierte",
+              "en": "fourth",
+              "level": "A2"
+            },
+            {
+              "de": "fünfte",
+              "en": "fifth",
+              "level": "A2"
+            },
+            {
+              "de": "zehnte",
+              "en": "tenth",
+              "level": "A2"
+            },
+            {
+              "de": "zwanzigste",
+              "en": "twentieth",
+              "level": "A2"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Numbers 21–99 are said backwards with <b>und</b>: 21 = <b>einundzwanzig</b> (one-and-twenty).",
+        "<b>eins</b> becomes <b>ein-</b> when joined: einundzwanzig, einhundert.",
+        "<b>sechs</b> and <b>sieben</b> shorten: sechzehn, siebzig.",
+        "Ordinals for dates: <b>am dritten Mai</b> (on the third of May)."
+      ]
+    },
+    {
+      "slug": "koerper",
+      "title": "Körper",
+      "subtitle": "The body",
+      "icon": "person",
+      "color": "lv-b2",
+      "tint": "var(--color-fox)",
+      "desc": "26 body parts with article and plural — the words you need at the doctor.",
+      "count": "26 words · 3 groups",
+      "intro": "Body parts come up constantly: at the doctor, describing pain, buying clothes. German uses <b>der/die/das</b> here too, and the plural matters.",
+      "groups": [
+        {
+          "id": "kopf",
+          "title": "Kopf",
+          "en": "Head",
+          "words": [
+            {
+              "de": "der Kopf",
+              "art": "der",
+              "en": "head",
+              "plural": "die Köpfe",
+              "level": "A1"
+            },
+            {
+              "de": "das Gesicht",
+              "art": "das",
+              "en": "face",
+              "plural": "die Gesichter",
+              "level": "A1"
+            },
+            {
+              "de": "das Haar",
+              "art": "das",
+              "en": "hair",
+              "plural": "die Haare",
+              "level": "A1"
+            },
+            {
+              "de": "das Auge",
+              "art": "das",
+              "en": "eye",
+              "plural": "die Augen",
+              "level": "A1"
+            },
+            {
+              "de": "das Ohr",
+              "art": "das",
+              "en": "ear",
+              "plural": "die Ohren",
+              "level": "A1"
+            },
+            {
+              "de": "die Nase",
+              "art": "die",
+              "en": "nose",
+              "plural": "die Nasen",
+              "level": "A1"
+            },
+            {
+              "de": "der Mund",
+              "art": "der",
+              "en": "mouth",
+              "plural": "die Münder",
+              "level": "A1"
+            },
+            {
+              "de": "der Zahn",
+              "art": "der",
+              "en": "tooth",
+              "plural": "die Zähne",
+              "level": "A1"
+            },
+            {
+              "de": "der Hals",
+              "art": "der",
+              "en": "neck, throat",
+              "plural": "die Hälse",
+              "level": "A2"
+            }
+          ]
+        },
+        {
+          "id": "koerper",
+          "title": "Körper",
+          "en": "Body",
+          "words": [
+            {
+              "de": "der Arm",
+              "art": "der",
+              "en": "arm",
+              "plural": "die Arme",
+              "level": "A1"
+            },
+            {
+              "de": "die Hand",
+              "art": "die",
+              "en": "hand",
+              "plural": "die Hände",
+              "level": "A1"
+            },
+            {
+              "de": "der Finger",
+              "art": "der",
+              "en": "finger",
+              "plural": "die Finger",
+              "level": "A1"
+            },
+            {
+              "de": "der Bauch",
+              "art": "der",
+              "en": "belly, stomach",
+              "plural": "die Bäuche",
+              "level": "A1"
+            },
+            {
+              "de": "der Rücken",
+              "art": "der",
+              "en": "back",
+              "plural": "die Rücken",
+              "level": "A2"
+            },
+            {
+              "de": "das Bein",
+              "art": "das",
+              "en": "leg",
+              "plural": "die Beine",
+              "level": "A1"
+            },
+            {
+              "de": "der Fuß",
+              "art": "der",
+              "en": "foot",
+              "plural": "die Füße",
+              "level": "A1"
+            },
+            {
+              "de": "das Knie",
+              "art": "das",
+              "en": "knee",
+              "plural": "die Knie",
+              "level": "A2"
+            },
+            {
+              "de": "die Schulter",
+              "art": "die",
+              "en": "shoulder",
+              "plural": "die Schultern",
+              "level": "A2"
+            }
+          ]
+        },
+        {
+          "id": "inneres",
+          "title": "Inneres",
+          "en": "Inside",
+          "words": [
+            {
+              "de": "das Herz",
+              "art": "das",
+              "en": "heart",
+              "plural": "die Herzen",
+              "level": "A2"
+            },
+            {
+              "de": "das Blut",
+              "art": "das",
+              "en": "blood",
+              "plural": "-",
+              "level": "A2"
+            },
+            {
+              "de": "die Haut",
+              "art": "die",
+              "en": "skin",
+              "plural": "die Häute",
+              "level": "A2"
+            },
+            {
+              "de": "der Magen",
+              "art": "der",
+              "en": "stomach",
+              "plural": "die Mägen",
+              "level": "B1"
+            },
+            {
+              "de": "die Lunge",
+              "art": "die",
+              "en": "lung",
+              "plural": "die Lungen",
+              "level": "B1"
+            },
+            {
+              "de": "das Gehirn",
+              "art": "das",
+              "en": "brain",
+              "plural": "die Gehirne",
+              "level": "B1"
+            },
+            {
+              "de": "der Knochen",
+              "art": "der",
+              "en": "bone",
+              "plural": "die Knochen",
+              "level": "B1"
+            },
+            {
+              "de": "der Muskel",
+              "art": "der",
+              "en": "muscle",
+              "plural": "die Muskeln",
+              "level": "B1"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Body parts are often used with the definite article, not a possessive: <b>Ich habe mir das Bein gebrochen.</b>",
+        "At the doctor: <b>Mein Kopf tut weh.</b> (My head hurts.) — <b>wehtun</b> is the verb for pain.",
+        "<b>der Zahn</b> → <b>die Zähne</b>: watch the umlaut in the plural."
+      ]
+    },
+    {
+      "slug": "kleidung",
+      "title": "Kleidung",
+      "subtitle": "Clothing",
+      "icon": "shirt",
+      "color": "lv-c1",
+      "tint": "var(--color-beetle)",
+      "desc": "20 items of clothing with article and plural — for shopping and weather talk.",
+      "count": "20 words · 3 groups",
+      "intro": "Clothing vocabulary pairs with shopping and weather. German nouns here often change vowel in the plural (<b>das Hemd → die Hemden</b>), and a few add -er.",
+      "groups": [
+        {
+          "id": "oben",
+          "title": "Oberkörper",
+          "en": "Upper body",
+          "words": [
+            {
+              "de": "das Hemd",
+              "art": "das",
+              "en": "shirt",
+              "plural": "die Hemden",
+              "level": "A1"
+            },
+            {
+              "de": "die Bluse",
+              "art": "die",
+              "en": "blouse",
+              "plural": "die Blusen",
+              "level": "A2"
+            },
+            {
+              "de": "das T-Shirt",
+              "art": "das",
+              "en": "t-shirt",
+              "plural": "die T-Shirts",
+              "level": "A1"
+            },
+            {
+              "de": "der Pullover",
+              "art": "der",
+              "en": "sweater",
+              "plural": "die Pullover",
+              "level": "A1"
+            },
+            {
+              "de": "die Jacke",
+              "art": "die",
+              "en": "jacket",
+              "plural": "die Jacken",
+              "level": "A1"
+            },
+            {
+              "de": "der Mantel",
+              "art": "der",
+              "en": "coat",
+              "plural": "die Mäntel",
+              "level": "A1"
+            },
+            {
+              "de": "der Anzug",
+              "art": "der",
+              "en": "suit",
+              "plural": "die Anzüge",
+              "level": "A2"
+            },
+            {
+              "de": "das Kleid",
+              "art": "das",
+              "en": "dress",
+              "plural": "die Kleider",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "unten",
+          "title": "Unterkörper",
+          "en": "Lower body",
+          "words": [
+            {
+              "de": "die Hose",
+              "art": "die",
+              "en": "trousers",
+              "plural": "die Hosen",
+              "level": "A1"
+            },
+            {
+              "de": "die Jeans",
+              "art": "die",
+              "en": "jeans",
+              "plural": "die Jeans",
+              "level": "A1"
+            },
+            {
+              "de": "der Rock",
+              "art": "der",
+              "en": "skirt",
+              "plural": "die Röcke",
+              "level": "A2"
+            },
+            {
+              "de": "die Socke",
+              "art": "die",
+              "en": "sock",
+              "plural": "die Socken",
+              "level": "A1"
+            },
+            {
+              "de": "der Schuh",
+              "art": "der",
+              "en": "shoe",
+              "plural": "die Schuhe",
+              "level": "A1"
+            },
+            {
+              "de": "der Stiefel",
+              "art": "der",
+              "en": "boot",
+              "plural": "die Stiefel",
+              "level": "A2"
+            }
+          ]
+        },
+        {
+          "id": "accessoires",
+          "title": "Accessoires",
+          "en": "Accessories",
+          "words": [
+            {
+              "de": "der Hut",
+              "art": "der",
+              "en": "hat",
+              "plural": "die Hüte",
+              "level": "A1"
+            },
+            {
+              "de": "die Mütze",
+              "art": "die",
+              "en": "cap, beanie",
+              "plural": "die Mützen",
+              "level": "A2"
+            },
+            {
+              "de": "der Schal",
+              "art": "der",
+              "en": "scarf",
+              "plural": "die Schals",
+              "level": "A2"
+            },
+            {
+              "de": "der Handschuh",
+              "art": "der",
+              "en": "glove",
+              "plural": "die Handschuhe",
+              "level": "A2"
+            },
+            {
+              "de": "der Gürtel",
+              "art": "der",
+              "en": "belt",
+              "plural": "die Gürtel",
+              "level": "A2"
+            },
+            {
+              "de": "die Tasche",
+              "art": "die",
+              "en": "bag",
+              "plural": "die Taschen",
+              "level": "A1"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "<b>die Hose</b> and <b>die Jeans</b> are singular in German but plural in English: <b>Die Hose ist neu.</b>",
+        "Shopping: <b>Ich hätte gern…</b> (I'd like…) and <b>Wie viel kostet das?</b>",
+        "<b>anziehen</b> = to put on, <b>ausziehen</b> = to take off, <b>tragen</b> = to wear."
+      ]
+    },
+    {
+      "slug": "zeit",
+      "title": "Zeit",
+      "subtitle": "Time",
+      "icon": "calendar",
+      "color": "lv-red",
+      "tint": "var(--color-cardinal)",
+      "desc": "Weekdays, months and seasons — the calendar words you use every day.",
+      "count": "30 words · 4 groups",
+      "intro": "Days, months and seasons are the backbone of scheduling. In German, weekdays and months are nouns, so they take a capital letter, and 'on' is <b>am</b>.",
+      "groups": [
+        {
+          "id": "wochentage",
+          "title": "Wochentage",
+          "en": "Weekdays",
+          "words": [
+            {
+              "de": "der Montag",
+              "art": "der",
+              "en": "Monday",
+              "plural": "die Montage",
+              "level": "A1"
+            },
+            {
+              "de": "der Dienstag",
+              "art": "der",
+              "en": "Tuesday",
+              "plural": "die Dienstage",
+              "level": "A1"
+            },
+            {
+              "de": "der Mittwoch",
+              "art": "der",
+              "en": "Wednesday",
+              "plural": "die Mittwoche",
+              "level": "A1"
+            },
+            {
+              "de": "der Donnerstag",
+              "art": "der",
+              "en": "Thursday",
+              "plural": "die Donnerstage",
+              "level": "A1"
+            },
+            {
+              "de": "der Freitag",
+              "art": "der",
+              "en": "Friday",
+              "plural": "die Freitage",
+              "level": "A1"
+            },
+            {
+              "de": "der Samstag",
+              "art": "der",
+              "en": "Saturday",
+              "plural": "die Samstage",
+              "level": "A1"
+            },
+            {
+              "de": "der Sonntag",
+              "art": "der",
+              "en": "Sunday",
+              "plural": "die Sonntage",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "monate",
+          "title": "Monate",
+          "en": "Months",
+          "words": [
+            {
+              "de": "der Januar",
+              "art": "der",
+              "en": "January",
+              "plural": "die Januare",
+              "level": "A1"
+            },
+            {
+              "de": "der Februar",
+              "art": "der",
+              "en": "February",
+              "plural": "die Februare",
+              "level": "A1"
+            },
+            {
+              "de": "der März",
+              "art": "der",
+              "en": "March",
+              "plural": "die Märze",
+              "level": "A1"
+            },
+            {
+              "de": "der April",
+              "art": "der",
+              "en": "April",
+              "plural": "die Aprile",
+              "level": "A1"
+            },
+            {
+              "de": "der Mai",
+              "art": "der",
+              "en": "May",
+              "plural": "die Maie",
+              "level": "A1"
+            },
+            {
+              "de": "der Juni",
+              "art": "der",
+              "en": "June",
+              "plural": "die Junis",
+              "level": "A1"
+            },
+            {
+              "de": "der Juli",
+              "art": "der",
+              "en": "July",
+              "plural": "die Julis",
+              "level": "A1"
+            },
+            {
+              "de": "der August",
+              "art": "der",
+              "en": "August",
+              "plural": "die Auguste",
+              "level": "A1"
+            },
+            {
+              "de": "der September",
+              "art": "der",
+              "en": "September",
+              "plural": "die September",
+              "level": "A1"
+            },
+            {
+              "de": "der Oktober",
+              "art": "der",
+              "en": "October",
+              "plural": "die Oktober",
+              "level": "A1"
+            },
+            {
+              "de": "der November",
+              "art": "der",
+              "en": "November",
+              "plural": "die November",
+              "level": "A1"
+            },
+            {
+              "de": "der Dezember",
+              "art": "der",
+              "en": "December",
+              "plural": "die Dezember",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "jahreszeiten",
+          "title": "Jahreszeiten",
+          "en": "Seasons",
+          "words": [
+            {
+              "de": "der Frühling",
+              "art": "der",
+              "en": "spring",
+              "plural": "die Frühlinge",
+              "level": "A1"
+            },
+            {
+              "de": "der Sommer",
+              "art": "der",
+              "en": "summer",
+              "plural": "die Sommer",
+              "level": "A1"
+            },
+            {
+              "de": "der Herbst",
+              "art": "der",
+              "en": "autumn",
+              "plural": "die Herbste",
+              "level": "A1"
+            },
+            {
+              "de": "der Winter",
+              "art": "der",
+              "en": "winter",
+              "plural": "die Winter",
+              "level": "A1"
+            }
+          ]
+        },
+        {
+          "id": "zeitwoerter",
+          "title": "Zeitwörter",
+          "en": "Time words",
+          "words": [
+            {
+              "de": "heute",
+              "en": "today",
+              "level": "A1"
+            },
+            {
+              "de": "morgen",
+              "en": "tomorrow",
+              "level": "A1"
+            },
+            {
+              "de": "gestern",
+              "en": "yesterday",
+              "level": "A1"
+            },
+            {
+              "de": "jetzt",
+              "en": "now",
+              "level": "A1"
+            },
+            {
+              "de": "die Woche",
+              "art": "die",
+              "en": "week",
+              "plural": "die Wochen",
+              "level": "A1"
+            },
+            {
+              "de": "der Monat",
+              "art": "der",
+              "en": "month",
+              "plural": "die Monate",
+              "level": "A1"
+            },
+            {
+              "de": "das Jahr",
+              "art": "das",
+              "en": "year",
+              "plural": "die Jahre",
+              "level": "A1"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Weekdays and months are capitalised: <b>am Montag</b>, <b>im Januar</b>.",
+        "'on' a day = <b>am</b>: <b>am Dienstag</b>. 'in' a month/season = <b>im</b>: <b>im Sommer</b>.",
+        "<b>morgen</b> (tomorrow, lowercase) vs <b>der Morgen</b> (the morning, a noun).",
+        "Seasons: <b>im Frühling, im Sommer, im Herbst, im Winter</b>."
       ]
     }
   ]
