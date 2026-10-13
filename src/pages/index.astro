@@ -1,7 +1,6 @@
 ---
 // Progress state lives in localStorage. This island reads it and paints the
-// skill path: node states, the owl mascot on the current lesson, and the stats.
-// Zero framework, ~3 KB of vanilla JS.
+// skill path: node states and the stats. Zero framework, ~3 KB of vanilla JS.
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
@@ -96,9 +95,6 @@ function trailDots(i: number) {
                     </div>
                   )}
                   <div class="node-wrap" style={`transform:translateX(${POS[i % 4]}px)`}>
-                    <span class="node-mascot" aria-hidden="true">
-                      <Icon name="owl" size={42} style="color: var(--color-feather)" />
-                    </span>
                     <a
                       href={`/${lv.id}/${l.slug}/`}
                       class={`skill-node node-${lv.id}`}
@@ -174,7 +170,6 @@ function trailDots(i: number) {
 
     nodes.forEach((node) => {
       const id = node.dataset.lesson;
-      const wrap = node.closest(".node-wrap");
       const glyph = node.querySelector(".node-glyph");
       if (done[id]) {
         node.classList.add("skill-done");
@@ -185,7 +180,6 @@ function trailDots(i: number) {
       } else if (!currentMarked) {
         // First lesson not yet completed: this is where the learner continues.
         node.classList.add("skill-current");
-        wrap?.classList.add("node-current");
         currentMarked = true;
       }
     });
