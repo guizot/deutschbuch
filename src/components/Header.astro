@@ -30,27 +30,31 @@ const links = [
       </span>
     </a>
 
-    <!-- Desktop nav: the full labels only fit from ~640px up. Below that the
-         bottom bar takes over, which is why the top nav used to be clipped. -->
-    <nav class="hidden sm:flex items-center gap-1">
-      {
-        links.map((l) => (
-          <a
-            href={l.href}
-            class="px-3 py-2 rounded-xl text-sm font-extrabold whitespace-nowrap transition-colors"
-            style={
-              active === l.key
-                ? "background: color-mix(in srgb, var(--color-feather) 16%, transparent); color: var(--color-feather);"
-                : "color: var(--text-muted);"
-            }
-          >
-            {l.label}
-          </a>
-        ))
-      }
-    </nav>
+    <!-- Right side: the full nav (desktop only) and the theme toggle. The group
+         is pushed right with ml-auto so the menu hugs the toggle instead of
+         floating in the middle. On mobile the nav is hidden and only the toggle
+         shows here; the nav lives in the bottom bar below. -->
+    <div class="flex items-center gap-3 ml-auto">
+      <nav class="hidden sm:flex items-center gap-1">
+        {
+          links.map((l) => (
+            <a
+              href={l.href}
+              class="px-3 py-2 rounded-xl text-sm font-extrabold whitespace-nowrap transition-colors"
+              style={
+                active === l.key
+                  ? "background: color-mix(in srgb, var(--color-feather) 16%, transparent); color: var(--color-feather);"
+                  : "color: var(--text-muted);"
+              }
+            >
+              {l.label}
+            </a>
+          ))
+        }
+      </nav>
 
-    <ThemeToggle />
+      <ThemeToggle />
+    </div>
   </div>
 </header>
 
