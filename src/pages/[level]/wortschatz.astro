@@ -4,6 +4,7 @@ import path from "node:path";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { mdToHtml } from "../../lib/md";
+import BackLink from "../../components/BackLink.astro";
 import { LEVELS } from "../../data/site.ts";
 import meta from "../../content/meta.json";
 import "../../styles/global.css";
@@ -34,12 +35,8 @@ const html = mdToHtml(raw);
 <BaseLayout title={`${info.label} Vocabulary — German Viewer`}>
   <Header active="learn" />
 
-  <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
-    <a
-      href={`/${level}/`}
-      class="text-sm font-bold mb-5 inline-block"
-      style="color: var(--text-muted)">← {info.label} · {info.name}</a
-    >
+  <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+    <BackLink fallback={`/${level}/`} />
 
     <div class="card mb-8">
       <div class="flex items-center gap-3 mb-2">
