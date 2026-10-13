@@ -13,10 +13,14 @@ const links = [
   { href: "/", label: "Learn", key: "learn", icon: "flag" },
   { href: "/search", label: "Search", key: "search", icon: "search" },
   { href: "/reference", label: "Reference", key: "reference", icon: "book" },
-  { href: "/themes", label: "Themen", key: "themes", icon: "books" },
+  { href: "/themes", label: "Topics", key: "themes", icon: "books", mobileHide: true },
   { href: "/progress", label: "Progress", key: "progress", icon: "chart" },
   { href: "/about", label: "About", key: "about", icon: "info" },
 ];
+
+// The mobile bottom bar has no room for a sixth tab, so Topics is hidden there
+// and surfaced as an icon button next to the theme toggle instead.
+const mobileLinks = links.filter((l) => !l.mobileHide);
 ---
 <!-- Top bar: brand + (desktop only) the full nav + theme toggle -->
 <header
@@ -61,6 +65,22 @@ const links = [
         }
       </nav>
 
+      <!-- Mobile only: Topics lives here (next to the theme toggle) instead of
+           the bottom bar, which has no room for a sixth tab. -->
+      <a
+        href="/themes"
+        class="btn btn-ghost sm:hidden"
+        style="padding: 0.5rem 0.6rem; text-transform: none; letter-spacing: 0;"
+        aria-label="Topics"
+        title="Topics"
+      >
+        <span
+          style={active === "themes" ? "display:inline-flex;color:var(--color-feather);" : "display:inline-flex;"}
+        >
+          <Icon name="books" size={22} />
+        </span>
+      </a>
+
       <ThemeToggle />
     </div>
   </div>
@@ -76,7 +96,7 @@ const links = [
 >
   <div class="flex items-stretch justify-around">
     {
-      links.map((l) => (
+      mobileLinks.map((l) => (
         <a
           href={l.href}
           class="flex flex-col items-center gap-0.5 py-2 px-1 flex-1 min-w-0 transition-colors"
