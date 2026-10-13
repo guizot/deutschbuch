@@ -10,7 +10,7 @@ const { active = "" } = Astro.props;
 
 // custom icon (see src/lib/icons.ts) for the mobile bottom bar, label for the desktop nav
 const links = [
-  { href: "/", label: "Learn", key: "learn", icon: "owl" },
+  { href: "/", label: "Learn", key: "learn", icon: "flag" },
   { href: "/search", label: "Search", key: "search", icon: "search" },
   { href: "/reference", label: "Reference", key: "reference", icon: "book" },
   { href: "/progress", label: "Progress", key: "progress", icon: "chart" },
@@ -24,7 +24,7 @@ const links = [
 >
   <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
     <a href="/" class="flex items-center gap-2 shrink-0">
-      <Icon name="owl" size={28} style="color: var(--color-feather)" />
+      <Icon name="flag" size={28} style="color: var(--color-feather)" />
       <span class="font-black text-lg" style="color: var(--text-strong)">
         German&nbsp;Viewer
       </span>
