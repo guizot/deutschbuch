@@ -1,0 +1,40 @@
+---
+/**
+ * Context-aware back link.
+ *
+ * When the user arrived from another page in the app (same-origin referrer),
+ * clicking it returns to that previous page. On a direct visit or a fresh tab
+ * there is no such referrer, so the link follows `fallback` — the page's
+ * natural parent (e.g. the level overview, or the list of all levels).
+ */
+interface Props {
+  /** where to go when there is no in-app page to return to */
+  fallback: string;
+  label?: string;
+  class?: string;
+}
+
+const { fallback, label = "Back", class: cls = "mb-5" } = Astro.props;
+---
+<a
+  id="back"
+  href={fallback}
+  class={`text-sm font-bold inline-block ${cls}`}
+  style="color: var(--text-muted)">← {label}</a
+>
+
+<script is:inline>
+  (function () {
+    var link = document.getElementById("back");
+    if (!link) return;
+    link.addEventListener("click", function (e) {
+      var ref = document.referrer;
+      var sameOrigin = ref && ref.indexOf(window.location.origin) === 0;
+      var fromOtherPage = sameOrigin && ref !== window.location.href;
+      if (fromOtherPage && history.length > 1) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  })();
+</script>
