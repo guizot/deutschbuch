@@ -310,19 +310,6 @@ h1, h2, h3, h4 {
     pointer-events: none;
     filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.15));
   }
-  .node-mascot::after {
-    content: "Start";
-    margin-top: 2px;
-    padding: 1px 8px;
-    border-radius: 999px;
-    background: var(--color-feather);
-    color: #fff;
-    font-size: 0.6rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    box-shadow: 0 2px 0 var(--color-feather-shadow);
-  }
   .node-wrap.node-current .node-mascot {
     opacity: 1;
     transform: translateX(0) scale(1);
