@@ -24,8 +24,7 @@ const total = index.length;
         type="search"
         placeholder="Try: Dativ, Konjunktiv, weil, Perfekt…"
         autocomplete="off"
-        class="w-full px-4 py-3 rounded-2xl text-base font-bold outline-none"
-        style="background: var(--bg-card); border: 2px solid var(--border); color: var(--text)"
+        class="search-input w-full px-4 py-3 rounded-2xl text-base font-bold"
       />
     </div>
 
@@ -118,7 +117,5 @@ const total = index.length;
     }
 
     qEl.addEventListener("input", render);
-    // focus on load so the user can type straight away
-    qEl.focus();
   </script>
 </BaseLayout>

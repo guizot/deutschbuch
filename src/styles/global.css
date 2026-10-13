@@ -203,6 +203,26 @@ h1, h2, h3, h4 {
     background: rgba(255, 255, 255, 0.35);
   }
 
+  /* --- Search field ------------------------------------------------------ */
+  .search-input {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    color: var(--text);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .search-input::placeholder { color: var(--text-faint); }
+  .search-input:focus,
+  .search-input:focus-visible {
+    border-color: var(--color-feather);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-feather) 35%, transparent);
+    outline: none;
+  }
+  /* Hide the native clear button's default look */
+  .search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
   /* --- Skill node (the lesson bubble on the path) ----------------------- */
   .skill-node {
     width: 72px;

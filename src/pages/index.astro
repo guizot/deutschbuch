@@ -64,7 +64,7 @@ function trailDots(i: number) {
       LEVELS.map((lv) => {
         const lessons = byLevel[lv.id] || [];
         return (
-          <section class="mb-16 mt-6" data-level={lv.id}>
+          <section class="mb-16" data-level={lv.id}>
             <!-- Unit banner (coloured per level, like Duolingo's section header) -->
             <div class={`unit-banner ${lv.color}`}>
               <div class="min-w-0">
