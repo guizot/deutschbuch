@@ -11,16 +11,17 @@ const { active = "" } = Astro.props;
 // custom icon (see src/lib/icons.ts) for the mobile bottom bar, label for the desktop nav
 const links = [
   { href: "/", label: "Learn", key: "learn", icon: "flag" },
-  { href: "/search", label: "Search", key: "search", icon: "search" },
+  { href: "/search", label: "Search", key: "search", icon: "search", mobileHide: true },
   { href: "/reference", label: "Reference", key: "reference", icon: "book" },
-  { href: "/themes", label: "Topics", key: "themes", icon: "books", mobileHide: true },
+  { href: "/themes", label: "Topics", key: "themes", icon: "books" },
   { href: "/progress", label: "Progress", key: "progress", icon: "chart" },
   { href: "/about", label: "About", key: "about", icon: "info" },
 ];
 
-// The mobile bottom bar has no room for a sixth tab, so Topics is hidden there
+// The mobile bottom bar has no room for a sixth tab, so Search is hidden there
 // and surfaced as an icon button next to the theme toggle instead.
 const mobileLinks = links.filter((l) => !l.mobileHide);
+const headerMobileLink = links.find((l) => l.mobileHide);
 ---
 <!-- Top bar: brand + (desktop only) the full nav + theme toggle -->
 <header
@@ -65,19 +66,23 @@ const mobileLinks = links.filter((l) => !l.mobileHide);
         }
       </nav>
 
-      <!-- Mobile only: Topics lives here (next to the theme toggle) instead of
+      <!-- Mobile only: Search lives here (next to the theme toggle) instead of
            the bottom bar, which has no room for a sixth tab. -->
       <a
-        href="/themes"
+        href={headerMobileLink.href}
         class="btn btn-ghost sm:hidden"
         style="padding: 0.5rem 0.6rem; text-transform: none; letter-spacing: 0;"
-        aria-label="Topics"
-        title="Topics"
+        aria-label={headerMobileLink.label}
+        title={headerMobileLink.label}
       >
         <span
-          style={active === "themes" ? "display:inline-flex;color:var(--color-feather);" : "display:inline-flex;"}
+          style={
+            active === headerMobileLink.key
+              ? "display:inline-flex;color:var(--color-feather);"
+              : "display:inline-flex;"
+          }
         >
-          <Icon name="books" size={22} />
+          <Icon name={headerMobileLink.icon} size={22} />
         </span>
       </a>
 
