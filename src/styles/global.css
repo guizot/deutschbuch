@@ -297,6 +297,15 @@ h1, h2, h3, h4 {
     overflow: hidden;
   }
   .unit-banner.lv-b1 { color: #5a4200; }
+  /* Clickable banner: whole section header links to the level overview. */
+  .unit-banner-link {
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  }
+  .unit-banner-link:hover { filter: brightness(1.05); transform: translateY(-2px); }
+  .unit-banner-link:active { transform: translateY(1px); }
+  .unit-banner-link:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
   .unit-banner-icon {
     flex: none;
     opacity: 0.9;
