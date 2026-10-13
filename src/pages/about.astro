@@ -4,6 +4,7 @@ import path from "node:path";
 import { mdToHtml } from "../lib/md";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import { LEVELS } from "../data/site.ts";
 import "../styles/global.css";
 
@@ -21,7 +22,9 @@ const resources = fs.existsSync(mdRes)
   <Header active="about" />
 
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
-    <h1 class="text-3xl mb-2">About this course</h1>
+    <h1 class="text-3xl mb-2 flex items-center gap-2">
+      <Icon name="info" size={30} style="color: var(--color-beetle)" /> About this course
+    </h1>
     <p class="mb-10" style="color: var(--text-muted)">
       A complete German course from A1 to C1, built as plain markdown and viewed here.
     </p>
