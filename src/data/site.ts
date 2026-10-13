@@ -10,8 +10,9 @@ export interface LevelInfo {
   name: string;
   blurb: string;
   hours: string;
-  color: string; // css class: lv-a1 ...
-  emoji: string;
+  color: string; // css class: lv-a1 ... lv-c1
+  icon: string; // custom icon name (see src/lib/icons.ts)
+  tint: string; // CSS colour token matching the level (drives icon colour)
 }
 
 export const LEVELS: LevelInfo[] = [
@@ -22,7 +23,8 @@ export const LEVELS: LevelInfo[] = [
     blurb: "Alphabet, greetings, gender, present tense, numbers, word order.",
     hours: "80–150 h",
     color: "lv-a1",
-    emoji: "🌱",
+    icon: "sprout",
+    tint: "var(--color-feather)",
   },
   {
     id: "a2",
@@ -31,7 +33,8 @@ export const LEVELS: LevelInfo[] = [
     blurb: "Dative, Perfekt, Präteritum, subordinate clauses, adjective endings.",
     hours: "230–350 h",
     color: "lv-a2",
-    emoji: "🌿",
+    icon: "leaf",
+    tint: "var(--color-macaw)",
   },
   {
     id: "b1",
@@ -40,7 +43,8 @@ export const LEVELS: LevelInfo[] = [
     blurb: "Passive, Konjunktiv II, relative clauses, connectors, formal letters.",
     hours: "380–550 h",
     color: "lv-b1",
-    emoji: "🌳",
+    icon: "tree",
+    tint: "var(--color-bee)",
   },
   {
     id: "b2",
@@ -49,7 +53,8 @@ export const LEVELS: LevelInfo[] = [
     blurb: "Konjunktiv I, nominalisation, register, text types, exam technique.",
     hours: "530–750 h",
     color: "lv-b2",
-    emoji: "🏔️",
+    icon: "mountain",
+    tint: "var(--color-fox)",
   },
   {
     id: "c1",
@@ -58,7 +63,8 @@ export const LEVELS: LevelInfo[] = [
     blurb: "Full Konjunktiv I, academic writing, idioms, collocations, debate.",
     hours: "750–900+ h",
     color: "lv-c1",
-    emoji: "🚀",
+    icon: "rocket",
+    tint: "var(--color-beetle)",
   },
 ];
 
@@ -67,7 +73,7 @@ export interface ReferenceInfo {
   title: string;
   desc: string;
   count: string;
-  emoji: string;
+  icon: string;
   color: string;
 }
 
@@ -77,7 +83,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Wörterbuch",
     desc: "Every word A–Z with its CEFR level. Searchable.",
     count: "1,024 headwords",
-    emoji: "📖",
+    icon: "book",
     color: "lv-a1",
   },
   {
@@ -85,7 +91,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Nomen",
     desc: "Nouns with article and plural. Filter by der / die / das.",
     count: "941 nouns",
-    emoji: "🔤",
+    icon: "letters",
     color: "lv-a2",
   },
   {
@@ -93,7 +99,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Verbtabellen",
     desc: "Conjugation tables: Präsens, Präteritum, Perfekt.",
     count: "236 verbs",
-    emoji: "⚡",
+    icon: "bolt",
     color: "lv-b1",
   },
   {
@@ -101,7 +107,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Redemittel",
     desc: "Exam phrases for writing and speaking, by level.",
     count: "172 phrases",
-    emoji: "💬",
+    icon: "chat",
     color: "lv-b2",
   },
   {
@@ -109,7 +115,7 @@ export const REFERENCES: ReferenceInfo[] = [
     title: "Cheat Sheet",
     desc: "The whole grammar on one searchable page.",
     count: "14 sections",
-    emoji: "⚡",
+    icon: "bolt",
     color: "lv-c1",
   },
 ];

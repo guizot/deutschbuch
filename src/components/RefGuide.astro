@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { mdToHtml } from "../lib/md";
+import Icon from "./Icon.astro";
 
 interface Props {
   name: string; // e.g. "nomen.md"
@@ -14,7 +15,7 @@ interface Props {
   intro?: string;
 }
 
-const { name, title = "📘 Guide", intro } = Astro.props;
+const { name, title = "Guide", intro } = Astro.props;
 
 const file = path.join(process.cwd(), "src", "content", "guides", name);
 const raw = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
@@ -50,7 +51,10 @@ const html = raw ? fixLinks(mdToHtml(raw)) : "";
 {
   html && (
     <section class="mt-14 pt-8 border-t-2" style="border-color: var(--border)">
-      <h2 class="text-2xl mb-2">{title}</h2>
+      <h2 class="text-2xl mb-2 flex items-center gap-2" style="color: var(--color-macaw)">
+        <Icon name="notebook" size={26} />
+        <span style="color: var(--text-strong)">{title}</span>
+      </h2>
       {intro && (
         <p class="mb-6 text-sm" style="color: var(--text-muted)">
           {intro}

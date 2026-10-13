@@ -4,6 +4,7 @@ import path from "node:path";
 import { mdToHtml } from "../../lib/md";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import "../../styles/global.css";
 
 const mdPath = path.join(process.cwd(), "src", "content", "lessons", "_cheatsheet.md");
@@ -47,7 +48,7 @@ const html = fixLinks(mdToHtml(raw));
     <a href="/reference/" class="text-sm font-bold mb-5 inline-block" style="color:var(--text-muted)"
       >← Reference</a
     >
-    <h1 class="text-3xl mb-2">⚡ Cheat Sheet</h1>
+    <h1 class="text-3xl mb-2 flex items-center gap-2"><Icon name="bolt" size={30} style="color: var(--color-beetle)" /> Cheat Sheet</h1>
     <p class="mb-8" style="color:var(--text-muted)">
       The whole grammar on one page. Ctrl+F the rule you forgot.
     </p>

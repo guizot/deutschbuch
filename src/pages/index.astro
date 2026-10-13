@@ -3,6 +3,7 @@
 // the skill path nodes + streak. Zero framework, ~2 KB of vanilla JS.
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import { LEVELS } from "../data/site.ts";
 import meta from "../content/meta.json";
 import "../styles/global.css";
@@ -22,10 +23,10 @@ const totalLessons = meta.length;
       <div class="card flex items-center justify-between" style="padding: 0.7rem 1rem;">
         <div class="flex items-center gap-5">
           <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-fox);">
-            🔥 <span id="stat-streak">0</span>
+            <Icon name="fire" size={20} /> <span id="stat-streak">0</span>
           </span>
           <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-bee);">
-            ⭐ <span id="stat-xp">0</span>
+            <Icon name="star" size={20} /> <span id="stat-xp">0</span>
           </span>
         </div>
         <span class="text-sm font-extrabold" style="color: var(--text-muted);">
@@ -101,7 +102,9 @@ const totalLessons = meta.length;
 
     <!-- Reference CTA -->
     <section class="card text-center" style="border-color: var(--color-macaw);">
-      <div class="text-3xl mb-2">📖</div>
+      <div class="mb-2 flex justify-center" style="color: var(--color-macaw)">
+        <Icon name="book" size={32} />
+      </div>
       <h2 class="text-xl mb-1">Reference library</h2>
       <p class="text-sm mb-4" style="color: var(--text-muted)">
         Dictionary, nouns, verbs, phrases and the grammar cheat sheet.
@@ -111,6 +114,8 @@ const totalLessons = meta.length;
   </main>
 
   <script>
+    import { iconSvg } from "../lib/icons";
+
     // ---- progress state (localStorage) -------------------------------------
     const KEY = "gv-progress-v1";
 
@@ -134,7 +139,7 @@ const totalLessons = meta.length;
       const id = node.dataset.lesson;
       if (done[id]) {
         node.classList.add("skill-done");
-        node.querySelector(".node-inner").textContent = "✓";
+        node.querySelector(".node-inner").innerHTML = iconSvg("check", 28);
       } else if (!currentMarked) {
         // First lesson not yet completed: this is where the learner continues.
         node.classList.add("skill-current");

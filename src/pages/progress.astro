@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import { LEVELS } from "../data/site.ts";
 import meta from "../content/meta.json";
 import "../styles/global.css";
@@ -22,13 +23,15 @@ const byLevel = Object.fromEntries(
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
       {
         [
-          ["🔥", "Streak", "stat-streak", "var(--color-fox)"],
-          ["⭐", "XP", "stat-xp", "var(--color-bee)"],
-          ["✅", "Lessons", "stat-lessons", "var(--color-feather)"],
-          ["📚", "Remaining", "stat-left", "var(--color-macaw)"],
+          ["fire", "Streak", "stat-streak", "var(--color-fox)"],
+          ["star", "XP", "stat-xp", "var(--color-bee)"],
+          ["check-circle", "Lessons", "stat-lessons", "var(--color-feather)"],
+          ["books", "Remaining", "stat-left", "var(--color-macaw)"],
         ].map(([icon, label, id, color]) => (
           <div class="card text-center">
-            <div class="text-2xl mb-1">{icon}</div>
+            <div class="mb-1 flex justify-center" style={`color:${color}`}>
+              <Icon name={icon} size={26} />
+            </div>
             <div class="text-2xl font-black" id={id} style={`color:${color}`}>
               0
             </div>
@@ -55,6 +58,7 @@ const byLevel = Object.fromEntries(
                   <span class={`pill ${lv.color}`} style="padding:0.25rem 0.7rem">
                     {lv.label}
                   </span>
+                  <Icon name={lv.icon} size={22} style={`color: ${lv.tint}`} />
                   <span class="text-sm font-extrabold" style="color: var(--text-strong)">
                     {lv.name}
                   </span>

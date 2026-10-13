@@ -1,6 +1,7 @@
 ---
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import { LEVELS } from "../../data/site.ts";
 import meta from "../../content/meta.json";
 import "../../styles/global.css";
@@ -25,6 +26,7 @@ const lessons = meta.filter((m) => m.level === level);
       <span class={`pill ${info.color}`} style="padding:0.4rem 1rem;font-size:1rem">
         {info.label}
       </span>
+      <Icon name={info.icon} size={30} style={`color: ${info.tint}`} />
       <h1 class="text-3xl">{info.name}</h1>
     </div>
     <p class="mb-1" style="color: var(--text-muted)">{info.blurb}</p>
@@ -37,7 +39,9 @@ const lessons = meta.filter((m) => m.level === level);
       class="card card-hover flex items-center gap-4 no-underline mb-6"
       style="color:inherit"
     >
-      <div class="text-2xl">📚</div>
+      <div class="flex items-center justify-center shrink-0" style={`color: ${info.tint}`}>
+        <Icon name="books" size={28} />
+      </div>
       <div class="min-w-0 flex-1">
         <div class="font-extrabold" style="color: var(--text-strong)">
           {info.label} Vocabulary
@@ -89,6 +93,8 @@ const lessons = meta.filter((m) => m.level === level);
   </main>
 
   <script>
+    import { iconSvg } from "../../lib/icons";
+
     const KEY = "gv-progress-v1";
     let state = {};
     try {
@@ -103,7 +109,7 @@ const lessons = meta.filter((m) => m.level === level);
         n++;
         const badge = el.querySelector(".node-badge");
         if (badge) {
-          badge.textContent = "✓";
+          badge.innerHTML = iconSvg("check", 22);
           badge.style.background = "var(--color-feather)";
           badge.style.color = "#fff";
           badge.style.borderColor = "var(--color-feather-shadow)";

@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import index from "../data/search.json";
 import "../styles/global.css";
 
@@ -10,7 +11,9 @@ const total = index.length;
   <Header active="search" />
 
   <main class="max-w-3xl mx-auto px-4 py-10 pb-24">
-    <h1 class="text-3xl mb-2">🔍 Search</h1>
+    <h1 class="text-3xl mb-2 flex items-center gap-2">
+      <Icon name="search" size={30} style="color: var(--color-macaw)" /> Search
+    </h1>
     <p class="mb-8" style="color: var(--text-muted)">
       Search across all {total} lessons. Results are ranked by title matches first.
     </p>
@@ -35,13 +38,17 @@ const total = index.length;
     <div id="results" class="space-y-3"></div>
 
     <div id="empty" class="card text-center py-12" style="display:none">
-      <p class="text-4xl mb-3">🤔</p>
+      <p class="mb-3 flex justify-center" style="color: var(--text-faint)">
+        <Icon name="question" size={44} />
+      </p>
       <p class="font-extrabold mb-1">No lessons found</p>
       <p class="text-sm" style="color: var(--text-muted)">Try a shorter word or a different spelling.</p>
     </div>
 
     <div id="hint" class="card text-center py-12">
-      <p class="text-4xl mb-3">💡</p>
+      <p class="mb-3 flex justify-center" style="color: var(--color-bee)">
+        <Icon name="bulb" size={44} />
+      </p>
       <p class="font-extrabold mb-1">Start typing</p>
       <p class="text-sm" style="color: var(--text-muted)">Search German grammar terms, keywords or topics.</p>
     </div>

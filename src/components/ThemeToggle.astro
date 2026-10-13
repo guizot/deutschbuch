@@ -1,5 +1,6 @@
 ---
 // Toggles .dark on <html> and persists the choice.
+import Icon from "./Icon.astro";
 ---
 <button
   id="theme-toggle"
@@ -8,17 +9,21 @@
   aria-label="Toggle dark mode"
   title="Toggle dark mode"
 >
-  <span id="theme-icon">🌙</span>
+  <span id="theme-icon" style="display:inline-flex">
+    <Icon name="moon" size={22} />
+  </span>
 </button>
 
 <script>
+  import { iconSvg } from "../lib/icons";
+
   const root = document.documentElement;
   const icon = document.getElementById("theme-icon");
   const btn = document.getElementById("theme-toggle");
 
   function paint() {
     const dark = root.classList.contains("dark");
-    if (icon) icon.textContent = dark ? "☀️" : "🌙";
+    if (icon) icon.innerHTML = iconSvg(dark ? "sun" : "moon", 22);
   }
   paint();
 

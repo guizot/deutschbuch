@@ -1,0 +1,38 @@
+---
+/**
+ * Inline SVG icon from the custom Duolingo-style set (see src/lib/icons.ts).
+ *
+ * Filled, rounded, single-colour: the colour comes from `currentColor`, so set
+ * it on the parent (e.g. `style="color: var(--color-feather)"`).
+ */
+import { ICON_PATHS } from "../lib/icons";
+
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+  style?: string;
+  /** accessible label; when omitted the icon is decorative (aria-hidden) */
+  title?: string;
+}
+
+const { name, size = 24, class: cls = "", style = "", title } = Astro.props;
+const body = ICON_PATHS[name] ?? "";
+---
+
+{
+  body && (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      class={cls}
+      style={`display:inline-block;vertical-align:-0.125em;flex:none;${style}`}
+      role={title ? "img" : undefined}
+      aria-label={title}
+      aria-hidden={title ? undefined : "true"}
+      set:html={body}
+    />
+  )
+}

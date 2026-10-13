@@ -3,6 +3,7 @@ import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RefSearch from "../../components/RefSearch.astro";
 import RefGuide from "../../components/RefGuide.astro";
+import Icon from "../../components/Icon.astro";
 import nouns from "../../data/nouns.json";
 import "../../styles/global.css";
 ---
@@ -12,7 +13,7 @@ import "../../styles/global.css";
     <a href="/reference/" class="text-sm font-bold mb-5 inline-block" style="color:var(--text-muted)"
       >← Reference</a
     >
-    <h1 class="text-3xl mb-2">🔤 Nomen</h1>
+    <h1 class="text-3xl mb-2 flex items-center gap-2"><Icon name="letters" size={30} style="color: var(--color-macaw)" /> Nomen</h1>
     <p class="mb-3" style="color:var(--text-muted)">
       Nouns with article and plural. Filter by gender with the der / die / das buttons.
     </p>
@@ -36,7 +37,7 @@ import "../../styles/global.css";
 
     <RefGuide
       name="nomen.md"
-      title="📘 Plural rules & study guide"
+      title="Plural rules & study guide"
       intro="How German plurals work, the patterns worth memorising, and what the asterisks mean."
     />
   </main>

@@ -1,6 +1,7 @@
 ---
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import { REFERENCES } from "../../data/site.ts";
 import "../../styles/global.css";
 ---
@@ -24,9 +25,9 @@ import "../../styles/global.css";
           >
             <div class="flex items-start gap-4">
               <div
-                class={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0 ${r.color}`}
+                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${r.color}`}
               >
-                {r.emoji}
+                <Icon name={r.icon} size={26} />
               </div>
               <div class="min-w-0">
                 <div class="font-extrabold text-lg" style="color: var(--text-strong)">

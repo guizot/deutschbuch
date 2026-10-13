@@ -2,8 +2,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { mdToHtml } from "../../lib/md";
+import { iconSvg } from "../../lib/icons";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
 import { LEVELS } from "../../data/site.ts";
 import meta from "../../content/meta.json";
 import "../../styles/global.css";
@@ -120,9 +122,15 @@ const htmlAfter = render(afterClean);
       </div>
       <h1 class="text-2xl mb-2">{lesson.title}</h1>
       <div class="flex flex-wrap gap-4 text-xs font-bold" style="color: var(--text-muted)">
-        <span>⏱ {lesson.target || "30 minutes"}</span>
-        <span>📝 {lesson.exercises} exercises</span>
-        <span>📄 {lesson.words.toLocaleString()} words</span>
+        <span class="flex items-center gap-1.5">
+          <Icon name="clock" size={15} /> {lesson.target || "30 minutes"}
+        </span>
+        <span class="flex items-center gap-1.5">
+          <Icon name="notebook" size={15} /> {lesson.exercises} exercises
+        </span>
+        <span class="flex items-center gap-1.5">
+          <Icon name="file" size={15} /> {lesson.words.toLocaleString()} words
+        </span>
       </div>
     </div>
 
@@ -159,7 +167,8 @@ const htmlAfter = render(afterClean);
     <!-- complete button -->
     <section class="mt-10">
       <button id="complete" class="btn btn-primary" style="width:100%">
-        Mark lesson complete
+        <span id="complete-icon" style="display:none"></span>
+        <span id="complete-label">Mark lesson complete</span>
       </button>
       <p id="complete-note" class="text-center text-xs mt-3" style="color: var(--text-faint)">
         Progress is stored in this browser.
@@ -207,7 +216,7 @@ const htmlAfter = render(afterClean);
     </nav>
   </main>
 
-  <script is:inline define:vars={{ lessonId: `${lesson.level}/${lesson.slug}` }}>
+  <script is:inline define:vars={{ lessonId: `${lesson.level}/${lesson.slug}`, checkSvg: iconSvg("check", 18) }}>
     const KEY = "gv-progress-v1";
 
     function load() {
@@ -235,6 +244,8 @@ const htmlAfter = render(afterClean);
 
     // complete toggle
     const btn = document.getElementById("complete");
+    const btnIcon = document.getElementById("complete-icon");
+    const btnLabel = document.getElementById("complete-label");
     const note = document.getElementById("complete-note");
     const state = load();
     state.lessons = state.lessons || {};
@@ -242,11 +253,15 @@ const htmlAfter = render(afterClean);
     function paint() {
       const isDone = !!state.lessons[lessonId];
       if (isDone) {
-        btn.textContent = "✓ Completed";
+        btnLabel.textContent = "Completed";
+        btnIcon.innerHTML = checkSvg;
+        btnIcon.style.display = "inline-flex";
         btn.className = "btn btn-ghost";
         note.textContent = "Tap again to mark as not done.";
       } else {
-        btn.textContent = "Mark lesson complete";
+        btnLabel.textContent = "Mark lesson complete";
+        btnIcon.innerHTML = "";
+        btnIcon.style.display = "none";
         btn.className = "btn btn-primary";
         note.textContent = "Progress is stored in this browser.";
       }
