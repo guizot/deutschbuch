@@ -105,11 +105,13 @@ const htmlAfter = render(afterClean);
   <Header active="learn" />
 
   <main class="max-w-3xl mx-auto px-4 py-8 pb-28">
-    <!-- breadcrumb -->
+    <!-- back: returns to wherever the user came from; falls back to the level
+         overview on a direct visit (no same-origin referrer) -->
     <a
+      id="back"
       href={`/${lesson.level}/`}
       class="text-sm font-bold mb-5 inline-block"
-      style="color: var(--text-muted)">← {info.label} · {info.name}</a
+      style="color: var(--text-muted)">← Back</a
     >
 
     <!-- header card -->
@@ -215,6 +217,26 @@ const htmlAfter = render(afterClean);
       }
     </nav>
   </main>
+
+  <script is:inline>
+    // The back link returns to the previous page when the user navigated here
+    // from elsewhere in the app (same-origin referrer). On a direct visit or a
+    // fresh tab there is no such referrer, so we keep the href fallback to the
+    // level overview.
+    (function () {
+      var link = document.getElementById("back");
+      if (!link) return;
+      link.addEventListener("click", function (e) {
+        var ref = document.referrer;
+        var sameOrigin = ref && ref.indexOf(window.location.origin) === 0;
+        var fromOtherPage = sameOrigin && ref !== window.location.href;
+        if (fromOtherPage && history.length > 1) {
+          e.preventDefault();
+          history.back();
+        }
+      });
+    })();
+  </script>
 
   <script is:inline define:vars={{ lessonId: `${lesson.level}/${lesson.slug}`, checkSvg: iconSvg("check", 18) }}>
     const KEY = "gv-progress-v1";
