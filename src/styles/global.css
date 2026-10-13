@@ -100,6 +100,13 @@ h1, h2, h3, h4 {
   border-radius: 6px;
 }
 
+/* The search field draws its own green focus ring (border + glow). Suppress the
+   generic outline here so focus never shows a double blue + green ring.
+   Unlayered + higher specificity so it beats the rule above. */
+.search-input:focus-visible {
+  outline: none;
+}
+
 /* ==========================================================================
    COMPONENT LAYER — the Duolingo building blocks
    ========================================================================== */
