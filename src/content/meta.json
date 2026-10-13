@@ -10,7 +10,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 6,
-    "words": 1445
+    "words": 1445,
+    "type": "listen"
   },
   {
     "level": "a1",
@@ -23,7 +24,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 6,
-    "words": 1599
+    "words": 1599,
+    "type": "chat"
   },
   {
     "level": "a1",
@@ -36,7 +38,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 6,
-    "words": 1574
+    "words": 1574,
+    "type": "grammar"
   },
   {
     "level": "a1",
@@ -49,7 +52,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 6,
-    "words": 1524
+    "words": 1524,
+    "type": "grammar"
   },
   {
     "level": "a1",
@@ -62,7 +66,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 7,
-    "words": 1655
+    "words": 1655,
+    "type": "grammar"
   },
   {
     "level": "a1",
@@ -75,7 +80,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 7,
-    "words": 1590
+    "words": 1590,
+    "type": "grammar"
   },
   {
     "level": "a1",
@@ -88,7 +94,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 6,
-    "words": 1614
+    "words": 1614,
+    "type": "grammar"
   },
   {
     "level": "a1",
@@ -101,7 +108,8 @@
     "status": "not started",
     "levelTag": "A1",
     "exercises": 8,
-    "words": 1586
+    "words": 1586,
+    "type": "trophy"
   },
   {
     "level": "a2",
@@ -114,7 +122,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1788
+    "words": 1788,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -127,7 +136,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 6,
-    "words": 1690
+    "words": 1690,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -140,7 +150,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 6,
-    "words": 1561
+    "words": 1561,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -153,7 +164,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1629
+    "words": 1629,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -166,7 +178,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1596
+    "words": 1596,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -179,7 +192,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1791
+    "words": 1791,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -192,7 +206,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1649
+    "words": 1649,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -205,7 +220,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1601
+    "words": 1601,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -218,7 +234,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1428
+    "words": 1428,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -231,7 +248,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1966
+    "words": 1966,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -244,7 +262,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 6,
-    "words": 1712
+    "words": 1712,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -257,7 +276,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1725
+    "words": 1725,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -270,7 +290,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 8,
-    "words": 1518
+    "words": 1518,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -283,7 +304,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 2011
+    "words": 2011,
+    "type": "grammar"
   },
   {
     "level": "a2",
@@ -296,7 +318,8 @@
     "status": "not started",
     "levelTag": "A2",
     "exercises": 7,
-    "words": 1454
+    "words": 1454,
+    "type": "trophy"
   },
   {
     "level": "b1",
@@ -309,7 +332,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1741
+    "words": 1741,
+    "type": "practice"
   },
   {
     "level": "b1",
@@ -322,7 +346,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1705
+    "words": 1705,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -335,7 +360,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 1831
+    "words": 1831,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -348,7 +374,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 1729
+    "words": 1729,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -361,7 +388,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1813
+    "words": 1813,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -374,7 +402,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 1799
+    "words": 1799,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -387,7 +416,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 1621
+    "words": 1621,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -400,7 +430,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 2042
+    "words": 2042,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -413,7 +444,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1918
+    "words": 1918,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -426,7 +458,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1770
+    "words": 1770,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -439,7 +472,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1399
+    "words": 1399,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -452,7 +486,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1552
+    "words": 1552,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -465,7 +500,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1570
+    "words": 1570,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -478,7 +514,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1648
+    "words": 1648,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -491,7 +528,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1649
+    "words": 1649,
+    "type": "practice"
   },
   {
     "level": "b1",
@@ -504,7 +542,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1592
+    "words": 1592,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -517,7 +556,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 2074
+    "words": 2074,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -530,7 +570,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1778
+    "words": 1778,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -543,7 +584,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1404
+    "words": 1404,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -556,7 +598,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 8,
-    "words": 1492
+    "words": 1492,
+    "type": "grammar"
   },
   {
     "level": "b1",
@@ -569,7 +612,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1837
+    "words": 1837,
+    "type": "write"
   },
   {
     "level": "b1",
@@ -582,7 +626,8 @@
     "status": "not started",
     "levelTag": "B1",
     "exercises": 7,
-    "words": 1915
+    "words": 1915,
+    "type": "trophy"
   },
   {
     "level": "b2",
@@ -595,7 +640,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 8,
-    "words": 1553
+    "words": 1553,
+    "type": "practice"
   },
   {
     "level": "b2",
@@ -608,7 +654,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 8,
-    "words": 1678
+    "words": 1678,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -621,7 +668,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1540
+    "words": 1540,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -634,7 +682,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1860
+    "words": 1860,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -647,7 +696,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1805
+    "words": 1805,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -660,7 +710,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 8,
-    "words": 1637
+    "words": 1637,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -673,7 +724,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1629
+    "words": 1629,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -686,7 +738,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1561
+    "words": 1561,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -699,7 +752,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1575
+    "words": 1575,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -712,7 +766,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1541
+    "words": 1541,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -725,7 +780,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1885
+    "words": 1885,
+    "type": "write"
   },
   {
     "level": "b2",
@@ -738,7 +794,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 8,
-    "words": 1659
+    "words": 1659,
+    "type": "write"
   },
   {
     "level": "b2",
@@ -751,7 +808,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 6,
-    "words": 1576
+    "words": 1576,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -764,7 +822,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1743
+    "words": 1743,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -777,7 +836,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1499
+    "words": 1499,
+    "type": "grammar"
   },
   {
     "level": "b2",
@@ -790,7 +850,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1564
+    "words": 1564,
+    "type": "write"
   },
   {
     "level": "b2",
@@ -803,7 +864,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1627
+    "words": 1627,
+    "type": "chat"
   },
   {
     "level": "b2",
@@ -816,7 +878,8 @@
     "status": "not started",
     "levelTag": "B2",
     "exercises": 7,
-    "words": 1519
+    "words": 1519,
+    "type": "trophy"
   },
   {
     "level": "c1",
@@ -829,7 +892,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1742
+    "words": 1742,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -842,7 +906,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1734
+    "words": 1734,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -855,7 +920,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1684
+    "words": 1684,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -868,7 +934,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1667
+    "words": 1667,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -881,7 +948,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1635
+    "words": 1635,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -894,7 +962,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 7,
-    "words": 1972
+    "words": 1972,
+    "type": "read"
   },
   {
     "level": "c1",
@@ -907,7 +976,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 7,
-    "words": 1750
+    "words": 1750,
+    "type": "read"
   },
   {
     "level": "c1",
@@ -920,7 +990,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1769
+    "words": 1769,
+    "type": "write"
   },
   {
     "level": "c1",
@@ -933,7 +1004,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 7,
-    "words": 1808
+    "words": 1808,
+    "type": "write"
   },
   {
     "level": "c1",
@@ -946,7 +1018,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1541
+    "words": 1541,
+    "type": "grammar"
   },
   {
     "level": "c1",
@@ -959,7 +1032,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1464
+    "words": 1464,
+    "type": "read"
   },
   {
     "level": "c1",
@@ -972,7 +1046,8 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 8,
-    "words": 1589
+    "words": 1589,
+    "type": "chat"
   },
   {
     "level": "c1",
@@ -985,6 +1060,7 @@
     "status": "not started",
     "levelTag": "C1",
     "exercises": 7,
-    "words": 1657
+    "words": 1657,
+    "type": "trophy"
   }
 ]

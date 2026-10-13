@@ -226,6 +226,108 @@ h1, h2, h3, h4 {
   .skill-node:hover { transform: scale(1.06); }
   .skill-node:active { transform: translateY(3px); border-bottom-width: 2px; }
 
+  /* The type glyph sits centred in the node; the lesson number is a small
+     badge in the corner, the way Duolingo pairs an icon with a step count. */
+  .node-glyph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25));
+  }
+  .node-num {
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-strong);
+    border: 2px solid var(--border);
+    font-size: 0.68rem;
+    font-weight: 900;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: none;
+  }
+  .skill-node.skill-done .node-num { border-color: var(--color-bee-shadow); }
+
+  /* --- Unit banner (the coloured section header above each level) ------- */
+  .unit-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-btn);
+    margin-bottom: 1.75rem;
+    color: #fff;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .unit-banner.lv-b1 { color: #5a4200; }
+  .unit-banner-icon {
+    flex: none;
+    opacity: 0.9;
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.15));
+  }
+
+  /* --- Trail connecting the nodes --------------------------------------- */
+  .trail { position: relative; width: 0; }
+  .trail-dot {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 999px;
+    background: var(--border);
+  }
+
+  /* --- Node wrapper + owl mascot standing on the current lesson --------- */
+  .node-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+  }
+  /* Anchored to the node centre (50%), not the wrapper edge, so the owl hugs
+     the current bubble no matter how long the lesson title wraps. */
+  .node-mascot {
+    position: absolute;
+    left: calc(50% - 78px);
+    top: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(8px) scale(0.8);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.15));
+  }
+  .node-mascot::after {
+    content: "Start";
+    margin-top: 2px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--color-feather);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 0 var(--color-feather-shadow);
+  }
+  .node-wrap.node-current .node-mascot {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
   /* Each CEFR level gets its own colour so the path reads as a journey.
      This mirrors how Duolingo tints its unit bubbles. --node-glow feeds the
      pulse animation so the halo always matches the node. */

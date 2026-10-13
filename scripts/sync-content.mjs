@@ -68,6 +68,26 @@ function ensureDir(d) {
   fs.mkdirSync(d, { recursive: true });
 }
 
+/**
+ * Infer a lesson "type" from its title, used to pick the icon shown inside the
+ * skill-path node (grammar / listen / read / write / practice / chat). There is
+ * no explicit type field in the source markdown, so this is a best-effort guess
+ * — deliberately conservative, defaulting to "grammar" (the cap icon).
+ */
+const TYPE_RULES = [
+  [/aussprache|pronunciation/i, "listen"],
+  [/begr(ü|ue)(ß|ss)ung|vorstellung|greeting/i, "chat"],
+  [/diskussion|debatte|argumentation|pr(ä|ae)sentation|meinung|rede/i, "chat"],
+  [/brief|schreiben|schriftlich|aufsatz|textsorte|wortbildung|bericht|leserbrief/i, "write"],
+  [/zusammenfass|paraphras|idiom|kollokation/i, "read"],
+  [/review|wiederholung|pr(ü|ue)fungstechnik|exam/i, "practice"],
+];
+
+function lessonType(title) {
+  for (const [re, t] of TYPE_RULES) if (re.test(title)) return t;
+  return "grammar";
+}
+
 /* ------------------------------------------------------- 1. lesson copying */
 
 function syncLessons() {
@@ -137,6 +157,7 @@ function syncLessons() {
         levelTag: levelLine ? plain(levelLine[1].split("|")[0]) : level.toUpperCase(),
         exercises: exCount,
         words: raw.split(/\s+/).length,
+        type: lessonType(title),
       });
     }
 
@@ -144,6 +165,15 @@ function syncLessons() {
   }
 
   meta.sort((a, b) => (a.level === b.level ? a.num - b.num : LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level)));
+
+  // The last lesson of every level is the level's milestone: turn it into a
+  // "trophy" node so the path visibly ends with a reward (like Duolingo's
+  // chest/trophy at the end of a unit).
+  for (const level of LEVELS) {
+    const inLevel = meta.filter((m) => m.level === level);
+    if (inLevel.length) inLevel[inLevel.length - 1].type = "trophy";
+  }
+
   fs.writeFileSync(OUT_META, JSON.stringify(meta, null, 2), "utf8");
   console.log(`  meta.json: ${meta.length} lessons indexed`);
   return meta;

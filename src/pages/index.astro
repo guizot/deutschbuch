@@ -1,6 +1,7 @@
 ---
-// Progress state lives in localStorage. This island only reads it and paints
-// the skill path nodes + streak. Zero framework, ~2 KB of vanilla JS.
+// Progress state lives in localStorage. This island reads it and paints the
+// skill path: node states, the owl mascot on the current lesson, and the stats.
+// Zero framework, ~3 KB of vanilla JS.
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
@@ -13,15 +14,35 @@ const byLevel = Object.fromEntries(
 );
 
 const totalLessons = meta.length;
+
+// Horizontal offsets (px) that make the path wind down the page. A 4-step
+// cycle keeps every turn the same size, so the dotted trail stays even.
+const POS = [0, 52, 0, -52];
+const TRAIL_H = 34; // px between two node centres (the connector height)
+
+// Dots that draw the trail between the previous node and this one.
+function trailDots(i: number) {
+  if (i === 0) return [];
+  const x0 = POS[(i - 1) % 4];
+  const x1 = POS[i % 4];
+  return [0.34, 0.67].map((t) => ({
+    x: x0 + (x1 - x0) * t,
+    y: t * TRAIL_H,
+  }));
+}
 ---
+
 <BaseLayout>
   <Header active="learn" />
 
   <main class="max-w-3xl mx-auto px-4 pb-24">
-    <!-- Streak / XP bar -->
+    <!-- Stats bar: flags earned, streak, XP -->
     <section class="sticky top-16 z-40 py-3" style="background: var(--bg);">
       <div class="card flex items-center justify-between" style="padding: 0.7rem 1rem;">
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-feather);">
+            <Icon name="flag" size={20} /> <span id="stat-done">0</span>
+          </span>
           <span class="flex items-center gap-1.5 font-extrabold" style="color: var(--color-fox);">
             <Icon name="fire" size={20} /> <span id="stat-streak">0</span>
           </span>
@@ -30,50 +51,66 @@ const totalLessons = meta.length;
           </span>
         </div>
         <span class="text-sm font-extrabold" style="color: var(--text-muted);">
-          <span id="stat-done">0</span>/<span>{totalLessons}</span> lessons
+          <span id="stat-done-2">0</span>/<span>{totalLessons}</span> lessons
         </span>
       </div>
     </section>
 
     <!-- Overall progress -->
-    <section class="mb-10">
+    <section class="mb-8">
       <div class="progress-track">
         <div class="progress-fill" id="overall-fill" style="width:0%"></div>
       </div>
     </section>
 
-    <!-- Level sections -->
+    <!-- Level units -->
     {
       LEVELS.map((lv) => {
         const lessons = byLevel[lv.id] || [];
         return (
-          <section class="mb-14" data-level={lv.id}>
-            <div class="flex items-center gap-3 mb-2">
-              <span class={`pill ${lv.color}`} style="padding:0.35rem 0.9rem;font-size:0.9rem">
-                {lv.label}
-              </span>
-              <h2 class="text-xl">{lv.name}</h2>
+          <section class="mb-16" data-level={lv.id}>
+            <!-- Unit banner (coloured per level, like Duolingo's section header) -->
+            <div class={`unit-banner ${lv.color}`}>
+              <div class="min-w-0">
+                <div class="text-[11px] font-black uppercase tracking-widest opacity-90">
+                  Level {lv.label} · {lv.hours}
+                </div>
+                <div class="text-xl font-black leading-tight">{lv.name}</div>
+                <p class="text-sm mt-0.5 opacity-90 leading-snug">{lv.blurb}</p>
+              </div>
+              <Icon name={lv.icon} size={46} class="unit-banner-icon" />
             </div>
-            <p class="text-sm mb-6" style="color: var(--text-muted)">
-              {lv.blurb} · <span style="color:var(--text-faint)">{lv.hours}</span>
-            </p>
 
-            <div class="flex flex-col items-center gap-3">
-              {lessons.map((l, i) => {
-                const side = i % 3 === 0 ? "left" : i % 3 === 2 ? "right" : "center";
-                const offset =
-                  side === "left" ? "-52px" : side === "right" ? "52px" : "0px";
-                return (
-                  <div class="flex flex-col items-center gap-2" style={`transform:translateX(${offset})`}>
+            <!-- Skill path -->
+            <div class="flex flex-col items-center">
+              {lessons.map((l, i) => (
+                <>
+                  {i > 0 && (
+                    <div class="trail" style={`height:${TRAIL_H}px`}>
+                      {trailDots(i).map((d) => (
+                        <span
+                          class="trail-dot"
+                          style={`left:calc(50% + ${d.x}px);top:${d.y}px`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <div class="node-wrap" style={`transform:translateX(${POS[i % 4]}px)`}>
+                    <span class="node-mascot" aria-hidden="true">
+                      <Icon name="owl" size={42} style="color: var(--color-feather)" />
+                    </span>
                     <a
                       href={`/${lv.id}/${l.slug}/`}
                       class={`skill-node node-${lv.id}`}
                       data-lesson={`${lv.id}/${l.slug}`}
-                      data-level={lv.id}
+                      data-type={l.type}
                       title={l.title}
                       aria-label={l.title}
                     >
-                      <span class="node-inner">{l.num}</span>
+                      <span class="node-glyph">
+                        <Icon name={l.type} size={34} />
+                      </span>
+                      <span class="node-num">{l.num}</span>
                     </a>
                     <span
                       class="text-xs font-extrabold text-center max-w-[170px] leading-snug"
@@ -82,8 +119,8 @@ const totalLessons = meta.length;
                       {l.title}
                     </span>
                   </div>
-                );
-              })}
+                </>
+              ))}
             </div>
 
             <div class="text-center mt-8">
@@ -137,18 +174,25 @@ const totalLessons = meta.length;
 
     nodes.forEach((node) => {
       const id = node.dataset.lesson;
+      const wrap = node.closest(".node-wrap");
+      const glyph = node.querySelector(".node-glyph");
       if (done[id]) {
         node.classList.add("skill-done");
-        node.querySelector(".node-inner").innerHTML = iconSvg("check", 28);
+        // The milestone node keeps its trophy; every other lesson shows a check.
+        if (node.dataset.type !== "trophy" && glyph) {
+          glyph.innerHTML = iconSvg("check", 34);
+        }
       } else if (!currentMarked) {
         // First lesson not yet completed: this is where the learner continues.
         node.classList.add("skill-current");
+        wrap?.classList.add("node-current");
         currentMarked = true;
       }
     });
 
     // Stats
     document.getElementById("stat-done").textContent = String(doneCount);
+    document.getElementById("stat-done-2").textContent = String(doneCount);
     document.getElementById("stat-xp").textContent = String(doneCount * 10);
     document.getElementById("stat-streak").textContent = String(state.streak || 0);
     const total = document.querySelectorAll("[data-lesson]").length;
