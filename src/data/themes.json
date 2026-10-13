@@ -1,0 +1,126 @@
+{
+  "themes": [
+    {
+      "slug": "tiere",
+      "title": "Tiere",
+      "subtitle": "Animals",
+      "icon": "owl",
+      "color": "lv-a1",
+      "tint": "var(--color-feather)",
+      "desc": "60 animals from pets to sea creatures — with article, plural and CEFR level.",
+      "count": "60 words · 6 groups",
+      "intro": "Animals are one of the easiest ways into a language: short, concrete, and you already know the concept. Learn them with their article (der/die/das) and plural, because that is what German actually tests.",
+      "groups": [
+        {
+          "id": "haustiere",
+          "title": "Haustiere",
+          "en": "Pets",
+          "words": [
+            { "de": "der Hund", "art": "der", "en": "dog", "plural": "die Hunde", "level": "A1" },
+            { "de": "die Katze", "art": "die", "en": "cat", "plural": "die Katzen", "level": "A1" },
+            { "de": "das Kaninchen", "art": "das", "en": "rabbit", "plural": "die Kaninchen", "level": "A2" },
+            { "de": "der Hamster", "art": "der", "en": "hamster", "plural": "die Hamster", "level": "A2" },
+            { "de": "das Meerschweinchen", "art": "das", "en": "guinea pig", "plural": "die Meerschweinchen", "level": "A2" },
+            { "de": "der Wellensittich", "art": "der", "en": "budgerigar", "plural": "die Wellensittiche", "level": "B1" },
+            { "de": "der Goldfisch", "art": "der", "en": "goldfish", "plural": "die Goldfische", "level": "A2" },
+            { "de": "die Schildkröte", "art": "die", "en": "turtle, tortoise", "plural": "die Schildkröten", "level": "A2" }
+          ]
+        },
+        {
+          "id": "bauernhof",
+          "title": "Bauernhoftiere",
+          "en": "Farm animals",
+          "words": [
+            { "de": "das Pferd", "art": "das", "en": "horse", "plural": "die Pferde", "level": "A1" },
+            { "de": "die Kuh", "art": "die", "en": "cow", "plural": "die Kühe", "level": "A1" },
+            { "de": "das Schwein", "art": "das", "en": "pig", "plural": "die Schweine", "level": "A1" },
+            { "de": "das Schaf", "art": "das", "en": "sheep", "plural": "die Schafe", "level": "A1" },
+            { "de": "die Ziege", "art": "die", "en": "goat", "plural": "die Ziegen", "level": "A2" },
+            { "de": "das Huhn", "art": "das", "en": "chicken, hen", "plural": "die Hühner", "level": "A1" },
+            { "de": "der Hahn", "art": "der", "en": "rooster", "plural": "die Hähne", "level": "A2" },
+            { "de": "die Ente", "art": "die", "en": "duck", "plural": "die Enten", "level": "A1" },
+            { "de": "die Gans", "art": "die", "en": "goose", "plural": "die Gänse", "level": "A2" },
+            { "de": "der Esel", "art": "der", "en": "donkey", "plural": "die Esel", "level": "A2" }
+          ]
+        },
+        {
+          "id": "wildtiere",
+          "title": "Wildtiere",
+          "en": "Wild animals",
+          "words": [
+            { "de": "der Fuchs", "art": "der", "en": "fox", "plural": "die Füchse", "level": "A2" },
+            { "de": "der Wolf", "art": "der", "en": "wolf", "plural": "die Wölfe", "level": "A2" },
+            { "de": "der Bär", "art": "der", "en": "bear", "plural": "die Bären", "level": "A2" },
+            { "de": "der Hirsch", "art": "der", "en": "deer, stag", "plural": "die Hirsche", "level": "B1" },
+            { "de": "das Reh", "art": "das", "en": "roe deer", "plural": "die Rehe", "level": "B1" },
+            { "de": "das Wildschwein", "art": "das", "en": "wild boar", "plural": "die Wildschweine", "level": "B1" },
+            { "de": "der Hase", "art": "der", "en": "hare", "plural": "die Hasen", "level": "A1" },
+            { "de": "das Eichhörnchen", "art": "das", "en": "squirrel", "plural": "die Eichhörnchen", "level": "A2" },
+            { "de": "der Igel", "art": "der", "en": "hedgehog", "plural": "die Igel", "level": "A2" },
+            { "de": "der Löwe", "art": "der", "en": "lion", "plural": "die Löwen", "level": "A2" },
+            { "de": "der Tiger", "art": "der", "en": "tiger", "plural": "die Tiger", "level": "A2" },
+            { "de": "der Elefant", "art": "der", "en": "elephant", "plural": "die Elefanten", "level": "A2" },
+            { "de": "der Affe", "art": "der", "en": "monkey, ape", "plural": "die Affen", "level": "A2" },
+            { "de": "die Giraffe", "art": "die", "en": "giraffe", "plural": "die Giraffen", "level": "A2" },
+            { "de": "das Zebra", "art": "das", "en": "zebra", "plural": "die Zebras", "level": "A2" },
+            { "de": "das Kamel", "art": "das", "en": "camel", "plural": "die Kamele", "level": "B1" },
+            { "de": "die Schlange", "art": "die", "en": "snake", "plural": "die Schlangen", "level": "A2" },
+            { "de": "das Krokodil", "art": "das", "en": "crocodile", "plural": "die Krokodile", "level": "B1" }
+          ]
+        },
+        {
+          "id": "voegel",
+          "title": "Vögel",
+          "en": "Birds",
+          "words": [
+            { "de": "der Vogel", "art": "der", "en": "bird", "plural": "die Vögel", "level": "A1" },
+            { "de": "die Taube", "art": "die", "en": "pigeon, dove", "plural": "die Tauben", "level": "A2" },
+            { "de": "die Möwe", "art": "die", "en": "seagull", "plural": "die Möwen", "level": "B1" },
+            { "de": "die Eule", "art": "die", "en": "owl", "plural": "die Eulen", "level": "B1" },
+            { "de": "der Adler", "art": "der", "en": "eagle", "plural": "die Adler", "level": "B1" },
+            { "de": "der Schwan", "art": "der", "en": "swan", "plural": "die Schwäne", "level": "B1" },
+            { "de": "der Pinguin", "art": "der", "en": "penguin", "plural": "die Pinguine", "level": "A2" },
+            { "de": "der Papagei", "art": "der", "en": "parrot", "plural": "die Papageien", "level": "A2" }
+          ]
+        },
+        {
+          "id": "meerestiere",
+          "title": "Meerestiere",
+          "en": "Sea creatures",
+          "words": [
+            { "de": "der Fisch", "art": "der", "en": "fish", "plural": "die Fische", "level": "A1" },
+            { "de": "der Hai", "art": "der", "en": "shark", "plural": "die Haie", "level": "B1" },
+            { "de": "der Wal", "art": "der", "en": "whale", "plural": "die Wale", "level": "B1" },
+            { "de": "der Delfin", "art": "der", "en": "dolphin", "plural": "die Delfine", "level": "B1" },
+            { "de": "der Oktopus", "art": "der", "en": "octopus", "plural": "die Oktopusse", "level": "B1" },
+            { "de": "die Krabbe", "art": "die", "en": "crab", "plural": "die Krabben", "level": "B1" },
+            { "de": "die Qualle", "art": "die", "en": "jellyfish", "plural": "die Quallen", "level": "B1" },
+            { "de": "der Seestern", "art": "der", "en": "starfish", "plural": "die Seesterne", "level": "B1" }
+          ]
+        },
+        {
+          "id": "insekten",
+          "title": "Insekten",
+          "en": "Insects",
+          "words": [
+            { "de": "die Biene", "art": "die", "en": "bee", "plural": "die Bienen", "level": "A2" },
+            { "de": "die Fliege", "art": "die", "en": "fly", "plural": "die Fliegen", "level": "A2" },
+            { "de": "die Mücke", "art": "die", "en": "mosquito", "plural": "die Mücken", "level": "A2" },
+            { "de": "die Ameise", "art": "die", "en": "ant", "plural": "die Ameisen", "level": "A2" },
+            { "de": "der Schmetterling", "art": "der", "en": "butterfly", "plural": "die Schmetterlinge", "level": "A2" },
+            { "de": "die Spinne", "art": "die", "en": "spider", "plural": "die Spinnen", "level": "A2" },
+            { "de": "der Käfer", "art": "der", "en": "beetle", "plural": "die Käfer", "level": "B1" },
+            { "de": "die Libelle", "art": "die", "en": "dragonfly", "plural": "die Libellen", "level": "B1" }
+          ]
+        }
+      ],
+      "notes": [
+        "Every animal noun is capitalised — that is not a typo, all German nouns are.",
+        "Learn the article with the word: <b>der</b> Hund, <b>die</b> Katze, <b>das</b> Pferd. Gender is what most learners get wrong.",
+        "<b>das Tier</b> (animal) is the general word; <b>das Haustier</b> is a pet.",
+        "The plural of most animals here adds -e or -en: der Hund → die Hunde, die Katze → die Katzen.",
+        "A few stay identical in the plural: der Hamster → die Hamster, das Zebra → die Zebras."
+      ]
+    }
+  ]
+}

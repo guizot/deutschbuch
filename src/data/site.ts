@@ -77,6 +77,21 @@ export interface ReferenceInfo {
   color: string;
 }
 
+/**
+ * Thematic word modules (Themen). Unlike a lesson, a theme is a browsable
+ * collection of vocabulary on one topic — animals, colours, the body — the way
+ * a phrasebook groups things. The data lives in src/data/themes.json.
+ */
+export interface ThemeInfo {
+  slug: string;
+  title: string;
+  subtitle: string;
+  desc: string;
+  count: string;
+  icon: string;
+  color: string;
+}
+
 export const REFERENCES: ReferenceInfo[] = [
   {
     slug: "dictionary",

@@ -1,0 +1,54 @@
+---
+import Header from "../../components/Header.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import themesData from "../../data/themes.json";
+import "../../styles/global.css";
+
+const themes = themesData.themes;
+---
+<BaseLayout>
+  <Header active="themes" />
+
+  <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+    <h1 class="text-3xl mb-2 flex items-center gap-2">
+      <Icon name="books" size={30} style="color: var(--color-fox)" /> Themen
+    </h1>
+    <p class="mb-10" style="color: var(--text-muted)">
+      Vocabulary by topic — animals, colours, the body. Not a lesson: a browsable word list you can
+      search and filter, grouped the way a phrasebook groups things.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      {
+        themes.map((t) => (
+          <a href={`/themes/${t.slug}/`} class="card card-hover no-underline" style="color:inherit">
+            <div class="flex items-start gap-4">
+              <div
+                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${t.color}`}
+                style="color:#fff"
+              >
+                <Icon name={t.icon} size={26} />
+              </div>
+              <div class="min-w-0">
+                <div class="font-extrabold text-lg" style="color: var(--text-strong)">
+                  {t.title}
+                </div>
+                <p class="text-sm mb-2" style="color: var(--text-muted)">
+                  {t.desc}
+                </p>
+                <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+                  {t.count}
+                </span>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="text-center text-sm mt-10" style="color: var(--text-faint)">
+      More topics are on the way — colours, body parts, clothing, numbers.
+    </p>
+  </main>
+</BaseLayout>

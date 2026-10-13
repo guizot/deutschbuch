@@ -1,0 +1,171 @@
+---
+// Thematic vocabulary browser.
+//
+// Unlike RefSearch (a flat A–Z table), a theme is organised into named groups
+// (pets, farm animals, birds…). This renders one section per group, and the
+// search box hides the groups that no longer have a match — so the page reads
+// as a phrasebook until you start typing.
+interface Word {
+  de: string;
+  art?: string;
+  en: string;
+  plural?: string;
+  level?: string;
+}
+interface Group {
+  id: string;
+  title: string;
+  en?: string;
+  words: Word[];
+}
+interface Props {
+  groups: Group[];
+  placeholder?: string;
+}
+const { groups, placeholder = "Search…" } = Astro.props;
+
+const levels = ["A1", "A2", "B1", "B2", "C1"];
+const total = groups.reduce((n, g) => n + g.words.length, 0);
+---
+
+<div class="mb-6 space-y-3">
+  <input
+    id="tq"
+    type="search"
+    placeholder={placeholder}
+    class="w-full px-4 py-3 font-bold outline-none"
+    style="background:var(--surface);border:2px solid var(--border);border-radius:16px;color:var(--text);"
+    autocomplete="off"
+  />
+
+  <div class="flex flex-wrap gap-2 items-center">
+    <button class="filter-lv btn btn-ghost" data-lv="" style="padding:0.4rem 0.9rem;font-size:0.75rem">
+      All levels
+    </button>
+    {levels.map((lv) => (
+      <button class="filter-lv btn btn-ghost" data-lv={lv} style="padding:0.4rem 0.9rem;font-size:0.75rem">
+        {lv}
+      </button>
+    ))}
+    <span class="mx-1" style="color:var(--border-strong)">|</span>
+    {["der", "die", "das"].map((a) => (
+      <button class="filter-art btn btn-ghost" data-art={a} style="padding:0.4rem 0.9rem;font-size:0.75rem">
+        {a}
+      </button>
+    ))}
+  </div>
+
+  <div class="text-xs font-bold" style="color: var(--text-muted)">
+    <span id="tcount">{total}</span> words
+  </div>
+</div>
+
+<div id="tempty" class="card text-center" style="display:none">
+  <p style="color:var(--text-muted)">No words match. Try another search or filter.</p>
+</div>
+
+{
+  groups.map((g) => (
+    <section class="tgroup mb-10" data-group={g.id}>
+      <h2 class="text-xl mb-3 flex items-baseline gap-2">
+        <span style="color: var(--text-strong)">{g.title}</span>
+        {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+      </h2>
+      <div class="card" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+        <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
+          <thead>
+            <tr style="background:var(--surface-2)">
+              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Deutsch</th>
+              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">English</th>
+              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Plural</th>
+              <th class="text-left px-4 py-3 font-extrabold" style="color:var(--text-strong);border-bottom:2px solid var(--border)">Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            {g.words.map((w) => (
+              <tr
+                class="trow"
+                data-de={w.de}
+                data-en={w.en}
+                data-art={w.art || ""}
+                data-level={w.level || ""}
+              >
+                <td class="px-4 py-2 font-bold" style="border-bottom:1px solid var(--border);color:var(--text-strong)">{w.de}</td>
+                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text)">{w.en}</td>
+                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text-muted)">{w.plural || "–"}</td>
+                <td class="px-4 py-2" style="border-bottom:1px solid var(--border);color:var(--text-faint)">{w.level || "–"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))
+}
+
+<p class="text-center text-xs mt-8" style="color: var(--text-faint)">
+  Same vocabulary as the lessons, grouped by topic.
+</p>
+
+<script is:inline>
+  const qEl = document.getElementById("tq");
+  const countEl = document.getElementById("tcount");
+  const emptyEl = document.getElementById("tempty");
+  const rows = Array.from(document.querySelectorAll(".trow"));
+  const sections = Array.from(document.querySelectorAll(".tgroup"));
+
+  let activeLevel = "";
+  let activeArt = "";
+
+  function render() {
+    const q = String(qEl.value || "").toLowerCase().trim();
+    let shown = 0;
+
+    for (const r of rows) {
+      const de = (r.dataset.de || "").toLowerCase();
+      const en = (r.dataset.en || "").toLowerCase();
+      const lv = r.dataset.level || "";
+      const art = r.dataset.art || "";
+
+      let ok = true;
+      if (q && !de.includes(q) && !en.includes(q)) ok = false;
+      if (activeLevel && lv !== activeLevel) ok = false;
+      if (activeArt && art !== activeArt) ok = false;
+
+      r.style.display = ok ? "" : "none";
+      if (ok) shown++;
+    }
+
+    // Hide a whole group once none of its rows survive the filter.
+    for (const s of sections) {
+      const anyVisible = Array.from(s.querySelectorAll(".trow")).some(
+        (r) => r.style.display !== "none"
+      );
+      s.style.display = anyVisible ? "" : "none";
+    }
+
+    countEl.textContent = String(shown);
+    emptyEl.style.display = shown ? "none" : "block";
+  }
+
+  document.querySelectorAll(".filter-lv").forEach((b) => {
+    b.addEventListener("click", () => {
+      activeLevel = b.dataset.lv;
+      document.querySelectorAll(".filter-lv").forEach((x) => x.classList.remove("btn-primary"));
+      b.classList.add("btn-primary");
+      render();
+    });
+  });
+  document.querySelectorAll(".filter-art").forEach((b) => {
+    b.addEventListener("click", () => {
+      activeArt = activeArt === b.dataset.art ? "" : b.dataset.art;
+      document.querySelectorAll(".filter-art").forEach((x) => {
+        x.classList.toggle("btn-primary", x.dataset.art === activeArt);
+      });
+      render();
+    });
+  });
+
+  qEl.addEventListener("input", render);
+  render();
+</script>
