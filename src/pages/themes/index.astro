@@ -94,7 +94,7 @@ const totalWords = themes.reduce(
 
     {
       groups.map((g) => (
-        <section class="tcat mb-8" data-cat={g.cat}>
+        <section class="tcat mb-4" data-cat={g.cat}>
           <h2 class="mb-0">
             <button
               type="button"
@@ -237,6 +237,10 @@ const totalWords = themes.reduce(
     }
     .tcat-panel {
       padding-top: 1rem;
+      /* Only visible while expanded: a little space under the last row so the
+         category reads as separate from the next one. Collapsed, the panel is
+         display:none, so the gap is just the section margin. */
+      padding-bottom: 1rem;
     }
     /* Topic card: the English name sits on its own line right under the German
        one, tight against it, so a long name never wraps into a stray fragment. */
