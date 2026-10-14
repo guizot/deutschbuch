@@ -2,14 +2,18 @@
 // Thematic vocabulary browser.
 //
 // Unlike RefSearch (a flat A–Z table), a theme is organised into named groups
-// (pets, farm animals, birds…). One section is rendered per group.
+// (pets, farm animals, birds…). One section is rendered per group, and each
+// group collapses: a theme can hold 40+ words across five groups, and folding
+// the ones you are not reading keeps the page from becoming a long scroll.
 //
 // There is deliberately no search box or level filter here: a theme is short
 // enough to scan, and the point is to read the list, not to query it. The only
-// control is the der/die/das filter, and only for themes that are nouns.
+// filter is the der/die/das one, and only for themes that are nouns.
 //
 // Columns are per-theme: a noun needs a plural, an adjective does not, and a
 // colour needs a swatch. A column of type "swatch" paints the word's `hex`.
+import Icon from "./Icon.astro";
+
 interface Word {
   de: string;
   art?: string;
@@ -47,6 +51,7 @@ const {
 } = Astro.props;
 
 const total = groups.reduce((n, g) => n + g.words.length, 0);
+const plural = groups.length !== 1;
 
 /** Read a word's field for a column without an `as` cast (which the Astro
  *  template parser cannot handle inline). */
@@ -76,6 +81,17 @@ function field(w: Word, key: string): string {
       </div>
     )
   }
+  {
+    plural && (
+      <button
+        id="tall"
+        class="btn btn-ghost ml-auto"
+        style="padding:0.35rem 0.8rem;font-size:0.75rem"
+      >
+        Collapse all
+      </button>
+    )
+  }
 </div>
 
 <div id="tempty" class="card text-center" style="display:none">
@@ -84,66 +100,85 @@ function field(w: Word, key: string): string {
 
 {
   groups.map((g) => (
-    <section class="tgroup mb-10" data-group={g.id}>
-      <h2 class="text-xl mb-3 flex items-baseline gap-2">
-        <span style="color: var(--text-strong)">{g.title}</span>
-        {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+    <section class="tgroup mb-6" data-group={g.id}>
+      <h2 class="mb-3">
+        <button
+          type="button"
+          class="tgroup-toggle w-full flex items-center gap-2 text-left bg-transparent border-0 p-0 cursor-pointer"
+          aria-expanded="true"
+          aria-controls={`panel-${g.id}`}
+          style="color:inherit"
+        >
+          <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
+          {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+          <span
+            class="text-xs font-bold ml-1"
+            style="color: var(--text-faint);white-space:nowrap"
+          >
+            {g.words.length}
+          </span>
+          <span class="tgroup-chev ml-auto" style="color: var(--text-faint)">
+            <Icon name="chevron" size={20} />
+          </span>
+        </button>
       </h2>
-      <div class="card" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch">
-        <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
-          <thead>
-            <tr style="background:var(--surface-2)">
-              {columns.map((c) => (
-                <th
-                  class="text-left px-4 py-3 font-extrabold"
-                  style="color:var(--text-strong);border-bottom:2px solid var(--border)"
-                >
-                  {c.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {g.words.map((w) => (
-              <tr
-                class="trow"
-                data-de={w.de}
-                data-en={w.en}
-                data-art={w.art || ""}
-                data-level={w.level || ""}
-              >
-                {columns.map((c) => {
-                  const value = field(w, c.key);
-                  const cellStyle = "padding:0.6rem 1rem;border-bottom:1px solid var(--border);";
-                  if (c.type === "swatch") {
-                    return (
-                      <td style={cellStyle}>
-                        <span class="inline-flex items-center gap-2">
-                          <span
-                            style={`display:inline-block;width:1.1rem;height:1.1rem;border-radius:0.35rem;border:1px solid var(--border-strong);background:${value}`}
-                          />
-                          <span style="color:var(--text-strong);font-weight:700">{w.de}</span>
-                        </span>
-                      </td>
-                    );
-                  }
-                  if (c.key === "de") {
-                    return (
-                      <td style={`${cellStyle}font-weight:700;color:var(--text-strong)`}>{value}</td>
-                    );
-                  }
-                  if (c.key === "level") {
-                    return <td style={`${cellStyle}color:var(--text-faint)`}>{value || "–"}</td>;
-                  }
-                  if (!value.trim()) {
-                    return <td style={`${cellStyle}color:var(--text-faint)`}>–</td>;
-                  }
-                  return <td style={`${cellStyle}color:var(--text-muted)`}>{value}</td>;
-                })}
+      <div id={`panel-${g.id}`} class="tgroup-panel">
+        <div class="card" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+          <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
+            <thead>
+              <tr style="background:var(--surface-2)">
+                {columns.map((c) => (
+                  <th
+                    class="text-left px-4 py-3 font-extrabold"
+                    style="color:var(--text-strong);border-bottom:2px solid var(--border)"
+                  >
+                    {c.label}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {g.words.map((w) => (
+                <tr
+                  class="trow"
+                  data-de={w.de}
+                  data-en={w.en}
+                  data-art={w.art || ""}
+                  data-level={w.level || ""}
+                >
+                  {columns.map((c) => {
+                    const value = field(w, c.key);
+                    const cellStyle = "padding:0.6rem 1rem;border-bottom:1px solid var(--border);";
+                    if (c.type === "swatch") {
+                      return (
+                        <td style={cellStyle}>
+                          <span class="inline-flex items-center gap-2">
+                            <span
+                              style={`display:inline-block;width:1.1rem;height:1.1rem;border-radius:0.35rem;border:1px solid var(--border-strong);background:${value}`}
+                            />
+                            <span style="color:var(--text-strong);font-weight:700">{w.de}</span>
+                          </span>
+                        </td>
+                      );
+                    }
+                    if (c.key === "de") {
+                      return (
+                        <td style={`${cellStyle}font-weight:700;color:var(--text-strong)`}>{value}</td>
+                      );
+                    }
+                    if (c.key === "level") {
+                      return <td style={`${cellStyle}color:var(--text-faint)`}>{value || "–"}</td>;
+                    }
+                    if (!value.trim()) {
+                      return <td style={`${cellStyle}color:var(--text-faint)`}>–</td>;
+                    }
+                    return <td style={`${cellStyle}color:var(--text-muted)`}>{value}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   ))
@@ -153,6 +188,25 @@ function field(w: Word, key: string): string {
   Same vocabulary as the lessons, grouped by topic.
 </p>
 
+<style>
+  /* The chevron points down when open, right when closed. */
+  .tgroup-chev {
+    display: inline-flex;
+    transition: transform 0.18s ease;
+  }
+  .tgroup-toggle[aria-expanded="false"] .tgroup-chev {
+    transform: rotate(-90deg);
+  }
+  .tgroup-toggle:hover .tgroup-chev {
+    color: var(--text-strong);
+  }
+  .tgroup-toggle:focus-visible {
+    outline: 2px solid var(--color-macaw);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+</style>
+
 <script is:inline>
   const countEl = document.getElementById("tcount");
   const emptyEl = document.getElementById("tempty");
@@ -160,7 +214,22 @@ function field(w: Word, key: string): string {
   const sections = Array.from(document.querySelectorAll(".tgroup"));
   const total = rows.length;
 
+  // Group ids the reader has folded away. Kept in memory only: a reload starts
+  // with everything open, which is what you want when you arrive at a topic.
+  const collapsed = new Set();
+
   let activeArt = "";
+
+  function applyPanels() {
+    for (const s of sections) {
+      const panel = s.querySelector(".tgroup-panel");
+      const btn = s.querySelector(".tgroup-toggle");
+      if (!panel || !btn) continue;
+      const closed = collapsed.has(s.dataset.group);
+      panel.style.display = closed ? "none" : "";
+      btn.setAttribute("aria-expanded", closed ? "false" : "true");
+    }
+  }
 
   function render() {
     let shown = 0;
@@ -182,7 +251,17 @@ function field(w: Word, key: string): string {
 
     if (countEl) countEl.textContent = String(shown);
     if (emptyEl) emptyEl.style.display = shown ? "none" : "block";
+    applyPanels();
   }
+
+  document.querySelectorAll(".tgroup-toggle").forEach((b) => {
+    b.addEventListener("click", () => {
+      const id = b.closest(".tgroup").dataset.group;
+      if (collapsed.has(id)) collapsed.delete(id);
+      else collapsed.add(id);
+      applyPanels();
+    });
+  });
 
   document.querySelectorAll(".filter-art").forEach((b) => {
     b.addEventListener("click", () => {
@@ -194,6 +273,22 @@ function field(w: Word, key: string): string {
     });
   });
 
+  // Collapse all / expand all, whichever the page is not currently in.
+  const allBtn = document.getElementById("tall");
+  if (allBtn) {
+    allBtn.addEventListener("click", () => {
+      const visible = sections.filter((s) => s.style.display !== "none");
+      const allClosed = visible.every((s) => collapsed.has(s.dataset.group));
+      for (const s of visible) {
+        if (allClosed) collapsed.delete(s.dataset.group);
+        else collapsed.add(s.dataset.group);
+      }
+      allBtn.textContent = allClosed ? "Collapse all" : "Expand all";
+      applyPanels();
+    });
+  }
+
   // Nothing is filtered on load, but run once so the count reflects reality.
   if (total === 0 && countEl) countEl.textContent = "0";
+  applyPanels();
 </script>
