@@ -99,7 +99,7 @@ const totalWords = themes.reduce(
             <button
               type="button"
               class="tcat-toggle"
-              aria-expanded="true"
+              aria-expanded="false"
               aria-controls={`panel-${slug(g.cat)}`}
             >
               <span
@@ -110,14 +110,18 @@ const totalWords = themes.reduce(
               </span>
               <span class="tcat-body">
                 <span class="tcat-head">
-                  <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
-                  {g.en && (
-                    <span class="tcat-en" style="color: var(--text-faint)">
-                      {g.en}
+                  <span class="tcat-names">
+                    <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
+                    <span class="tcat-gloss">
+                      {g.en && (
+                        <span class="tcat-en" style="color: var(--text-faint)">
+                          {g.en}
+                        </span>
+                      )}
+                      <span class="tcat-count text-xs font-bold" style="color: var(--text-faint)">
+                        {g.items.length}
+                      </span>
                     </span>
-                  )}
-                  <span class="text-xs font-bold" style="color: var(--text-faint)">
-                    {g.items.length}
                   </span>
                 </span>
                 {g.sub && (
@@ -182,7 +186,7 @@ const totalWords = themes.reduce(
       align-items: center;
       gap: 0.75rem;
       width: 100%;
-      padding: 0.7rem 1rem;
+      padding: 1rem 1.1rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-card);
       background: var(--surface);
@@ -202,16 +206,42 @@ const totalWords = themes.reduce(
       flex: 1;
       min-width: 0;
     }
+    /* German name, its English gloss and the count wrap together as one tight
+       run, so a long pair reflows onto a second line without opening a 28px
+       gap (the default line box of the xl title) under it. */
     .tcat-head {
       display: flex;
       align-items: baseline;
-      flex-wrap: wrap;
       gap: 0.5rem;
+      min-width: 0;
+    }
+    .tcat-names {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      column-gap: 0.4rem;
+      row-gap: 0.1rem;
+      min-width: 0;
+      line-height: 1.15;
+    }
+    .tcat-names > .text-xl {
+      line-height: 1.15;
     }
     .tcat-en {
       font-size: 0.95rem;
       font-weight: 700;
       letter-spacing: 0.2px;
+    }
+    /* English gloss and the count travel as one unit: if the German name fills
+       the line, they move down together rather than splitting the pair. */
+    .tcat-gloss {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+    .tcat-count {
+      flex-shrink: 0;
     }
     .tcat-sub {
       display: block;
@@ -242,6 +272,12 @@ const totalWords = themes.reduce(
          display:none, so the gap is just the section margin. */
       padding-bottom: 1rem;
     }
+    /* Categories start collapsed, so hide the panel straight from the markup
+       rather than waiting for the script — no flash of 64 cards on load.
+       The panel is a sibling of the <h2>, not of the button, hence :has(). */
+    .tcat:has(.tcat-toggle[aria-expanded="false"]) .tcat-panel {
+      display: none;
+    }
     /* Topic card: the English name sits on its own line right under the German
        one, tight against it, so a long name never wraps into a stray fragment. */
     .titem-en {
@@ -253,7 +289,9 @@ const totalWords = themes.reduce(
 
   <script is:inline>
     const sections = Array.from(document.querySelectorAll(".tcat"));
-    const collapsed = new Set();
+    // Everything starts folded: the index is a table of contents, so it opens
+    // on the nine categories rather than every one of the 64 cards at once.
+    const collapsed = new Set(sections.map((s) => s.dataset.cat));
 
     function apply() {
       for (const s of sections) {
