@@ -104,10 +104,9 @@ function field(w: Word, key: string): string {
       <h2 class="mb-3">
         <button
           type="button"
-          class="tgroup-toggle w-full flex items-center gap-2 text-left bg-transparent border-0 p-0 cursor-pointer"
+          class="tgroup-toggle"
           aria-expanded="true"
           aria-controls={`panel-${g.id}`}
-          style="color:inherit"
         >
           <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
           {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
@@ -189,6 +188,25 @@ function field(w: Word, key: string): string {
 </p>
 
 <style>
+  /* The group header is a button: an outlined row, so it still reads as
+     clickable when its table is folded away and nothing is under it. */
+  .tgroup-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    color: inherit;
+    cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .tgroup-toggle:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
   /* The chevron points down when open, right when closed. */
   .tgroup-chev {
     display: inline-flex;
@@ -204,6 +222,9 @@ function field(w: Word, key: string): string {
     outline: 2px solid var(--color-macaw);
     outline-offset: 3px;
     border-radius: 6px;
+  }
+  .tgroup-panel {
+    padding-top: 0.75rem;
   }
 </style>
 

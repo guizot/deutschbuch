@@ -77,10 +77,9 @@ const totalWords = themes.reduce(
           <h2 class="mb-1">
             <button
               type="button"
-              class="tcat-toggle w-full flex items-baseline gap-2 text-left bg-transparent border-0 p-0 cursor-pointer"
+              class="tcat-toggle"
               aria-expanded="true"
               aria-controls={`panel-${slug(g.cat)}`}
-              style="color:inherit"
             >
               <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
               <span class="text-xs font-bold" style="color: var(--text-faint)">
@@ -133,6 +132,25 @@ const totalWords = themes.reduce(
   </main>
 
   <style>
+    /* The category header is a button: an outlined row, so it still reads as
+       clickable when its cards are folded away and nothing is under it. */
+    .tcat-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-card);
+      background: var(--surface);
+      color: inherit;
+      cursor: pointer;
+      transition: border-color 0.12s ease, background 0.12s ease;
+    }
+    .tcat-toggle:hover {
+      border-color: var(--border-strong);
+      background: var(--surface-2);
+    }
     .tcat-chev {
       display: inline-flex;
       transition: transform 0.18s ease;
@@ -147,6 +165,9 @@ const totalWords = themes.reduce(
       outline: 2px solid var(--color-macaw);
       outline-offset: 3px;
       border-radius: 6px;
+    }
+    .tcat-panel {
+      padding-top: 1rem;
     }
   </style>
 
