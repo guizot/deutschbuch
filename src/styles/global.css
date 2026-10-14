@@ -185,6 +185,38 @@ h1, h2, h3, h4 {
     border-color: var(--border-strong);
   }
 
+  /* --- Result bar: "2,530 results | ALL A1 …" ---------------------------- */
+  /* The count and the filter chips share one row. The count stays put while
+     the chips scroll sideways on a narrow screen, so the row never wraps to a
+     second line. Used by the reference tools and the topic word lists. */
+  .ref-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+  .ref-count {
+    flex: none;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .ref-divider {
+    flex: none;
+    color: var(--border-strong);
+  }
+  .ref-chips {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px; /* room for the focus ring, keeps the scroll clean */
+  }
+
   /* --- Progress bar ----------------------------------------------------- */
   .progress-track {
     background: var(--border);

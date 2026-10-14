@@ -61,24 +61,28 @@ function field(w: Word, key: string): string {
 }
 ---
 
-<div class="mb-5 flex flex-wrap items-center gap-3">
-  <span class="text-xs font-bold" style="color: var(--text-muted)">
+<div class="ref-bar mb-5">
+  <span class="ref-count">
     <span id="tcount">{total}</span> words
   </span>
   {
     showArticles && (
-      <div class="flex flex-wrap gap-2 items-center">
-        <span style="color: var(--border-strong)">|</span>
-        {["der", "die", "das"].map((a) => (
-          <button
-            class="filter-art btn btn-ghost"
-            data-art={a}
-            style="padding:0.35rem 0.8rem;font-size:0.75rem"
-          >
-            {a}
-          </button>
-        ))}
-      </div>
+      <>
+        <span class="ref-divider" aria-hidden="true">
+          |
+        </span>
+        <div class="ref-chips no-scrollbar">
+          {["der", "die", "das"].map((a) => (
+            <button
+              class="filter-art btn btn-ghost"
+              data-art={a}
+              style="padding:0.35rem 0.8rem;font-size:0.75rem"
+            >
+              {a}
+            </button>
+          ))}
+        </div>
+      </>
     )
   }
   {

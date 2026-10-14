@@ -38,10 +38,18 @@ const levels = ["A1", "A2", "B1", "B2", "C1"];
     autocomplete="off"
   />
 
-  {
-    (levelFilter || articleFilter) && (
-      <div class="flex flex-wrap gap-2 items-center">
-        {levelFilter && (
+  <div class="ref-bar">
+    <span class="ref-count">
+      <span id="count">{items.length.toLocaleString("en-US")}</span> results
+    </span>
+    {
+      (levelFilter || articleFilter) && (
+        <>
+          <span class="ref-divider" aria-hidden="true">
+            |
+          </span>
+          <div class="ref-chips no-scrollbar">
+            {levelFilter && (
           <>
             <button
               class="filter-lv btn btn-ghost"
@@ -77,12 +85,10 @@ const levels = ["A1", "A2", "B1", "B2", "C1"];
             ))}
           </>
         )}
-      </div>
-    )
-  }
-
-  <div class="text-xs font-bold" style="color: var(--text-muted)">
-    <span id="count">{items.length.toLocaleString("en-US")}</span> results
+          </div>
+        </>
+      )
+    }
   </div>
 </div>
 
