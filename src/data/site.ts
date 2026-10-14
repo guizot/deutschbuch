@@ -4,6 +4,26 @@
  * metadata and ordering that the UI relies on.
  */
 
+import dictionary from "./dictionary.json";
+import nouns from "./nouns.json";
+import verbs from "./verbs.json";
+import phrases from "./phrases.json";
+
+/**
+ * Counts of the reference datasets, read straight from the JSON that the
+ * reference pages themselves render. Deriving them here instead of typing the
+ * numbers means a card can never drift out of step with its own page again
+ * (the dictionary went 1,024 → 2,530 while the card still said 1,024).
+ */
+const n = (v: number) => v.toLocaleString("en-US");
+
+export const COUNTS = {
+  words: dictionary.length,
+  nouns: nouns.length,
+  verbs: verbs.length,
+  phrases: phrases.length,
+};
+
 export interface LevelInfo {
   id: "a1" | "a2" | "b1" | "b2" | "c1";
   label: string;
@@ -97,7 +117,7 @@ export const REFERENCES: ReferenceInfo[] = [
     slug: "dictionary",
     title: "Wörterbuch",
     desc: "Every word A–Z with its CEFR level. Searchable.",
-    count: "1,024 headwords",
+    count: `${n(COUNTS.words)} headwords`,
     icon: "book",
     color: "lv-a1",
   },
@@ -105,7 +125,7 @@ export const REFERENCES: ReferenceInfo[] = [
     slug: "nouns",
     title: "Nomen",
     desc: "Nouns with article and plural. Filter by der / die / das.",
-    count: "941 nouns",
+    count: `${n(COUNTS.nouns)} nouns`,
     icon: "letters",
     color: "lv-a2",
   },
@@ -113,7 +133,7 @@ export const REFERENCES: ReferenceInfo[] = [
     slug: "verbs",
     title: "Verbtabellen",
     desc: "Conjugation tables: Präsens, Präteritum, Perfekt.",
-    count: "236 verbs",
+    count: `${n(COUNTS.verbs)} verbs`,
     icon: "table",
     color: "lv-b1",
   },
@@ -121,7 +141,7 @@ export const REFERENCES: ReferenceInfo[] = [
     slug: "phrases",
     title: "Redemittel",
     desc: "Exam phrases for writing and speaking, by level.",
-    count: "172 phrases",
+    count: `${n(COUNTS.phrases)} phrases`,
     icon: "chat",
     color: "lv-b2",
   },

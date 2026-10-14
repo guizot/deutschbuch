@@ -5,8 +5,11 @@ import { mdToHtml } from "../lib/md";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
-import { LEVELS } from "../data/site.ts";
+import { LEVELS, COUNTS } from "../data/site.ts";
+import meta from "../content/meta.json";
 import "../styles/global.css";
+
+const n = (v: number) => v.toLocaleString("en-US");
 
 const mdPath = path.join(process.cwd(), "src", "content", "lessons", "_roadmap.md");
 const roadmap = fs.existsSync(mdPath)
@@ -31,19 +34,19 @@ const resources = fs.existsSync(mdRes)
 
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
       <div class="card text-center">
-        <div class="text-2xl font-black" style="color: var(--color-feather)">76</div>
+        <div class="text-2xl font-black" style="color: var(--color-feather)">{meta.length}</div>
         <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
           Lessons
         </div>
       </div>
       <div class="card text-center">
-        <div class="text-2xl font-black" style="color: var(--color-macaw)">1,024</div>
+        <div class="text-2xl font-black" style="color: var(--color-macaw)">{n(COUNTS.words)}</div>
         <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
           Words
         </div>
       </div>
       <div class="card text-center">
-        <div class="text-2xl font-black" style="color: var(--color-bee)">236</div>
+        <div class="text-2xl font-black" style="color: var(--color-bee)">{n(COUNTS.verbs)}</div>
         <div class="text-[10px] font-extrabold uppercase" style="color: var(--text-faint)">
           Verbs
         </div>

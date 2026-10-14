@@ -14,9 +14,9 @@ Level tags show when it applies: **[A1]** basic · **[A2]** core · **[B1]** ind
 | [README.md](../README.md) | course index + honest timeline |
 | [roadmap.md](./roadmap.md) | A1→C2 map |
 | [progress.md](./progress.md) | tracker + checklists |
-| [woerterbuch.md](./woerterbuch.md) | A–Z dictionary (1,024 headwords) |
+| [woerterbuch.md](./woerterbuch.md) | A–Z dictionary (2,530 headwords) |
 | [verbtabellen.md](./verbtabellen.md) | verb conjugations (236 verbs) |
-| [nomen.md](./nomen.md) | nouns + article + plural (941 nouns) |
+| [nomen.md](./nomen.md) | nouns + article + plural (1,670 nouns) |
 | [redemittel.md](./redemittel.md) | exam phrase bank |
 | [a1/](./a1/README.md) · [a2/](./a2/README.md) · [b1/](./b1/README.md) · [b2/](./b2/README.md) · [c1/](./c1/README.md) | the lessons |
 

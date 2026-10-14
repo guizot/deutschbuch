@@ -456,6 +456,37 @@ function syncSearchIndex(meta) {
   console.log(`  search.json: ${index.length} lessons indexed`);
 }
 
+/* ------------------------------------------- refresh counts in copied pages */
+
+/**
+ * The cheat sheet is copied verbatim from the source, so any counts written
+ * into its prose go stale the moment the vocabulary grows (it still said
+ * "1,024 headwords" after the dictionary reached 2,530). The source stays
+ * untouched; only the local copy is corrected, from the JSON we just wrote.
+ */
+function syncCheatsheetCounts() {
+  const file = path.join(OUT_LESSONS, "_cheatsheet.md");
+  if (!fs.existsSync(file)) return;
+  const n = (v) => v.toLocaleString("en-US");
+  const readCount = (name) => {
+    const p = path.join(OUT_DATA, name);
+    return fs.existsSync(p) ? JSON.parse(read(p)).length : null;
+  };
+  const words = readCount("dictionary.json");
+  const nouns = readCount("nouns.json");
+  const verbs = readCount("verbs.json");
+
+  let txt = read(file);
+  const before = txt;
+  if (words != null) txt = txt.replace(/(\[woerterbuch\.md\]\([^)]*\) \| A–Z dictionary \()[\d,]+( headwords\))/, `$1${n(words)}$2`);
+  if (verbs != null) txt = txt.replace(/(\[verbtabellen\.md\]\([^)]*\) \| verb conjugations \()[\d,]+( verbs\))/, `$1${n(verbs)}$2`);
+  if (nouns != null) txt = txt.replace(/(\[nomen\.md\]\([^)]*\) \| nouns \+ article \+ plural \()[\d,]+( nouns\))/, `$1${n(nouns)}$2`);
+  if (txt !== before) {
+    fs.writeFileSync(file, txt, "utf8");
+    console.log(`  _cheatsheet.md counts refreshed (${n(words)} words, ${n(nouns)} nouns, ${n(verbs)} verbs)`);
+  }
+}
+
 /* ------------------------------------------------------------------- run it */
 
 console.log("sync-content: reading", SRC, "(read-only)");
@@ -482,6 +513,7 @@ syncVerbs();
 syncPhrases();
 syncGuides();
 syncSearchIndex(meta);
+syncCheatsheetCounts();
 
 console.log(`\nDone. ${meta.length} lessons + 4 reference datasets.`);
 console.log("Source folder was NOT modified.");
