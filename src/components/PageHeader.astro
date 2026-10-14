@@ -88,23 +88,29 @@ const {
   }
   .page-head-title {
     font-size: 1.875rem;
-    line-height: 1.1;
+    /* 1.2 rather than a tighter leading: the space a line-box adds under the
+       text is (line-height − font-size) / 2, so a bigger leading on the 30px
+       title matches the leading the 16px lines get from 1.4. With one shared
+       margin the two gaps then measure the same. */
+    line-height: 1.2;
     margin: 0;
   }
   .page-head-en {
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
     font-size: 1rem;
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.4;
     color: var(--text-faint);
   }
   .page-head-sub {
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
+    line-height: 1.4;
     color: var(--text-muted);
   }
   .page-head-note {
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
     font-size: 0.75rem;
+    line-height: 1.4;
     color: var(--text-faint);
   }
 </style>

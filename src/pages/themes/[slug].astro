@@ -63,10 +63,12 @@ const columns = theme.columns ?? [
   </main>
 
   <style>
-    /* The theme intro sits inside the shared PageHeader, so it just needs the
-       usual muted colour and a little breathing room above it. */
+    /* The theme intro sits inside the shared PageHeader as its subtitle line,
+       so it carries the same top margin and leading as .page-head-sub — that
+       keeps the gap under the English title equal to the one above it. */
     .theme-intro {
-      margin-top: 0.6rem;
+      margin-top: 0.4rem;
+      line-height: 1.4;
       color: var(--text-muted);
     }
   </style>
