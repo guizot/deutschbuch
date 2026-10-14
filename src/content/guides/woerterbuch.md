@@ -1,4 +1,4 @@
-Every word from the A1–C1 vocabulary files in **one alphabetical dictionary**. **1,826 headwords**, each tagged with its level.
+Every word from the A1–C1 vocabulary files in **one alphabetical dictionary**. **2,530 headwords**, each tagged with its level.
 
 ## How to use this file
 

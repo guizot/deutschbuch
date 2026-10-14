@@ -1,4 +1,4 @@
-**1,316 nouns** with their **article** and **plural form** — the two things you must know about every German noun. Collected from the whole A1–C1 course.
+**1,670 nouns** with their **article** and **plural form** — the two things you must know about every German noun. Collected from the whole A1–C1 course.
 
 ## Why this file exists
 
@@ -19,9 +19,9 @@ A dictionary entry that gives only the meaning is useless. **This file gives all
 
 ## ⚠️ Accuracy note (please read)
 
-- **606 plurals** are taken **directly from the course material** (the level vocabulary files and the topic data both carry a plural column). These are the reliable core.
+- **877 plurals** are taken **directly from the course material** (the level vocabulary files and the topic data both carry a plural column). These are the reliable core.
 - **545 plurals** are **derived** — from standard German plural rules — and are marked with a **`*`** in the Plural column. Treat these as a study aid, not as verified fact.
-- **124 nouns** are marked `(no pl.)` (used only in the singular) and **41** are pluralia tantum (`—`, e.g. *die Eltern*).
+- **207 nouns** are marked `(no pl.)` (used only in the singular) and **41** are pluralia tantum (`—`, e.g. *die Eltern*).
 - Most `*` entries follow hard rules (feminine `-ung/-heit/-keit/-schaft/-ion/-tät` → `-en`) and are safe. A minority are common irregulars.
 - **If a `*` plural matters for an exam, verify it in dict.cc or DWDS first.** I would rather you check than memorise an error.
 - Words marked **†** were added from the thematic topics in the Deutschbuch app (animals, food, the body, clothing, travel…). Their plurals come from the topic data, not the level files.
@@ -35,7 +35,7 @@ A dictionary entry that gives only the meaning is useless. **This file gives all
 | Plural | the plural form (with article); `*` = derived, not source-verified |
 | Level | CEFR level where it appears |
 
-## The three genders at a glance (1,316 nouns)
+## The three genders at a glance (1,670 nouns)
 
 | Article | Count | Share | Gender |
 |---|---|---|---|
@@ -43,7 +43,7 @@ A dictionary entry that gives only the meaning is useless. **This file gives all
 | **die** | 498 | 52% | feminine |
 | **das** | 165 | 17% | neuter |
 
-*124 of the 1,316 nouns are normally singular only.*
+*207 of the 1,670 nouns are normally singular only.*
 
 ## Plural patterns: the reference
 
@@ -143,4 +143,4 @@ Recognise the pattern: **masculine + (often) a person → weak noun.**
 4. **Colour-code by gender** in your notes: der = blue, die = red, das = green.
 5. **Verify `*` entries** in dict.cc before relying on them in an exam.
 
-*1,316 nouns · 606 plurals source-verified, 545 derived (marked `*`), 124 singular-only, 41 pluralia tantum. For anything not listed, use dict.cc or DWDS.*
+*1,670 nouns · 877 plurals source-verified, 545 derived (marked `*`), 207 singular-only, 41 pluralia tantum. For anything not listed, use dict.cc or DWDS.*
