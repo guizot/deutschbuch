@@ -149,12 +149,12 @@ const totalWords = themes.reduce(
                     <div class="min-w-0">
                       <div class="font-extrabold text-lg" style="color: var(--text-strong)">
                         {t.title}
-                        {t.subtitle && (
-                          <span class="text-sm font-bold" style="color: var(--text-faint)">
-                            {" "}{t.subtitle}
-                          </span>
-                        )}
                       </div>
+                      {t.subtitle && (
+                        <div class="titem-en font-bold" style="color: var(--text-faint)">
+                          {t.subtitle}
+                        </div>
+                      )}
                       <p class="text-sm mb-2" style="color: var(--text-muted)">
                         {t.desc}
                       </p>
@@ -236,6 +236,13 @@ const totalWords = themes.reduce(
     }
     .tcat-panel {
       padding-top: 1rem;
+    }
+    /* Topic card: the English name sits on its own line right under the German
+       one, tight against it, so a long name never wraps into a stray fragment. */
+    .titem-en {
+      font-size: 0.8rem;
+      line-height: 1.2;
+      margin-top: 0.05rem;
     }
   </style>
 
