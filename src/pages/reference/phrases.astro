@@ -3,7 +3,7 @@ import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RefSearch from "../../components/RefSearch.astro";
 import RefGuide from "../../components/RefGuide.astro";
-import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import BackLink from "../../components/BackLink.astro";
 import phrases from "../../data/phrases.json";
 import "../../styles/global.css";
@@ -20,17 +20,13 @@ const items = phrases.map((p) => ({
   <Header active="reference" />
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/reference/" label="Reference" />
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="chat" size={30} style="color: var(--color-fox)" />
-      <span class="ref-title">
-        <span>Redemittel</span>
-        <span class="ref-title-en font-bold" style="color: var(--text-faint)">Phrase bank</span>
-      </span>
-    </h1>
-    <p class="mb-8" style="color:var(--text-muted)">
-      {items.length} ready-made phrases for the writing and speaking exams. Learn 2–3 per function
-      and make them yours.
-    </p>
+    <PageHeader
+      icon="chat"
+      color="var(--color-fox)"
+      title="Redemittel"
+      en="Phrase bank"
+      subtitle={`${items.length} ready-made phrases for the writing and speaking exams. Learn 2–3 per function and make them yours.`}
+    />
 
     <RefSearch
       items={items}

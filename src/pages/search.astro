@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
+import PageHeader from "../components/PageHeader.astro";
 import index from "../data/search.json";
 import "../styles/global.css";
 
@@ -11,12 +12,13 @@ const total = index.length;
   <Header active="search" />
 
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="search" size={30} style="color: var(--color-macaw)" /> Search
-    </h1>
-    <p class="mb-8" style="color: var(--text-muted)">
-      Search across all {total} lessons. Results are ranked by title matches first.
-    </p>
+    <PageHeader
+      icon="search"
+      color="var(--color-macaw)"
+      title="Suche"
+      en="Search"
+      subtitle={`Search across all ${total} lessons. Results are ranked by title matches first.`}
+    />
 
     <div class="relative mb-6">
       <input

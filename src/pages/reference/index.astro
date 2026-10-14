@@ -2,6 +2,7 @@
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import { REFERENCES } from "../../data/site.ts";
 import "../../styles/global.css";
 ---
@@ -9,13 +10,13 @@ import "../../styles/global.css";
   <Header active="reference" />
 
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="book" size={30} style="color: var(--color-macaw)" /> Reference library
-    </h1>
-    <p class="mb-10" style="color: var(--text-muted)">
-      Five tools that cover the whole course. Built from the same source files, so they are always
-      in sync with the lessons.
-    </p>
+    <PageHeader
+      icon="book"
+      color="var(--color-macaw)"
+      title="Nachschlagewerk"
+      en="Reference library"
+      subtitle="Five tools that cover the whole course. Built from the same source files, so they are always in sync with the lessons."
+    />
 
     <div class="grid sm:grid-cols-2 gap-4">
       {

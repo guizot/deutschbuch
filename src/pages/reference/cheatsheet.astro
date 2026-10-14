@@ -4,7 +4,7 @@ import path from "node:path";
 import { mdToHtml } from "../../lib/md";
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import BackLink from "../../components/BackLink.astro";
 import "../../styles/global.css";
 
@@ -47,16 +47,13 @@ const html = fixLinks(mdToHtml(raw));
   <Header active="reference" />
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/reference/" label="Reference" />
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="bolt" size={30} style="color: var(--color-beetle)" />
-      <span class="ref-title">
-        <span>Spickzettel</span>
-        <span class="ref-title-en font-bold" style="color: var(--text-faint)">Cheat Sheet</span>
-      </span>
-    </h1>
-    <p class="mb-8" style="color:var(--text-muted)">
-      The whole grammar on one page. Ctrl+F the rule you forgot.
-    </p>
+    <PageHeader
+      icon="bolt"
+      color="var(--color-beetle)"
+      title="Spickzettel"
+      en="Cheat Sheet"
+      subtitle="The whole grammar on one page. Ctrl+F the rule you forgot."
+    />
     <article class="prose-de" set:html={html} />
   </main>
 </BaseLayout>

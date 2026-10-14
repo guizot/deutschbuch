@@ -3,7 +3,7 @@ import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RefSearch from "../../components/RefSearch.astro";
 import RefGuide from "../../components/RefGuide.astro";
-import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import BackLink from "../../components/BackLink.astro";
 import nouns from "../../data/nouns.json";
 import "../../styles/global.css";
@@ -12,20 +12,14 @@ import "../../styles/global.css";
   <Header active="reference" />
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/reference/" label="Reference" />
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="letters" size={30} style="color: var(--color-macaw)" />
-      <span class="ref-title">
-        <span>Nomen</span>
-        <span class="ref-title-en font-bold" style="color: var(--text-faint)">Nouns</span>
-      </span>
-    </h1>
-    <p class="mb-3" style="color:var(--text-muted)">
-      Nouns with article and plural. Filter by gender with the der / die / das buttons.
-    </p>
-    <p class="text-xs mb-8" style="color:var(--text-faint)">
-      Plurals marked with an asterisk in the source were derived from rules, not verified
-      dictionaries. Check dict.cc for anything exam-critical.
-    </p>
+    <PageHeader
+      icon="letters"
+      color="var(--color-macaw)"
+      title="Nomen"
+      en="Nouns"
+      subtitle="Nouns with article and plural. Filter by gender with the der / die / das buttons."
+      note="Plurals marked with an asterisk in the source were derived from rules, not verified dictionaries. Check dict.cc for anything exam-critical."
+    />
 
     <RefSearch
       items={nouns}

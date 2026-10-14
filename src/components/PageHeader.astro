@@ -1,0 +1,109 @@
+---
+/**
+ * The page header used across the site: an icon, a large title (German on the
+ * reference, topic and level pages), the English gloss right underneath it,
+ * then a subtitle and an optional smaller note.
+ *
+ * Keeping this in one component means the top of every page reads the same —
+ * the reference tools, the topics, the levels and the static pages.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** icon name from src/lib/icons.ts */
+  icon: string;
+  /** colour token for the icon, e.g. "var(--color-feather)" */
+  color?: string;
+  /** the large title */
+  title: string;
+  /** English gloss shown under the title */
+  en?: string;
+  /** subtitle line under the whole header block */
+  subtitle?: string;
+  /** smaller note under the subtitle */
+  note?: string;
+  /** optional level pill shown before the icon, e.g. "A1" */
+  pill?: string;
+  /** css class for that pill, e.g. "lv-a1" */
+  pillColor?: string;
+  /** extra classes for the wrapper (e.g. to change the bottom margin) */
+  class?: string;
+}
+
+const {
+  icon,
+  color,
+  title,
+  en,
+  subtitle,
+  note,
+  pill,
+  pillColor,
+  class: cls = "",
+} = Astro.props;
+---
+<header class={`page-head ${cls}`}>
+  <div class="page-head-top">
+    {
+      pill && (
+        <span class={`pill ${pillColor || ""}`} style="padding:0.35rem 0.9rem">
+          {pill}
+        </span>
+      )
+    }
+    <span class="page-head-icon" style={color ? `color:${color}` : undefined}>
+      <Icon name={icon} size={30} />
+    </span>
+    <span class="page-head-names">
+      <h1 class="page-head-title">{title}</h1>
+      {en && <span class="page-head-en">{en}</span>}
+    </span>
+  </div>
+  {subtitle && <p class="page-head-sub">{subtitle}</p>}
+  {note && <p class="page-head-note">{note}</p>}
+  <slot />
+</header>
+
+<style>
+  .page-head {
+    margin-bottom: 2rem;
+  }
+  .page-head-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .page-head-icon {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  /* Title and its English gloss stack tightly; min-width:0 lets a long German
+     word wrap instead of shoving the icon around. */
+  .page-head-names {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+  .page-head-title {
+    font-size: 1.875rem;
+    line-height: 1.1;
+    margin: 0;
+  }
+  .page-head-en {
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-faint);
+  }
+  .page-head-sub {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+  }
+  .page-head-note {
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+</style>

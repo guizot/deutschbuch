@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
+import PageHeader from "../components/PageHeader.astro";
 import { LEVELS } from "../data/site.ts";
 import meta from "../content/meta.json";
 import "../styles/global.css";
@@ -14,12 +15,14 @@ const byLevel = Object.fromEntries(
   <Header active="progress" />
 
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="chart" size={30} style="color: var(--color-feather)" /> Your progress
-    </h1>
-    <p class="mb-10" style="color: var(--text-muted)">
-      Stored in this browser only. Nothing is sent anywhere.
-    </p>
+    <PageHeader
+      icon="chart"
+      color="var(--color-feather)"
+      title="Fortschritt"
+      en="Your progress"
+      subtitle="Stored in this browser only. Nothing is sent anywhere."
+      class="mb-10"
+    />
 
     <!-- stat cards -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">

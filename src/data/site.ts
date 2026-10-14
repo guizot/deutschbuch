@@ -27,6 +27,8 @@ export const COUNTS = {
 export interface LevelInfo {
   id: "a1" | "a2" | "b1" | "b2" | "c1";
   label: string;
+  /** German name of the stage, shown as the page title. */
+  de: string;
   name: string;
   blurb: string;
   hours: string;
@@ -39,6 +41,7 @@ export const LEVELS: LevelInfo[] = [
   {
     id: "a1",
     label: "A1",
+    de: "Anfänger",
     name: "Beginner",
     blurb: "Alphabet, greetings, gender, present tense, numbers, word order.",
     hours: "80–150 h",
@@ -49,6 +52,7 @@ export const LEVELS: LevelInfo[] = [
   {
     id: "a2",
     label: "A2",
+    de: "Grundstufe",
     name: "Elementary",
     blurb: "Dative, Perfekt, Präteritum, subordinate clauses, adjective endings.",
     hours: "230–350 h",
@@ -59,6 +63,7 @@ export const LEVELS: LevelInfo[] = [
   {
     id: "b1",
     label: "B1",
+    de: "Mittelstufe",
     name: "Intermediate",
     blurb: "Passive, Konjunktiv II, relative clauses, connectors, formal letters.",
     hours: "380–550 h",
@@ -69,6 +74,7 @@ export const LEVELS: LevelInfo[] = [
   {
     id: "b2",
     label: "B2",
+    de: "Fortgeschritten",
     name: "Upper intermediate",
     blurb: "Konjunktiv I, nominalisation, register, text types, exam technique.",
     hours: "530–750 h",
@@ -79,6 +85,7 @@ export const LEVELS: LevelInfo[] = [
   {
     id: "c1",
     label: "C1",
+    de: "Experte",
     name: "Advanced",
     blurb: "Full Konjunktiv I, academic writing, idioms, collocations, debate.",
     hours: "750–900+ h",

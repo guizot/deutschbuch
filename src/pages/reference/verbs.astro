@@ -3,7 +3,7 @@ import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RefSearch from "../../components/RefSearch.astro";
 import RefGuide from "../../components/RefGuide.astro";
-import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import BackLink from "../../components/BackLink.astro";
 import verbs from "../../data/verbs.json";
 import "../../styles/global.css";
@@ -28,19 +28,14 @@ const items = verbs.map((v) => ({
   <Header active="reference" />
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/reference/" label="Reference" />
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name="table" size={30} style="color: var(--color-bee)" />
-      <span class="ref-title">
-        <span>Verbtabellen</span>
-        <span class="ref-title-en font-bold" style="color: var(--text-faint)">Verb tables</span>
-      </span>
-    </h1>
-    <p class="mb-3" style="color:var(--text-muted)">
-      Conjugation tables for {items.length} verbs: Präsens, Präteritum and Perfekt.
-    </p>
-    <p class="text-xs mb-8" style="color:var(--text-faint)">
-      Learn the three principal forms as a triple: sprechen – sprach – gesprochen.
-    </p>
+    <PageHeader
+      icon="table"
+      color="var(--color-bee)"
+      title="Verbtabellen"
+      en="Verb tables"
+      subtitle={`Conjugation tables for ${items.length} verbs: Präsens, Präteritum and Perfekt.`}
+      note="Learn the three principal forms as a triple: sprechen – sprach – gesprochen."
+    />
 
     <RefSearch
       items={items}

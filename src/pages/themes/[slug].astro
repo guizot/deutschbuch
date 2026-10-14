@@ -2,6 +2,7 @@
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import BackLink from "../../components/BackLink.astro";
 import ThemeWords from "../../components/ThemeWords.astro";
 import themesData from "../../data/themes.json";
@@ -29,16 +30,15 @@ const columns = theme.columns ?? [
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/themes/" label="Topics" />
 
-    <h1 class="text-3xl mb-2 flex items-center gap-2">
-      <Icon name={theme.icon} size={30} style={`color: ${theme.tint}`} />
-      <span class="theme-title">
-        <span>{theme.title}</span>
-        <span class="theme-en text-lg font-bold" style="color: var(--text-faint)">
-          {theme.subtitle}
-        </span>
-      </span>
-    </h1>
-    <p class="mb-8" style="color: var(--text-muted)" set:html={theme.intro} />
+    <PageHeader
+      icon={theme.icon}
+      color={theme.tint}
+      title={theme.title}
+      en={theme.subtitle}
+      class="theme-head"
+    >
+      <p class="theme-intro" set:html={theme.intro} />
+    </PageHeader>
 
     <ThemeWords groups={theme.groups} columns={columns} showArticles={hasArticles} />
 
@@ -63,18 +63,11 @@ const columns = theme.columns ?? [
   </main>
 
   <style>
-    /* The English gloss sits on its own line right under the German title,
-       tight against it — the same pattern as the topic cards on the index.
-       Inline, a long title pushed it to the right and left a wide gap. */
-    .theme-title {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-      min-width: 0;
-    }
-    .theme-en {
-      font-size: 1rem;
-      line-height: 1.2;
+    /* The theme intro sits inside the shared PageHeader, so it just needs the
+       usual muted colour and a little breathing room above it. */
+    .theme-intro {
+      margin-top: 0.6rem;
+      color: var(--text-muted);
     }
   </style>
 </BaseLayout>
