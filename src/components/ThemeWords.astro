@@ -2,9 +2,11 @@
 // Thematic vocabulary browser.
 //
 // Unlike RefSearch (a flat A–Z table), a theme is organised into named groups
-// (pets, farm animals, birds…). This renders one section per group, and the
-// search box hides the groups that no longer have a match — so the page reads
-// as a phrasebook until you start typing.
+// (pets, farm animals, birds…). One section is rendered per group.
+//
+// There is deliberately no search box or level filter here: a theme is short
+// enough to scan, and the point is to read the list, not to query it. The only
+// control is the der/die/das filter, and only for themes that are nouns.
 //
 // Columns are per-theme: a noun needs a plural, an adjective does not, and a
 // colour needs a swatch. A column of type "swatch" paints the word's `hex`.
@@ -30,7 +32,6 @@ interface Column {
 interface Props {
   groups: Group[];
   columns?: Column[];
-  placeholder?: string;
   /** show the der/die/das filter (noun themes only) */
   showArticles?: boolean;
 }
@@ -42,11 +43,9 @@ const {
     { key: "plural", label: "Plural" },
     { key: "level", label: "Level" },
   ],
-  placeholder = "Search…",
   showArticles = true,
 } = Astro.props;
 
-const levels = ["A1", "A2", "B1", "B2", "C1"];
 const total = groups.reduce((n, g) => n + g.words.length, 0);
 
 /** Read a word's field for a column without an `as` cast (which the Astro
@@ -57,44 +56,30 @@ function field(w: Word, key: string): string {
 }
 ---
 
-<div class="mb-6 space-y-3">
-  <input
-    id="tq"
-    type="search"
-    placeholder={placeholder}
-    class="w-full px-4 py-3 font-bold outline-none"
-    style="background:var(--surface);border:2px solid var(--border);border-radius:16px;color:var(--text);"
-    autocomplete="off"
-  />
-
-  <div class="flex flex-wrap gap-2 items-center">
-    <button class="filter-lv btn btn-ghost" data-lv="" style="padding:0.4rem 0.9rem;font-size:0.75rem">
-      All levels
-    </button>
-    {levels.map((lv) => (
-      <button class="filter-lv btn btn-ghost" data-lv={lv} style="padding:0.4rem 0.9rem;font-size:0.75rem">
-        {lv}
-      </button>
-    ))}
-    {showArticles && (
-      <>
-        <span class="mx-1" style="color:var(--border-strong)">|</span>
+<div class="mb-5 flex flex-wrap items-center gap-3">
+  <span class="text-xs font-bold" style="color: var(--text-muted)">
+    <span id="tcount">{total}</span> words
+  </span>
+  {
+    showArticles && (
+      <div class="flex flex-wrap gap-2 items-center">
+        <span style="color: var(--border-strong)">|</span>
         {["der", "die", "das"].map((a) => (
-          <button class="filter-art btn btn-ghost" data-art={a} style="padding:0.4rem 0.9rem;font-size:0.75rem">
+          <button
+            class="filter-art btn btn-ghost"
+            data-art={a}
+            style="padding:0.35rem 0.8rem;font-size:0.75rem"
+          >
             {a}
           </button>
         ))}
-      </>
-    )}
-  </div>
-
-  <div class="text-xs font-bold" style="color: var(--text-muted)">
-    <span id="tcount">{total}</span> words
-  </div>
+      </div>
+    )
+  }
 </div>
 
 <div id="tempty" class="card text-center" style="display:none">
-  <p style="color:var(--text-muted)">No words match. Try another search or filter.</p>
+  <p style="color:var(--text-muted)">No words with that article in this topic.</p>
 </div>
 
 {
@@ -169,30 +154,20 @@ function field(w: Word, key: string): string {
 </p>
 
 <script is:inline>
-  const qEl = document.getElementById("tq");
   const countEl = document.getElementById("tcount");
   const emptyEl = document.getElementById("tempty");
   const rows = Array.from(document.querySelectorAll(".trow"));
   const sections = Array.from(document.querySelectorAll(".tgroup"));
+  const total = rows.length;
 
-  let activeLevel = "";
   let activeArt = "";
 
   function render() {
-    const q = String(qEl.value || "").toLowerCase().trim();
     let shown = 0;
 
     for (const r of rows) {
-      const de = (r.dataset.de || "").toLowerCase();
-      const en = (r.dataset.en || "").toLowerCase();
-      const lv = r.dataset.level || "";
       const art = r.dataset.art || "";
-
-      let ok = true;
-      if (q && !de.includes(q) && !en.includes(q)) ok = false;
-      if (activeLevel && lv !== activeLevel) ok = false;
-      if (activeArt && art !== activeArt) ok = false;
-
+      const ok = !activeArt || art === activeArt;
       r.style.display = ok ? "" : "none";
       if (ok) shown++;
     }
@@ -205,18 +180,10 @@ function field(w: Word, key: string): string {
       s.style.display = anyVisible ? "" : "none";
     }
 
-    countEl.textContent = String(shown);
-    emptyEl.style.display = shown ? "none" : "block";
+    if (countEl) countEl.textContent = String(shown);
+    if (emptyEl) emptyEl.style.display = shown ? "none" : "block";
   }
 
-  document.querySelectorAll(".filter-lv").forEach((b) => {
-    b.addEventListener("click", () => {
-      activeLevel = b.dataset.lv;
-      document.querySelectorAll(".filter-lv").forEach((x) => x.classList.remove("btn-primary"));
-      b.classList.add("btn-primary");
-      render();
-    });
-  });
   document.querySelectorAll(".filter-art").forEach((b) => {
     b.addEventListener("click", () => {
       activeArt = activeArt === b.dataset.art ? "" : b.dataset.art;
@@ -227,6 +194,6 @@ function field(w: Word, key: string): string {
     });
   });
 
-  qEl.addEventListener("input", render);
-  render();
+  // Nothing is filtered on load, but run once so the count reflects reality.
+  if (total === 0 && countEl) countEl.textContent = "0";
 </script>

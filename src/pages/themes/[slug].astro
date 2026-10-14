@@ -12,7 +12,6 @@ export function getStaticPaths() {
 }
 
 const { theme } = Astro.props;
-const total = theme.groups.reduce((n, g) => n + g.words.length, 0);
 
 // Noun themes get the der/die/das filter; adjective/number themes do not.
 const hasArticles = theme.groups.some((g) => g.words.some((w) => w.art));
@@ -37,12 +36,7 @@ const columns = theme.columns ?? [
     </h1>
     <p class="mb-8" style="color: var(--text-muted)" set:html={theme.intro} />
 
-    <ThemeWords
-      groups={theme.groups}
-      columns={columns}
-      showArticles={hasArticles}
-      placeholder={`Search ${total} words…`}
-    />
+    <ThemeWords groups={theme.groups} columns={columns} showArticles={hasArticles} />
 
     {
       theme.notes?.length > 0 && (
