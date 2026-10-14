@@ -37,6 +37,17 @@ const groups = CATEGORY_ORDER.map((cat) => ({
   items: themes.filter((t) => t.category === cat),
 })).filter((g) => g.items.length > 0);
 
+/** "Stadt & Reisen" -> "stadt-reisen", a safe id fragment for aria-controls. */
+const slug = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 const totalWords = themes.reduce(
   (n, t) => n + t.groups.reduce((m, g) => m + g.words.length, 0),
   0
@@ -49,52 +60,132 @@ const totalWords = themes.reduce(
     <h1 class="text-3xl mb-2 flex items-center gap-2">
       <Icon name="books" size={30} style="color: var(--color-fox)" /> Topics
     </h1>
-    <p class="mb-10" style="color: var(--text-muted)">
+    <p class="mb-6" style="color: var(--text-muted)">
       Vocabulary by topic — {themes.length} themes, {totalWords} words. Not a lesson: a browsable
-      word list you can search and filter, grouped the way a phrasebook groups things.
+      word list, grouped the way a phrasebook groups things.
     </p>
+
+    <div class="mb-6 flex justify-end">
+      <button id="tall" class="btn btn-ghost" style="padding:0.35rem 0.8rem;font-size:0.75rem">
+        Collapse all
+      </button>
+    </div>
 
     {
       groups.map((g) => (
-        <section class="mb-10">
-          <h2 class="text-xl mb-1 flex items-baseline gap-2">
-            <span style="color: var(--text-strong)">{g.cat}</span>
-            <span class="text-xs font-bold" style="color: var(--text-faint)">
-              {g.items.length}
-            </span>
+        <section class="tcat mb-8" data-cat={g.cat}>
+          <h2 class="mb-1">
+            <button
+              type="button"
+              class="tcat-toggle w-full flex items-baseline gap-2 text-left bg-transparent border-0 p-0 cursor-pointer"
+              aria-expanded="true"
+              aria-controls={`panel-${slug(g.cat)}`}
+              style="color:inherit"
+            >
+              <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
+              <span class="text-xs font-bold" style="color: var(--text-faint)">
+                {g.items.length}
+              </span>
+              <span class="tcat-chev ml-auto" style="color: var(--text-faint)">
+                <Icon name="chevron" size={20} />
+              </span>
+            </button>
           </h2>
-          {g.sub && (
-            <p class="text-xs mb-4" style="color: var(--text-faint)">
-              {g.sub}
-            </p>
-          )}
-          <div class="grid sm:grid-cols-2 gap-4">
-            {g.items.map((t) => (
-              <a href={`/themes/${t.slug}/`} class="card card-hover no-underline" style="color:inherit">
-                <div class="flex items-start gap-4">
-                  <div
-                    class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${t.color}`}
-                    style="color:#fff"
-                  >
-                    <Icon name={t.icon} size={26} />
-                  </div>
-                  <div class="min-w-0">
-                    <div class="font-extrabold text-lg" style="color: var(--text-strong)">
-                      {t.title}
+          <div id={`panel-${slug(g.cat)}`} class="tcat-panel">
+            {g.sub && (
+              <p class="text-xs mb-4" style="color: var(--text-faint)">
+                {g.sub}
+              </p>
+            )}
+            <div class="grid sm:grid-cols-2 gap-4">
+              {g.items.map((t) => (
+                <a
+                  href={`/themes/${t.slug}/`}
+                  class="card card-hover no-underline"
+                  style="color:inherit"
+                >
+                  <div class="flex items-start gap-4">
+                    <div
+                      class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${t.color}`}
+                      style="color:#fff"
+                    >
+                      <Icon name={t.icon} size={26} />
                     </div>
-                    <p class="text-sm mb-2" style="color: var(--text-muted)">
-                      {t.desc}
-                    </p>
-                    <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
-                      {t.count}
-                    </span>
+                    <div class="min-w-0">
+                      <div class="font-extrabold text-lg" style="color: var(--text-strong)">
+                        {t.title}
+                      </div>
+                      <p class="text-sm mb-2" style="color: var(--text-muted)">
+                        {t.desc}
+                      </p>
+                      <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+                        {t.count}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       ))
     }
   </main>
+
+  <style>
+    .tcat-chev {
+      display: inline-flex;
+      transition: transform 0.18s ease;
+    }
+    .tcat-toggle[aria-expanded="false"] .tcat-chev {
+      transform: rotate(-90deg);
+    }
+    .tcat-toggle:hover .tcat-chev {
+      color: var(--text-strong);
+    }
+    .tcat-toggle:focus-visible {
+      outline: 2px solid var(--color-macaw);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+  </style>
+
+  <script is:inline>
+    const sections = Array.from(document.querySelectorAll(".tcat"));
+    const collapsed = new Set();
+
+    function apply() {
+      for (const s of sections) {
+        const panel = s.querySelector(".tcat-panel");
+        const btn = s.querySelector(".tcat-toggle");
+        const closed = collapsed.has(s.dataset.cat);
+        panel.style.display = closed ? "none" : "";
+        btn.setAttribute("aria-expanded", closed ? "false" : "true");
+      }
+    }
+
+    document.querySelectorAll(".tcat-toggle").forEach((b) => {
+      b.addEventListener("click", () => {
+        const cat = b.closest(".tcat").dataset.cat;
+        if (collapsed.has(cat)) collapsed.delete(cat);
+        else collapsed.add(cat);
+        apply();
+      });
+    });
+
+    const allBtn = document.getElementById("tall");
+    if (allBtn) {
+      allBtn.addEventListener("click", () => {
+        const allClosed = sections.every((s) => collapsed.has(s.dataset.cat));
+        for (const s of sections) {
+          if (allClosed) collapsed.delete(s.dataset.cat);
+          else collapsed.add(s.dataset.cat);
+        }
+        allBtn.textContent = allClosed ? "Collapse all" : "Expand all";
+        apply();
+      });
+    }
+
+    apply();
+  </script>
 </BaseLayout>
