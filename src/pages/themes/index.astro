@@ -30,9 +30,22 @@ const CATEGORY_SUB: Record<string, string> = {
   Gesellschaft: "Society, politics and the media",
   Grammatik: "Verb and preposition patterns",
 };
+/** English name of each category, shown next to the German one. */
+const CATEGORY_EN: Record<string, string> = {
+  Grundlagen: "Basics",
+  Menschen: "People",
+  Alltag: "Everyday life",
+  "Stadt & Reisen": "Town & Travel",
+  Natur: "Nature",
+  "Arbeit & Lernen": "Work & Study",
+  Freizeit: "Free Time",
+  Gesellschaft: "Society",
+  Grammatik: "Grammar",
+};
 
 const groups = CATEGORY_ORDER.map((cat) => ({
   cat,
+  en: CATEGORY_EN[cat] || "",
   sub: CATEGORY_SUB[cat] || "",
   items: themes.filter((t) => t.category === cat),
 })).filter((g) => g.items.length > 0);
@@ -75,20 +88,27 @@ const totalWords = themes.reduce(
               aria-expanded="true"
               aria-controls={`panel-${slug(g.cat)}`}
             >
-              <span class="tcat-head">
-                <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
-                <span class="text-xs font-bold" style="color: var(--text-faint)">
-                  {g.items.length}
+              <span class="tcat-body">
+                <span class="tcat-head">
+                  <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
+                  {g.en && (
+                    <span class="tcat-en" style="color: var(--text-faint)">
+                      {g.en}
+                    </span>
+                  )}
+                  <span class="text-xs font-bold" style="color: var(--text-faint)">
+                    {g.items.length}
+                  </span>
                 </span>
-                <span class="tcat-chev ml-auto" style="color: var(--text-faint)">
-                  <Icon name="chevron" size={20} />
-                </span>
+                {g.sub && (
+                  <span class="text-xs tcat-sub" style="color: var(--text-faint)">
+                    {g.sub}
+                  </span>
+                )}
               </span>
-              {g.sub && (
-                <span class="text-xs tcat-sub" style="color: var(--text-faint)">
-                  {g.sub}
-                </span>
-              )}
+              <span class="tcat-chev" style="color: var(--text-faint)">
+                <Icon name="chevron" size={24} />
+              </span>
             </button>
           </h2>
           <div id={`panel-${slug(g.cat)}`} class="tcat-panel">
@@ -130,12 +150,12 @@ const totalWords = themes.reduce(
   <style>
     /* The category header is a button: an outlined row, so it still reads as
        clickable when its cards are folded away and nothing is under it. The
-       description sits inside the button, under the title. */
+       description sits inside the button, under the title, and the chevron is
+       centred vertically against the whole two-line block. */
     .tcat-toggle {
       display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0.15rem;
+      align-items: center;
+      gap: 0.75rem;
       width: 100%;
       padding: 0.7rem 1rem;
       border: 2px solid var(--border);
@@ -150,17 +170,32 @@ const totalWords = themes.reduce(
       border-color: var(--border-strong);
       background: var(--surface-2);
     }
+    .tcat-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      flex: 1;
+      min-width: 0;
+    }
     .tcat-head {
       display: flex;
       align-items: baseline;
+      flex-wrap: wrap;
       gap: 0.5rem;
-      width: 100%;
+    }
+    .tcat-en {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
     }
     .tcat-sub {
       display: block;
     }
     .tcat-chev {
       display: inline-flex;
+      flex-shrink: 0;
+      /* Pull it in from the right edge: centred, not hugging the border. */
+      margin-right: 0.35rem;
       transition: transform 0.18s ease;
     }
     .tcat-toggle[aria-expanded="false"] .tcat-chev {

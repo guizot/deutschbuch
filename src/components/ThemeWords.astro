@@ -116,8 +116,8 @@ function field(w: Word, key: string): string {
           >
             {g.words.length}
           </span>
-          <span class="tgroup-chev ml-auto" style="color: var(--text-faint)">
-            <Icon name="chevron" size={20} />
+          <span class="tgroup-chev" style="color: var(--text-faint)">
+            <Icon name="chevron" size={24} />
           </span>
         </button>
       </h2>
@@ -200,6 +200,7 @@ function field(w: Word, key: string): string {
     border-radius: var(--radius-card);
     background: var(--surface);
     color: inherit;
+    text-align: left;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease;
   }
@@ -207,9 +208,13 @@ function field(w: Word, key: string): string {
     border-color: var(--border-strong);
     background: var(--surface-2);
   }
-  /* The chevron points down when open, right when closed. */
+  /* The chevron points down when open, right when closed. It sits centred
+     vertically and pulled in from the right edge, not hugging the border. */
   .tgroup-chev {
     display: inline-flex;
+    flex-shrink: 0;
+    margin-left: auto;
+    margin-right: 0.35rem;
     transition: transform 0.18s ease;
   }
   .tgroup-toggle[aria-expanded="false"] .tgroup-chev {
