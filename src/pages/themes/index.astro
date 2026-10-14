@@ -186,7 +186,9 @@ const totalWords = themes.reduce(
       align-items: center;
       gap: 0.75rem;
       width: 100%;
-      padding: 1rem 1.1rem;
+      /* Same inner padding as a topic card (see .card in global.css), so the
+         category header and the cards under it line up on the same inset. */
+      padding: 1.25rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-card);
       background: var(--surface);
