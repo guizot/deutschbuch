@@ -60,42 +60,38 @@ const totalWords = themes.reduce(
     <h1 class="text-3xl mb-2 flex items-center gap-2">
       <Icon name="books" size={30} style="color: var(--color-fox)" /> Topics
     </h1>
-    <p class="mb-6" style="color: var(--text-muted)">
+    <p class="mb-8" style="color: var(--text-muted)">
       Vocabulary by topic — {themes.length} themes, {totalWords} words. Not a lesson: a browsable
       word list, grouped the way a phrasebook groups things.
     </p>
 
-    <div class="mb-6 flex justify-end">
-      <button id="tall" class="btn btn-ghost" style="padding:0.35rem 0.8rem;font-size:0.75rem">
-        Collapse all
-      </button>
-    </div>
-
     {
       groups.map((g) => (
         <section class="tcat mb-8" data-cat={g.cat}>
-          <h2 class="mb-1">
+          <h2 class="mb-0">
             <button
               type="button"
               class="tcat-toggle"
               aria-expanded="true"
               aria-controls={`panel-${slug(g.cat)}`}
             >
-              <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
-              <span class="text-xs font-bold" style="color: var(--text-faint)">
-                {g.items.length}
+              <span class="tcat-head">
+                <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
+                <span class="text-xs font-bold" style="color: var(--text-faint)">
+                  {g.items.length}
+                </span>
+                <span class="tcat-chev ml-auto" style="color: var(--text-faint)">
+                  <Icon name="chevron" size={20} />
+                </span>
               </span>
-              <span class="tcat-chev ml-auto" style="color: var(--text-faint)">
-                <Icon name="chevron" size={20} />
-              </span>
+              {g.sub && (
+                <span class="text-xs tcat-sub" style="color: var(--text-faint)">
+                  {g.sub}
+                </span>
+              )}
             </button>
           </h2>
           <div id={`panel-${slug(g.cat)}`} class="tcat-panel">
-            {g.sub && (
-              <p class="text-xs mb-4" style="color: var(--text-faint)">
-                {g.sub}
-              </p>
-            )}
             <div class="grid sm:grid-cols-2 gap-4">
               {g.items.map((t) => (
                 <a
@@ -133,23 +129,35 @@ const totalWords = themes.reduce(
 
   <style>
     /* The category header is a button: an outlined row, so it still reads as
-       clickable when its cards are folded away and nothing is under it. */
+       clickable when its cards are folded away and nothing is under it. The
+       description sits inside the button, under the title. */
     .tcat-toggle {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.15rem;
       width: 100%;
       padding: 0.7rem 1rem;
       border: 2px solid var(--border);
       border-radius: var(--radius-card);
       background: var(--surface);
       color: inherit;
+      text-align: left;
       cursor: pointer;
       transition: border-color 0.12s ease, background 0.12s ease;
     }
     .tcat-toggle:hover {
       border-color: var(--border-strong);
       background: var(--surface-2);
+    }
+    .tcat-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      width: 100%;
+    }
+    .tcat-sub {
+      display: block;
     }
     .tcat-chev {
       display: inline-flex;
@@ -193,19 +201,6 @@ const totalWords = themes.reduce(
         apply();
       });
     });
-
-    const allBtn = document.getElementById("tall");
-    if (allBtn) {
-      allBtn.addEventListener("click", () => {
-        const allClosed = sections.every((s) => collapsed.has(s.dataset.cat));
-        for (const s of sections) {
-          if (allClosed) collapsed.delete(s.dataset.cat);
-          else collapsed.add(s.dataset.cat);
-        }
-        allBtn.textContent = allClosed ? "Collapse all" : "Expand all";
-        apply();
-      });
-    }
 
     apply();
   </script>
