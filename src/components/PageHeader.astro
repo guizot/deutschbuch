@@ -56,9 +56,9 @@ const {
     </span>
     <span class="page-head-names">
       <h1 class="page-head-title">{title}</h1>
-      {en && <span class="page-head-en">{en}</span>}
     </span>
   </div>
+  {en && <p class="page-head-en">{en}</p>}
   {subtitle && <p class="page-head-sub">{subtitle}</p>}
   {note && <p class="page-head-note">{note}</p>}
   <slot />
@@ -78,12 +78,12 @@ const {
     align-items: center;
     flex: none;
   }
-  /* Title and its English gloss stack tightly; min-width:0 lets a long German
-     word wrap instead of shoving the icon around. */
+  /* Title alone next to the icon; the English gloss and the subtitle are both
+     full-width lines below, starting at the icon's left edge, so the whole
+     block reads as one column. */
   .page-head-names {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
     min-width: 0;
   }
   .page-head-title {
@@ -92,13 +92,14 @@ const {
     margin: 0;
   }
   .page-head-en {
+    margin-top: 0.35rem;
     font-size: 1rem;
     font-weight: 800;
     line-height: 1.2;
     color: var(--text-faint);
   }
   .page-head-sub {
-    margin-top: 0.6rem;
+    margin-top: 0.35rem;
     color: var(--text-muted);
   }
   .page-head-note {
