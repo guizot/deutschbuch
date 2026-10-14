@@ -42,11 +42,25 @@ const CATEGORY_EN: Record<string, string> = {
   Gesellschaft: "Society",
   Grammatik: "Grammar",
 };
+/** Icon + tile colour for each category, matching the topic-card style. */
+const CATEGORY_META: Record<string, { icon: string; color: string }> = {
+  Grundlagen: { icon: "shapes", color: "lv-a1" },
+  Menschen: { icon: "person", color: "lv-a2" },
+  Alltag: { icon: "house", color: "lv-b2" },
+  "Stadt & Reisen": { icon: "compass", color: "lv-c1" },
+  Natur: { icon: "leaf", color: "lv-a1" },
+  "Arbeit & Lernen": { icon: "briefcase", color: "lv-red" },
+  Freizeit: { icon: "ball", color: "lv-b2" },
+  Gesellschaft: { icon: "globe", color: "lv-a2" },
+  Grammatik: { icon: "grammar", color: "lv-c1" },
+};
 
 const groups = CATEGORY_ORDER.map((cat) => ({
   cat,
   en: CATEGORY_EN[cat] || "",
   sub: CATEGORY_SUB[cat] || "",
+  icon: CATEGORY_META[cat]?.icon || "books",
+  color: CATEGORY_META[cat]?.color || "lv-a1",
   items: themes.filter((t) => t.category === cat),
 })).filter((g) => g.items.length > 0);
 
@@ -88,6 +102,12 @@ const totalWords = themes.reduce(
               aria-expanded="true"
               aria-controls={`panel-${slug(g.cat)}`}
             >
+              <span
+                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${g.color}`}
+                style="color:#fff"
+              >
+                <Icon name={g.icon} size={26} />
+              </span>
               <span class="tcat-body">
                 <span class="tcat-head">
                   <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
@@ -101,7 +121,7 @@ const totalWords = themes.reduce(
                   </span>
                 </span>
                 {g.sub && (
-                  <span class="text-xs tcat-sub" style="color: var(--text-faint)">
+                  <span class="text-sm tcat-sub" style="color: var(--text-muted)">
                     {g.sub}
                   </span>
                 )}
@@ -129,6 +149,11 @@ const totalWords = themes.reduce(
                     <div class="min-w-0">
                       <div class="font-extrabold text-lg" style="color: var(--text-strong)">
                         {t.title}
+                        {t.subtitle && (
+                          <span class="text-sm font-bold" style="color: var(--text-faint)">
+                            {" "}{t.subtitle}
+                          </span>
+                        )}
                       </div>
                       <p class="text-sm mb-2" style="color: var(--text-muted)">
                         {t.desc}
