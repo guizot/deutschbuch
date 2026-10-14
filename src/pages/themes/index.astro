@@ -159,14 +159,14 @@ const totalWords = themes.reduce(
                           {t.subtitle}
                         </div>
                       )}
-                      <p class="text-sm mb-2" style="color: var(--text-muted)">
-                        {t.desc}
-                      </p>
-                      <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
-                        {t.count}
-                      </span>
                     </div>
                   </div>
+                  <p class="text-sm titem-desc" style="color: var(--text-muted)">
+                    {t.desc}
+                  </p>
+                  <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+                    {t.count}
+                  </span>
                 </a>
               ))}
             </div>
@@ -284,6 +284,12 @@ const totalWords = themes.reduce(
       font-size: 0.8rem;
       line-height: 1.2;
       margin-top: 0.05rem;
+    }
+    /* Description and chips span the full card width, starting at the icon's
+       left edge rather than under the title, so the card reads as a block. */
+    .titem-desc {
+      margin-top: 0.7rem;
+      margin-bottom: 0.6rem;
     }
   </style>
 
