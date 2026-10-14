@@ -6,6 +6,41 @@ import themesData from "../../data/themes.json";
 import "../../styles/global.css";
 
 const themes = themesData.themes;
+
+// Group the cards under headings so a long list stays navigable.
+const CATEGORY_ORDER = [
+  "Grundlagen",
+  "Menschen",
+  "Alltag",
+  "Stadt & Reisen",
+  "Natur",
+  "Arbeit & Lernen",
+  "Freizeit",
+  "Gesellschaft",
+  "Grammatik",
+];
+const CATEGORY_SUB: Record<string, string> = {
+  Grundlagen: "Colours, numbers, shapes, time",
+  Menschen: "Family, body, character, feelings, health",
+  Alltag: "Food, clothing, shopping, the kitchen, the home",
+  "Stadt & Reisen": "Town, transport, countries, small talk",
+  Natur: "Animals, landscape, weather, environment",
+  "Arbeit & Lernen": "Jobs, office, school, computers",
+  Freizeit: "Sport, music, festivals, communication",
+  Gesellschaft: "Society, politics and the media",
+  Grammatik: "Verb and preposition patterns",
+};
+
+const groups = CATEGORY_ORDER.map((cat) => ({
+  cat,
+  sub: CATEGORY_SUB[cat] || "",
+  items: themes.filter((t) => t.category === cat),
+})).filter((g) => g.items.length > 0);
+
+const totalWords = themes.reduce(
+  (n, t) => n + t.groups.reduce((m, g) => m + g.words.length, 0),
+  0
+);
 ---
 <BaseLayout>
   <Header active="themes" />
@@ -15,40 +50,51 @@ const themes = themesData.themes;
       <Icon name="books" size={30} style="color: var(--color-fox)" /> Topics
     </h1>
     <p class="mb-10" style="color: var(--text-muted)">
-      Vocabulary by topic — animals, colours, the body, clothing, numbers, time. Not a lesson: a
-      browsable word list you can search and filter, grouped the way a phrasebook groups things.
+      Vocabulary by topic — {themes.length} themes, {totalWords} words. Not a lesson: a browsable
+      word list you can search and filter, grouped the way a phrasebook groups things.
     </p>
 
-    <div class="grid sm:grid-cols-2 gap-4">
-      {
-        themes.map((t) => (
-          <a href={`/themes/${t.slug}/`} class="card card-hover no-underline" style="color:inherit">
-            <div class="flex items-start gap-4">
-              <div
-                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${t.color}`}
-                style="color:#fff"
-              >
-                <Icon name={t.icon} size={26} />
-              </div>
-              <div class="min-w-0">
-                <div class="font-extrabold text-lg" style="color: var(--text-strong)">
-                  {t.title}
+    {
+      groups.map((g) => (
+        <section class="mb-10">
+          <h2 class="text-xl mb-1 flex items-baseline gap-2">
+            <span style="color: var(--text-strong)">{g.cat}</span>
+            <span class="text-xs font-bold" style="color: var(--text-faint)">
+              {g.items.length}
+            </span>
+          </h2>
+          {g.sub && (
+            <p class="text-xs mb-4" style="color: var(--text-faint)">
+              {g.sub}
+            </p>
+          )}
+          <div class="grid sm:grid-cols-2 gap-4">
+            {g.items.map((t) => (
+              <a href={`/themes/${t.slug}/`} class="card card-hover no-underline" style="color:inherit">
+                <div class="flex items-start gap-4">
+                  <div
+                    class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${t.color}`}
+                    style="color:#fff"
+                  >
+                    <Icon name={t.icon} size={26} />
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-extrabold text-lg" style="color: var(--text-strong)">
+                      {t.title}
+                    </div>
+                    <p class="text-sm mb-2" style="color: var(--text-muted)">
+                      {t.desc}
+                    </p>
+                    <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+                      {t.count}
+                    </span>
+                  </div>
                 </div>
-                <p class="text-sm mb-2" style="color: var(--text-muted)">
-                  {t.desc}
-                </p>
-                <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
-                  {t.count}
-                </span>
-              </div>
-            </div>
-          </a>
-        ))
-      }
-    </div>
-
-    <p class="text-center text-sm mt-10" style="color: var(--text-faint)">
-      More topics are on the way — food, the home, transport, weather.
-    </p>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))
+    }
   </main>
 </BaseLayout>
