@@ -32,8 +32,13 @@ import "../../styles/global.css";
               >
                 <Icon name={r.icon} size={26} />
               </div>
-              <div class="font-extrabold text-lg" style="color: var(--text-strong)">
-                {r.title}
+              <div class="min-w-0">
+                <div class="font-extrabold text-lg" style="color: var(--text-strong)">
+                  {r.title}
+                </div>
+                <div class="ref-en font-bold" style="color: var(--text-faint)">
+                  {r.en}
+                </div>
               </div>
             </div>
             <p class="text-sm ref-desc" style="color: var(--text-muted)">
@@ -49,6 +54,13 @@ import "../../styles/global.css";
   </main>
 
   <style>
+    /* English gloss sits on its own line right under the German title, tight
+       against it — the same pattern as the topic cards. */
+    .ref-en {
+      font-size: 0.8rem;
+      line-height: 1.2;
+      margin-top: 0.05rem;
+    }
     /* Description and badge span the full card width, starting at the icon's
        left edge rather than under the title, so the card reads as a block. */
     .ref-desc {

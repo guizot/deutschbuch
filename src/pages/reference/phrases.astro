@@ -20,7 +20,13 @@ const items = phrases.map((p) => ({
   <Header active="reference" />
   <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
     <BackLink fallback="/reference/" label="Reference" />
-    <h1 class="text-3xl mb-2 flex items-center gap-2"><Icon name="chat" size={30} style="color: var(--color-fox)" /> Redemittel</h1>
+    <h1 class="text-3xl mb-2 flex items-center gap-2">
+      <Icon name="chat" size={30} style="color: var(--color-fox)" />
+      <span class="ref-title">
+        <span>Redemittel</span>
+        <span class="ref-title-en font-bold" style="color: var(--text-faint)">Phrase bank</span>
+      </span>
+    </h1>
     <p class="mb-8" style="color:var(--text-muted)">
       {items.length} ready-made phrases for the writing and speaking exams. Learn 2–3 per function
       and make them yours.

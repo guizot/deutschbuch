@@ -91,6 +91,8 @@ export const LEVELS: LevelInfo[] = [
 export interface ReferenceInfo {
   slug: string;
   title: string;
+  /** English gloss shown under the German title, as on the topic cards. */
+  en: string;
   desc: string;
   count: string;
   icon: string;
@@ -116,6 +118,7 @@ export const REFERENCES: ReferenceInfo[] = [
   {
     slug: "dictionary",
     title: "Wörterbuch",
+    en: "Dictionary",
     desc: "Every word A–Z with its CEFR level. Searchable.",
     count: `${n(COUNTS.words)} headwords`,
     icon: "book",
@@ -124,6 +127,7 @@ export const REFERENCES: ReferenceInfo[] = [
   {
     slug: "nouns",
     title: "Nomen",
+    en: "Nouns",
     desc: "Nouns with article and plural. Filter by der / die / das.",
     count: `${n(COUNTS.nouns)} nouns`,
     icon: "letters",
@@ -132,6 +136,7 @@ export const REFERENCES: ReferenceInfo[] = [
   {
     slug: "verbs",
     title: "Verbtabellen",
+    en: "Verb tables",
     desc: "Conjugation tables: Präsens, Präteritum, Perfekt.",
     count: `${n(COUNTS.verbs)} verbs`,
     icon: "table",
@@ -140,6 +145,7 @@ export const REFERENCES: ReferenceInfo[] = [
   {
     slug: "phrases",
     title: "Redemittel",
+    en: "Phrase bank",
     desc: "Exam phrases for writing and speaking, by level.",
     count: `${n(COUNTS.phrases)} phrases`,
     icon: "chat",
@@ -147,7 +153,8 @@ export const REFERENCES: ReferenceInfo[] = [
   },
   {
     slug: "cheatsheet",
-    title: "Cheat Sheet",
+    title: "Spickzettel",
+    en: "Cheat Sheet",
     desc: "The whole grammar on one searchable page.",
     count: "14 sections",
     icon: "bolt",

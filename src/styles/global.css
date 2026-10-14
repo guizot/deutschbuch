@@ -185,6 +185,20 @@ h1, h2, h3, h4 {
     border-color: var(--border-strong);
   }
 
+  /* --- Bilingual page title --------------------------------------------- */
+  /* German title with its English gloss tight underneath, the same pattern as
+     the topic cards. Used on the reference detail pages. */
+  .ref-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+  .ref-title-en {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
   /* --- Progress bar ----------------------------------------------------- */
   .progress-track {
     background: var(--border);
