@@ -31,8 +31,12 @@ const columns = theme.columns ?? [
 
     <h1 class="text-3xl mb-2 flex items-center gap-2">
       <Icon name={theme.icon} size={30} style={`color: ${theme.tint}`} />
-      {theme.title}
-      <span class="text-lg font-bold" style="color: var(--text-faint)">{theme.subtitle}</span>
+      <span class="theme-title">
+        <span>{theme.title}</span>
+        <span class="theme-en text-lg font-bold" style="color: var(--text-faint)">
+          {theme.subtitle}
+        </span>
+      </span>
     </h1>
     <p class="mb-8" style="color: var(--text-muted)" set:html={theme.intro} />
 
@@ -57,4 +61,20 @@ const columns = theme.columns ?? [
       )
     }
   </main>
+
+  <style>
+    /* The English gloss sits on its own line right under the German title,
+       tight against it — the same pattern as the topic cards on the index.
+       Inline, a long title pushed it to the right and left a wide gap. */
+    .theme-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      min-width: 0;
+    }
+    .theme-en {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+  </style>
 </BaseLayout>
