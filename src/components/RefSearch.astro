@@ -82,7 +82,7 @@ const levels = ["A1", "A2", "B1", "B2", "C1"];
   }
 
   <div class="text-xs font-bold" style="color: var(--text-muted)">
-    <span id="count">{items.length}</span> results
+    <span id="count">{items.length.toLocaleString("en-US")}</span> results
   </div>
 </div>
 
@@ -167,7 +167,7 @@ const levels = ["A1", "A2", "B1", "B2", "C1"];
     const out = matches.slice(0, limit);
 
     // Show the true number of matches; note when the table is truncated.
-    countEl.textContent = String(matches.length);
+    countEl.textContent = matches.length.toLocaleString("en-US");
     const noteEl = document.getElementById("limit-note");
     if (noteEl) {
       noteEl.style.display = matches.length > limit ? "" : "none";
