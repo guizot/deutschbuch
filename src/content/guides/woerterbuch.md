@@ -1,4 +1,4 @@
-Every word from the A1–C1 vocabulary files in **one alphabetical dictionary**. **1,024 headwords** (1054 entries), each tagged with its level.
+Every word from the A1–C1 vocabulary files in **one alphabetical dictionary**. **1,826 headwords**, each tagged with its level.
 
 ## How to use this file
 
@@ -7,6 +7,7 @@ Every word from the A1–C1 vocabulary files in **one alphabetical dictionary**.
 - **Plural / Pattern** repeats the extra information from the level files: noun plurals, verb patterns, usage notes.
 - Nouns keep their article (`der`, `die`, `das`). **Never learn a noun without its article.**
 - This is a **study dictionary**, not a complete one: it contains the curated high-frequency words from this course. For full coverage use dict.cc, Leo, or DWDS.
+- Words marked **†** were added from the thematic topics in the Deutschbuch app (animals, food, the body, clothing, travel…). They are course vocabulary too, just not part of the original level files.
 
 ## Legend
 

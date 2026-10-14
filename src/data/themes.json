@@ -1275,49 +1275,49 @@
               "de": "der Montag",
               "art": "der",
               "en": "Monday",
-              "plural": "die Montage",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Dienstag",
               "art": "der",
               "en": "Tuesday",
-              "plural": "die Dienstage",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Mittwoch",
               "art": "der",
               "en": "Wednesday",
-              "plural": "die Mittwoche",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Donnerstag",
               "art": "der",
               "en": "Thursday",
-              "plural": "die Donnerstage",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Freitag",
               "art": "der",
               "en": "Friday",
-              "plural": "die Freitage",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Samstag",
               "art": "der",
               "en": "Saturday",
-              "plural": "die Samstage",
+              "plural": "-",
               "level": "A1"
             },
             {
               "de": "der Sonntag",
               "art": "der",
               "en": "Sunday",
-              "plural": "die Sonntage",
+              "plural": "-",
               "level": "A1"
             }
           ]
@@ -1331,84 +1331,84 @@
               "de": "der Januar",
               "art": "der",
               "en": "January",
-              "plural": "die Januare",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Februar",
               "art": "der",
               "en": "February",
-              "plural": "die Februare",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der März",
               "art": "der",
               "en": "March",
-              "plural": "die Märze",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der April",
               "art": "der",
               "en": "April",
-              "plural": "die Aprile",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Mai",
               "art": "der",
               "en": "May",
-              "plural": "die Maie",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Juni",
               "art": "der",
               "en": "June",
-              "plural": "die Junis",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Juli",
               "art": "der",
               "en": "July",
-              "plural": "die Julis",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der August",
               "art": "der",
               "en": "August",
-              "plural": "die Auguste",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der September",
               "art": "der",
               "en": "September",
-              "plural": "die September",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Oktober",
               "art": "der",
               "en": "October",
-              "plural": "die Oktober",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der November",
               "art": "der",
               "en": "November",
-              "plural": "die November",
+              "plural": "-",
               "level": "A2"
             },
             {
               "de": "der Dezember",
               "art": "der",
               "en": "December",
-              "plural": "die Dezember",
+              "plural": "-",
               "level": "A2"
             }
           ]
@@ -5403,7 +5403,7 @@
       "color": "lv-b1",
       "tint": "var(--color-bee)",
       "desc": "41 adjectives to describe people — looks and personality.",
-      "count": "41 words · 4 groups",
+      "count": "39 words · 4 groups",
       "intro": "Describing people needs adjectives for both appearance and character. In German these take endings before a noun: <b>ein freundlicher Mann</b>.",
       "groups": [
         {
@@ -5566,13 +5566,6 @@
           "en": "Hair and eyes",
           "words": [
             {
-              "de": "die Haare",
-              "en": "hair",
-              "level": "B1",
-              "art": "die",
-              "plural": "-"
-            },
-            {
               "de": "blond",
               "en": "blond",
               "level": "B1"
@@ -5596,13 +5589,6 @@
               "de": "grau",
               "en": "grey",
               "level": "B1"
-            },
-            {
-              "de": "die Augen",
-              "en": "eyes",
-              "level": "B1",
-              "art": "die",
-              "plural": "-"
             },
             {
               "de": "blau",
@@ -8937,7 +8923,7 @@
       "color": "lv-b1",
       "tint": "var(--color-bee)",
       "desc": "24 fixed noun + preposition pairs.",
-      "count": "24 words · 1 group",
+      "count": "24 words · 1 groups",
       "intro": "Nouns also carry fixed prepositions, usually with <b>Angst vor</b>, <b>Lust auf</b>. Learn them with the noun.",
       "groups": [
         {

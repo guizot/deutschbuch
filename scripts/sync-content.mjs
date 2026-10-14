@@ -64,6 +64,15 @@ function plain(s) {
     .trim();
 }
 
+/**
+ * The woerterbuch/nomen sources mark words added from the app's thematic topics
+ * with a trailing "†" (so a reader of the raw markdown can tell them apart).
+ * That marker is meaningful in the .md file but must never reach the UI.
+ */
+function stripDagger(s) {
+  return s.replace(/\s*†\s*$/, "").trim();
+}
+
 function ensureDir(d) {
   fs.mkdirSync(d, { recursive: true });
 }
@@ -195,11 +204,11 @@ function syncDictionary() {
     if (c[0].toLowerCase() === "deutsch") continue;
     if (!levelRe.test(c[3])) continue;
     out.push({
-      de: c[0],
+      de: stripDagger(c[0]),
       en: c[1],
       extra: c[2],
       level: c[3],
-      levels: c[3].split(",").map((s) => s.trim()),
+      levels: c[3].split(", ").map((s) => s.trim()),
     });
   }
   fs.writeFileSync(path.join(OUT_DATA, "dictionary.json"), JSON.stringify(out), "utf8");
@@ -222,7 +231,8 @@ function syncNouns() {
     if (c[0].toLowerCase() === "nomen") continue;
     if (!levelRe.test(c[3])) continue;
 
-    const art = (c[0].match(/^(der|die|das)\s/) || [])[1] || "";
+    const head = stripDagger(c[0]);
+    const art = (head.match(/^(der|die|das)\s/) || [])[1] || "";
     const plural = c[2];
     const derived = /\*$/.test(plural);
     // Keep only rows that really are noun entries: a plural in column 3
@@ -235,14 +245,14 @@ function syncNouns() {
     const en = c[1];
 
     out.push({
-      de: c[0],
+      de: head,
       art,
       en,
       plural: plural.replace(/\s*\*$/, ""),
       derived,
       level: c[3],
-      levels: c[3].split(",").map((s) => s.trim()),
-      stem: c[0].replace(/^(der|die|das)\s+/, ""),
+      levels: c[3].split(", ").map((s) => s.trim()),
+      stem: head.replace(/^(der|die|das)\s+/, ""),
     });
   }
   fs.writeFileSync(path.join(OUT_DATA, "nouns.json"), JSON.stringify(out), "utf8");
