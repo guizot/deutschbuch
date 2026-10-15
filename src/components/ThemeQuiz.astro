@@ -261,18 +261,16 @@ const enough = pool.length >= 4;
     word-break: break-word;
   }
 
+  /* The grid spans the same width as the question box above it, so the two
+     blocks line up edge to edge. */
   .tq-opts {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.7rem;
-    /* Capped so the 1:1 squares stay a sane size on a wide screen instead of
-       growing into 360px tiles; centred, so the grid stays under the word. */
-    max-width: 30rem;
-    margin-inline: auto;
   }
 
-  /* Each option is a square: aspect-ratio keeps all four the same shape at
-     every width, so the 2x2 grid reads as a grid rather than as rows. */
+  /* On a phone the options are squares: four equal tiles are easy thumb
+     targets and the 2x2 reads as one grid. */
   .tq-opt {
     display: flex;
     align-items: center;
@@ -289,6 +287,16 @@ const enough = pool.length >= 4;
     border-radius: 8px;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
+  }
+
+  /* On the web the squares would grow into big empty boxes, so there the
+     options are plain rectangles: same width as the question box, height set
+     by their content. */
+  @media (min-width: 640px) {
+    .tq-opt {
+      aspect-ratio: auto;
+      min-height: 4.5rem;
+    }
   }
   .tq-opt:hover:not(.is-locked) {
     border-color: var(--border-strong);
