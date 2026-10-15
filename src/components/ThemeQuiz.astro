@@ -277,21 +277,16 @@ const enough = pool.length >= 4;
 
   .tq-opts {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0.7rem;
-  }
-  @media (min-width: 560px) {
-    .tq-opts {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 
   .tq-opt {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    justify-content: center;
+    text-align: center;
     width: 100%;
-    text-align: left;
     padding: 0.9rem 1rem;
     font-size: 1rem;
     font-weight: 800;
@@ -311,22 +306,7 @@ const enough = pool.length >= 4;
     transform: translateY(2px);
     border-bottom-width: 2px;
   }
-  .tq-key {
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 8px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    font-size: 0.8rem;
-    font-weight: 900;
-    color: var(--text-muted);
-  }
   .tq-txt {
-    flex: 1;
     min-width: 0;
   }
   .tq-opt.is-locked {
@@ -337,19 +317,9 @@ const enough = pool.length >= 4;
     background: color-mix(in srgb, var(--tq-ok) 16%, transparent);
     color: var(--text-strong);
   }
-  .tq-opt.is-correct .tq-key {
-    background: var(--tq-ok);
-    border-color: var(--tq-ok-edge);
-    color: #fff;
-  }
   .tq-opt.is-wrong {
     border-color: var(--tq-no);
     background: color-mix(in srgb, var(--tq-no) 14%, transparent);
-  }
-  .tq-opt.is-wrong .tq-key {
-    background: var(--tq-no);
-    border-color: var(--tq-no-edge);
-    color: #fff;
   }
 
   .tq-fb {
@@ -561,17 +531,13 @@ const enough = pool.length >= 4;
 
       var opts = buildOptions(w);
       optsEl.innerHTML = "";
-      opts.forEach(function (txt, i) {
+      opts.forEach(function (txt) {
         var b = document.createElement("button");
         b.type = "button";
         b.className = "tq-opt";
-        var k = document.createElement("span");
-        k.className = "tq-key";
-        k.textContent = String(i + 1);
         var s = document.createElement("span");
         s.className = "tq-txt";
         s.textContent = txt;
-        b.appendChild(k);
         b.appendChild(s);
         b.addEventListener("click", function () {
           choose(b, txt, w);
