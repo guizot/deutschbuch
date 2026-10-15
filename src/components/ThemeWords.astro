@@ -106,9 +106,11 @@ function field(w: Word, key: string): string {
         >
           <span class="tgroup-names">
             <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
-            {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+            <span class="tgroup-sub">
+              {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+              <span class="tgroup-count">{g.words.length}</span>
+            </span>
           </span>
-          <span class="tgroup-count">{g.words.length}</span>
           <span class="tgroup-chev" style="color: var(--text-faint)">
             <Icon name="chevron" size={24} />
           </span>
@@ -201,9 +203,9 @@ function field(w: Word, key: string): string {
     border-color: var(--border-strong);
     background: var(--surface-2);
   }
-  /* German title with the English gloss stacked directly under it, both
-     starting at the same left edge. Takes the slack so the count chip and the
-     chevron are pushed to the right edge. */
+  /* German title with the English gloss and the count chip stacked directly
+     under it, both starting at the same left edge. Takes the slack so the
+     chevron is pushed to the right edge. */
   .tgroup-names {
     display: flex;
     flex-direction: column;
@@ -211,24 +213,30 @@ function field(w: Word, key: string): string {
     min-width: 0;
     line-height: 1.25;
   }
-  /* The word count is a small chip pinned to the right, so the numbers line up
-     in one column across groups instead of trailing each title's ragged end.
-     Outlined rather than filled, so it stays legible when the row is hovered
-     and the button background shifts. */
+  /* English gloss with the word count sitting right beside it. */
+  .tgroup-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  /* The word count is a small chip next to the English gloss, so it stays
+     attached to the name instead of floating out on the right. Outlined
+     rather than filled, so it stays legible when the row is hovered and the
+     button background shifts. */
   .tgroup-count {
     flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.1rem;
-    padding: 0.2rem 0.6rem;
+    padding: 0.1rem 0.5rem;
     border: 1.5px solid var(--border-strong);
     border-radius: 999px;
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
-    line-height: 1;
+    line-height: 1.4;
   }
   /* The chevron points down when open, right when closed. It sits centred
      vertically and pulled in from the right edge, not hugging the border. */
