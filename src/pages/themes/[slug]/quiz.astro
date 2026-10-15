@@ -29,6 +29,7 @@ const total = theme.groups.reduce((n, g) => n + g.words.length, 0);
     <BackLink fallback={`/themes/${theme.slug}/`} label={theme.title} />
 
     <PageHeader
+      class="tq-head"
       icon="question"
       color={theme.tint}
       title="Quiz"
@@ -38,3 +39,12 @@ const total = theme.groups.reduce((n, g) => n + g.words.length, 0);
     <ThemeQuiz slug={theme.slug} theme={theme} />
   </main>
 </BaseLayout>
+
+<style is:global>
+  /* Trim the header's usual 2rem bottom margin down to the 0.7rem the quiz uses
+     between the question box and the options, so the progress bar is spaced the
+     same above and below. Needs to beat the scoped `.page-head` rule. */
+  header.page-head.tq-head {
+    margin-bottom: 0.7rem;
+  }
+</style>
