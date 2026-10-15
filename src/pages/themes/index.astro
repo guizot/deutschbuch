@@ -103,36 +103,35 @@ const totalWords = themes.reduce(
               aria-expanded="false"
               aria-controls={`panel-${slug(g.cat)}`}
             >
-              <span
-                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${g.color}`}
-                style="color:#fff"
-              >
-                <Icon name={g.icon} size={26} />
-              </span>
-              <span class="tcat-body">
-                <span class="tcat-head">
-                  <span class="tcat-names">
-                    <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
-                    <span class="tcat-gloss">
-                      {g.en && (
-                        <span class="tcat-en" style="color: var(--text-faint)">
-                          {g.en}
-                        </span>
-                      )}
-                      <span class="tcat-count text-xs font-bold" style="color: var(--text-faint)">
-                        {g.items.length}
-                      </span>
-                    </span>
-                  </span>
+              <span class="tcat-top">
+                <span
+                  class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${g.color}`}
+                  style="color:#fff"
+                >
+                  <Icon name={g.icon} size={26} />
                 </span>
-                {g.sub && (
-                  <span class="text-sm tcat-sub" style="color: var(--text-muted)">
-                    {g.sub}
-                  </span>
-                )}
+                <span class="tcat-names">
+                  <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
+                  {g.en && (
+                    <span class="tcat-en" style="color: var(--text-faint)">
+                      {g.en}
+                    </span>
+                  )}
+                </span>
+                <span class="tcat-chev" style="color: var(--text-faint)">
+                  <Icon name="chevron" size={24} />
+                </span>
               </span>
-              <span class="tcat-chev" style="color: var(--text-faint)">
-                <Icon name="chevron" size={24} />
+              {g.sub && (
+                <span class="text-sm tcat-sub" style="color: var(--text-muted)">
+                  {g.sub}
+                </span>
+              )}
+              <span
+                class="pill tcat-count"
+                style="background:var(--surface-2);color:var(--text-muted)"
+              >
+                {g.items.length} themes
               </span>
             </button>
           </h2>
@@ -178,14 +177,14 @@ const totalWords = themes.reduce(
   </main>
 
   <style>
-    /* The category header is a button: an outlined row, so it still reads as
-       clickable when its cards are folded away and nothing is under it. The
-       description sits inside the button, under the title, and the chevron is
-       centred vertically against the whole two-line block. */
+    /* The category header is a button laid out like a topic card: the icon with
+       the German name and its English gloss stacked to its right, the chevron
+       at the far end, then the subtitle and the count as full-width lines
+       below. Category and card then read as the same thing at two zoom levels. */
     .tcat-toggle {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      flex-direction: column;
+      align-items: stretch;
       width: 100%;
       /* Same inner padding as a topic card (see .card in global.css), so the
          category header and the cards under it line up on the same inset. */
@@ -202,53 +201,40 @@ const totalWords = themes.reduce(
       border-color: var(--border-strong);
       background: var(--surface-2);
     }
-    .tcat-body {
+    /* Icon, the two-line name block and the chevron share the top row; the
+       name block takes the slack, which pushes the chevron to the far end. */
+    .tcat-top {
       display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-      flex: 1;
-      min-width: 0;
-    }
-    /* German name, its English gloss and the count wrap together as one tight
-       run, so a long pair reflows onto a second line without opening a 28px
-       gap (the default line box of the xl title) under it. */
-    .tcat-head {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      min-width: 0;
+      align-items: center;
+      gap: 0.75rem;
     }
     .tcat-names {
       display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      column-gap: 0.4rem;
-      row-gap: 0.1rem;
+      flex-direction: column;
+      flex: 1;
       min-width: 0;
-      line-height: 1.15;
     }
     .tcat-names > .text-xl {
       line-height: 1.15;
     }
+    /* English gloss on its own line right under the German name, tight against
+       it — the same pattern as the topic cards. */
     .tcat-en {
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 0.2px;
+      line-height: 1.2;
+      margin-top: 0.05rem;
     }
-    /* English gloss and the count travel as one unit: if the German name fills
-       the line, they move down together rather than splitting the pair. */
-    .tcat-gloss {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 0.4rem;
-      flex-shrink: 0;
-    }
-    .tcat-count {
-      flex-shrink: 0;
-    }
+    /* Subtitle and count span the full width from the icon's left edge, the
+       same insets a topic card uses for its description and chip. */
     .tcat-sub {
       display: block;
+      margin-top: 0.7rem;
       font-weight: 600;
+    }
+    .tcat-count {
+      align-self: flex-start;
+      margin-top: 0.6rem;
     }
     .tcat-chev {
       display: inline-flex;
