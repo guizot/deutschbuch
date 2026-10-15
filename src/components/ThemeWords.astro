@@ -104,8 +104,10 @@ function field(w: Word, key: string): string {
           aria-expanded="true"
           aria-controls={`panel-${g.id}`}
         >
-          <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
-          {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+          <span class="tgroup-names">
+            <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
+            {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+          </span>
           <span
             class="text-xs font-bold ml-1"
             style="color: var(--text-faint);white-space:nowrap"
@@ -204,6 +206,14 @@ function field(w: Word, key: string): string {
     border-color: var(--border-strong);
     background: var(--surface-2);
   }
+  /* German title with the English gloss stacked directly under it, both
+     starting at the same left edge. */
+  .tgroup-names {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+  }
   /* The chevron points down when open, right when closed. It sits centred
      vertically and pulled in from the right edge, not hugging the border. */
   .tgroup-chev {
@@ -224,10 +234,10 @@ function field(w: Word, key: string): string {
     outline-offset: 3px;
     border-radius: 6px;
   }
-  /* Tight against the header: the table reads as what the header opens, not as
-     a separate block a gap away. */
+  /* A little more air under the header so the table reads as what it opens,
+     without the two drifting apart. */
   .tgroup-panel {
-    padding-top: 0.4rem;
+    padding-top: 0.9rem;
   }
 </style>
 
