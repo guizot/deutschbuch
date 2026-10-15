@@ -11,8 +11,8 @@
  * The word pool is computed at build time and handed to the client as JSON, so
  * the page ships no data request and works offline.
  *
- * Layout of a question, top to bottom: the instruction line, then the word
- * itself (large, centred), then the four options.
+ * Layout of a question, top to bottom: the word in its own box, then the four
+ * options.
  */
 import Icon from "./Icon.astro";
 
@@ -103,8 +103,9 @@ const enough = pool.length >= 4;
       <span id="tq-score" class="tq-score">✓ 0 &nbsp; ✗ 0</span>
     </div>
 
-    <p id="tq-instr" class="tq-instr">Apa arti kata ini dalam bahasa Inggris?</p>
-    <div id="tq-word" class="tq-word">…</div>
+    <div class="tq-qbox">
+      <div id="tq-word" class="tq-word">…</div>
+    </div>
 
     <div id="tq-opts" class="tq-opts" role="group" aria-label="Pilihan jawaban"></div>
 
@@ -257,12 +258,14 @@ const enough = pool.length >= 4;
     font-variant-numeric: tabular-nums;
   }
 
-  .tq-instr {
-    text-align: center;
-    font-weight: 800;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    margin: 0 0 0.6rem;
+  /* The prompt sits in its own box at the top of the question, so it reads as
+     the thing being asked rather than as a floating word. */
+  .tq-qbox {
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    padding: 1.4rem 1rem;
+    margin-bottom: 1.2rem;
   }
 
   .tq-word {
@@ -271,7 +274,6 @@ const enough = pool.length >= 4;
     font-size: clamp(1.8rem, 6vw, 2.6rem);
     line-height: 1.15;
     color: var(--text-strong);
-    margin: 0 0 1.8rem;
     word-break: break-word;
   }
 
@@ -287,14 +289,14 @@ const enough = pool.length >= 4;
     justify-content: center;
     text-align: center;
     width: 100%;
+    min-height: 4.5rem;
     padding: 0.9rem 1rem;
     font-size: 1rem;
     font-weight: 800;
     color: var(--text-strong);
     background: var(--surface);
     border: 2px solid var(--border);
-    border-bottom-width: 4px;
-    border-radius: var(--radius-btn);
+    border-radius: 8px;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
   }
@@ -304,7 +306,6 @@ const enough = pool.length >= 4;
   }
   .tq-opt:active:not(.is-locked) {
     transform: translateY(2px);
-    border-bottom-width: 2px;
   }
   .tq-txt {
     min-width: 0;
@@ -454,7 +455,6 @@ const enough = pool.length >= 4;
     var barEl = q("#tq-bar");
     var countEl = q("#tq-count");
     var scoreEl = q("#tq-score");
-    var instrEl = q("#tq-instr");
     var wordEl = q("#tq-word");
     var optsEl = q("#tq-opts");
     var fbEl = q("#tq-fb");
@@ -523,10 +523,6 @@ const enough = pool.length >= 4;
       countEl.textContent = pos + 1 + " / " + queue.length;
       scoreEl.innerHTML = "✓ " + right + " &nbsp; ✗ " + wrong;
       barEl.style.width = (pos / queue.length) * 100 + "%";
-      instrEl.textContent =
-        mode === "de-en"
-          ? "Apa arti kata Jerman ini dalam bahasa Inggris?"
-          : "Apa kata Jerman untuk ini?";
       wordEl.textContent = promptOf(w);
 
       var opts = buildOptions(w);
