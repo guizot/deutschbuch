@@ -13,6 +13,10 @@
  *
  * Layout of a question, top to bottom: the word in its own box, then the four
  * options.
+ *
+ * The direction (German to English or back) is chosen on the topic page and
+ * arrives here as ?mode=…, so this page has no setup screen: it starts on
+ * load, and "Ulangi" reshuffles the same direction.
  */
 import Icon from "./Icon.astro";
 
@@ -55,44 +59,6 @@ const enough = pool.length >= 4;
 <div class="theme-quiz" style={`--tq-tint:${theme.tint}`}>
   <script type="application/json" class="tq-data" set:html={data} />
 
-  <!-- ── Start screen ─────────────────────────────────────────────────── -->
-  <section id="tq-start" class="tq-screen">
-    <div class="card tq-panel">
-      <h2 class="tq-h2">
-        <Icon name="question" size={22} style={`color:${theme.tint}`} />
-        Quiz: {theme.title}
-      </h2>
-      <p class="tq-lead">
-        Semua <strong>{pool.length} kata</strong> di topik ini jadi satu soal, urutannya acak dan
-        tidak ada yang diulang. Pilih arah dulu, lalu mulai.
-      </p>
-
-      <div class="tq-field">
-        <span class="tq-label">Arah soal</span>
-        <div class="tq-modes" role="group" aria-label="Arah soal">
-          <button type="button" class="tq-mode is-active" data-mode="de-en">
-            <span class="tq-mflag">DE → EN</span>
-            <span class="tq-msub">Lihat Jerman, pilih Inggris</span>
-          </button>
-          <button type="button" class="tq-mode" data-mode="en-de">
-            <span class="tq-mflag">EN → DE</span>
-            <span class="tq-msub">Lihat Inggris, pilih Jerman</span>
-          </button>
-        </div>
-      </div>
-
-      {
-        enough ? (
-          <button type="button" id="tq-begin" class="btn btn-primary tq-begin">
-            Mulai Quiz ({pool.length} soal)
-          </button>
-        ) : (
-          <p class="tq-warn">Topik ini belum punya cukup kata untuk sebuah kuis.</p>
-        )
-      }
-    </div>
-  </section>
-
   <!-- ── Question screen ──────────────────────────────────────────────── -->
   <section id="tq-play" class="tq-screen" hidden>
     <div class="tq-bar-wrap" role="progressbar" aria-label="Kemajuan">
@@ -128,6 +94,19 @@ const enough = pool.length >= 4;
       </div>
     </div>
   </section>
+
+  <!-- ── Fallback: a topic too small to quiz (never true today, kept so the
+         page still says something sensible if one ever is). ─────────────── -->
+  {
+    !enough && (
+      <div class="card tq-panel">
+        <p class="tq-warn">Topik ini belum punya cukup kata untuk sebuah kuis.</p>
+        <a href={`/themes/${slug}/`} class="btn btn-ghost tq-begin">
+          Kembali ke topik
+        </a>
+      </div>
+    )
+  }
 </div>
 
 <style is:global>
@@ -146,81 +125,17 @@ const enough = pool.length >= 4;
     padding: 1.4rem;
   }
 
-  .tq-h2 {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.35rem;
-    margin: 0 0 0.6rem;
-  }
-
-  .tq-lead {
-    color: var(--text-muted);
-    line-height: 1.5;
-    margin: 0 0 1.2rem;
-  }
-
-  .tq-field {
-    margin-bottom: 1.2rem;
-  }
-
-  .tq-label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-faint);
-    margin-bottom: 0.5rem;
-  }
-
-  .tq-modes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
-  }
-
-  .tq-mode {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    text-align: left;
-    padding: 0.8rem 0.9rem;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-card);
-    background: var(--surface);
-    color: var(--text);
-    cursor: pointer;
-    transition: border-color 0.12s ease, background 0.12s ease;
-  }
-  .tq-mode:hover {
-    border-color: var(--border-strong);
-    background: var(--surface-2);
-  }
-  .tq-mode.is-active {
-    border-color: var(--tq-tint, var(--color-macaw));
-    background: color-mix(in srgb, var(--tq-tint, var(--color-macaw)) 12%, transparent);
-  }
-  .tq-mflag {
-    font-weight: 900;
-    font-size: 0.95rem;
-    color: var(--text-strong);
-  }
-  .tq-msub {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    line-height: 1.25;
-  }
-
   .tq-begin {
     width: 100%;
     justify-content: center;
     text-transform: none;
     letter-spacing: 0;
+    margin-top: 1rem;
   }
 
   .tq-warn {
     color: var(--text-muted);
+    margin: 0;
   }
 
   /* ── play ── */
@@ -446,11 +361,8 @@ const enough = pool.length >= 4;
     var q = function (sel) {
       return root.querySelector(sel);
     };
-    var startEl = q("#tq-start");
     var playEl = q("#tq-play");
     var resultEl = q("#tq-result");
-    var modeBtns = Array.prototype.slice.call(root.querySelectorAll(".tq-mode"));
-    var beginBtn = q("#tq-begin");
     var barEl = q("#tq-bar");
     var wordEl = q("#tq-word");
     var optsEl = q("#tq-opts");
@@ -458,7 +370,11 @@ const enough = pool.length >= 4;
     var nextBtn = q("#tq-next");
     var againBtn = q("#tq-again");
 
-    var mode = "de-en";
+    // The direction is chosen on the topic page and arrives as ?mode=en-de;
+    // German to English is the default when the page is opened directly.
+    var params = new URLSearchParams(window.location.search);
+    var mode = params.get("mode") === "en-de" ? "en-de" : "de-en";
+
     var queue = [];
     var pos = 0;
     var right = 0;
@@ -505,10 +421,9 @@ const enough = pool.length >= 4;
     }
 
     function show(screen) {
-      startEl.hidden = screen !== startEl;
       playEl.hidden = screen !== playEl;
       resultEl.hidden = screen !== resultEl;
-      if (screen !== startEl) window.scrollTo({ top: 0, behavior: "smooth" });
+      if (screen !== playEl) window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function renderQuestion() {
@@ -614,21 +529,12 @@ const enough = pool.length >= 4;
       renderQuestion();
     }
 
-    modeBtns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        mode = b.getAttribute("data-mode");
-        modeBtns.forEach(function (x) {
-          x.classList.toggle("is-active", x === b);
-        });
-      });
-    });
-
-    if (beginBtn) beginBtn.addEventListener("click", start);
+    // The quiz starts as soon as the page opens: the direction was already
+    // chosen on the topic page, so there is no start screen left to wait on.
     nextBtn.addEventListener("click", next);
     againBtn.addEventListener("click", function () {
-      show(startEl);
+      start();
     });
-
     // Keyboard: 1–4 picks an option, Enter/Space moves on.
     document.addEventListener("keydown", function (e) {
       if (playEl.hidden) return;
@@ -642,5 +548,7 @@ const enough = pool.length >= 4;
         if (b) b.click();
       }
     });
+
+    start();
   })();
 </script>
