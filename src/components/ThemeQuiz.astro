@@ -95,6 +95,24 @@ const enough = pool.length >= 4;
     </div>
   </section>
 
+  <!-- ── Leave confirmation: shown when a link away is clicked mid-quiz. ── -->
+  <div id="tq-confirm" class="tq-modal" hidden>
+    <div
+      class="tq-modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="tq-confirm-title"
+      aria-describedby="tq-confirm-text"
+    >
+      <h2 id="tq-confirm-title" class="tq-modal-title">Leave the quiz?</h2>
+      <p id="tq-confirm-text" class="tq-modal-text">Your progress will be lost.</p>
+      <div class="tq-modal-actions">
+        <button type="button" id="tq-confirm-stay" class="btn btn-primary">Keep going</button>
+        <button type="button" id="tq-confirm-leave" class="btn btn-ghost">Leave</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Fallback: a topic too small to quiz (never true today, kept so the
          page still says something sensible if one ever is). ─────────────── -->
   {
@@ -146,9 +164,10 @@ const enough = pool.length >= 4;
     background: var(--border);
     overflow: hidden;
     position: relative;
-    /* Matches the 2rem the page header leaves above the bar, so the bar sits
-       in an even band rather than hugging the word box. */
-    margin-bottom: 2rem;
+    /* The gap under the bar matches the one between the question box and the
+       options (0.7rem); the page header above is trimmed to the same value on
+       this page, so the bar sits in an evenly spaced stack. */
+    margin-bottom: 0.7rem;
   }
   .tq-bar {
     height: 100%;
@@ -342,6 +361,52 @@ const enough = pool.length >= 4;
     text-transform: none;
     letter-spacing: 0;
   }
+
+  /* ── leave confirmation ── */
+  .tq-modal[hidden] {
+    display: none;
+  }
+  .tq-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: color-mix(in srgb, #000 60%, transparent);
+    backdrop-filter: blur(4px);
+  }
+  .tq-modal-card {
+    width: 100%;
+    max-width: 22rem;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 1.4rem;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+  .tq-modal-title {
+    font-size: 1.25rem;
+    margin: 0 0 0.4rem;
+    color: var(--text-strong);
+  }
+  .tq-modal-text {
+    margin: 0 0 1.2rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .tq-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  .tq-modal-actions .btn {
+    text-transform: none;
+    letter-spacing: 0;
+  }
 </style>
 
 <script is:inline>
@@ -371,6 +436,9 @@ const enough = pool.length >= 4;
     var fbEl = q("#tq-fb");
     var nextBtn = q("#tq-next");
     var againBtn = q("#tq-again");
+    var modalEl = q("#tq-confirm");
+    var stayBtn = q("#tq-confirm-stay");
+    var leaveBtn = q("#tq-confirm-leave");
 
     // The direction is chosen on the topic page and arrives as ?mode=en-de;
     // German to English is the default when the page is opened directly.
@@ -383,6 +451,10 @@ const enough = pool.length >= 4;
     var wrong = 0;
     var wrongList = [];
     var locked = false;
+    // True once the result screen is up: leaving is then free, no confirmation.
+    var finished = false;
+    // The link the user tried to follow, held while the dialog is open.
+    var pendingHref = null;
 
     function shuffle(a) {
       for (var i = a.length - 1; i > 0; i--) {
@@ -492,6 +564,7 @@ const enough = pool.length >= 4;
     }
 
     function showResult() {
+      finished = true;
       show(resultEl);
       var total = queue.length;
       var pct = total ? Math.round((right / total) * 100) : 0;
@@ -527,9 +600,75 @@ const enough = pool.length >= 4;
       right = 0;
       wrong = 0;
       wrongList = [];
+      finished = false;
       show(playEl);
       renderQuestion();
     }
+
+    // ── Leaving mid-quiz ──────────────────────────────────────────────────
+    // While a round is in progress, following any internal link (the bottom
+    // nav, "Back to topic", the browser back button) asks first, so a stray
+    // tap does not silently throw the round away.
+    function inProgress() {
+      return !finished && !playEl.hidden;
+    }
+    function openConfirm(href) {
+      pendingHref = href;
+      modalEl.hidden = false;
+      stayBtn.focus();
+    }
+    function closeConfirm() {
+      modalEl.hidden = true;
+      pendingHref = null;
+    }
+
+    stayBtn.addEventListener("click", closeConfirm);
+    leaveBtn.addEventListener("click", function () {
+      var href = pendingHref;
+      closeConfirm();
+      finished = true;
+      if (href) window.location.href = href;
+    });
+    modalEl.addEventListener("click", function (e) {
+      if (e.target === modalEl) closeConfirm();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (modalEl.hidden) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeConfirm();
+      }
+    });
+
+    // Intercept clicks on same-page links (capture phase, so it wins over any
+    // handler further down) and hold them back until the user confirms.
+    document.addEventListener(
+      "click",
+      function (e) {
+        if (!inProgress()) return;
+        var a = e.target.closest ? e.target.closest("a[href]") : null;
+        if (!a) return;
+        var href = a.getAttribute("href");
+        if (!href || href.charAt(0) === "#") return;
+        if (a.target === "_blank" || a.hasAttribute("download")) return;
+        // Same-origin navigation only; anything external is left alone.
+        if (a.origin && a.origin !== window.location.origin) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openConfirm(a.href);
+      },
+      true
+    );
+
+    // Back button, reload or closing the tab mid-round: the browser's own
+    // prompt, since a script cannot style or veto those navigations.
+    window.addEventListener("beforeunload", function (e) {
+      if (inProgress() && modalEl.hidden) {
+        e.preventDefault();
+        e.returnValue = "";
+        return "";
+      }
+    });
 
     // The quiz starts as soon as the page opens: the direction was already
     // chosen on the topic page, so there is no start screen left to wait on.
