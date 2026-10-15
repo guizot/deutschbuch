@@ -108,12 +108,7 @@ function field(w: Word, key: string): string {
             <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
             {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
           </span>
-          <span
-            class="text-xs font-bold ml-1"
-            style="color: var(--text-faint);white-space:nowrap"
-          >
-            {g.words.length}
-          </span>
+          <span class="tgroup-count">{g.words.length}</span>
           <span class="tgroup-chev" style="color: var(--text-faint)">
             <Icon name="chevron" size={24} />
           </span>
@@ -207,19 +202,39 @@ function field(w: Word, key: string): string {
     background: var(--surface-2);
   }
   /* German title with the English gloss stacked directly under it, both
-     starting at the same left edge. */
+     starting at the same left edge. Takes the slack so the count chip and the
+     chevron are pushed to the right edge. */
   .tgroup-names {
     display: flex;
     flex-direction: column;
+    flex: 1;
     min-width: 0;
     line-height: 1.25;
+  }
+  /* The word count is a small chip pinned to the right, so the numbers line up
+     in one column across groups instead of trailing each title's ragged end.
+     Outlined rather than filled, so it stays legible when the row is hovered
+     and the button background shifts. */
+  .tgroup-count {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.1rem;
+    padding: 0.2rem 0.6rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
   /* The chevron points down when open, right when closed. It sits centred
      vertically and pulled in from the right edge, not hugging the border. */
   .tgroup-chev {
     display: inline-flex;
     flex-shrink: 0;
-    margin-left: auto;
     margin-right: 0.35rem;
     transition: transform 0.18s ease;
   }
