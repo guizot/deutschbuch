@@ -53,17 +53,26 @@ const columns = theme.columns ?? [
               <div class="min-w-0">
                 <h2 class="quiz-cta-title">Quiz</h2>
                 <p class="quiz-cta-sub">
-                  Uji topik ini — Jerman → Inggris atau Inggris → Jerman.
+                  Uji topik ini — pilih arah soalnya dulu, lalu mulai.
                 </p>
               </div>
             </div>
-            <a
-              href={`/themes/${theme.slug}/quiz/`}
-              class="btn btn-primary quiz-cta-btn"
-            >
-              <Icon name="practice" size={20} />
-              Start Quiz
-            </a>
+            <div class="quiz-cta-actions">
+              <a
+                href={`/themes/${theme.slug}/quiz/?mode=de-en`}
+                class="btn btn-primary quiz-cta-btn"
+              >
+                <span class="quiz-dir-flag">DE → EN</span>
+                <span class="quiz-dir-sub">Jerman → Inggris</span>
+              </a>
+              <a
+                href={`/themes/${theme.slug}/quiz/?mode=en-de`}
+                class="btn btn-secondary quiz-cta-btn"
+              >
+                <span class="quiz-dir-flag">EN → DE</span>
+                <span class="quiz-dir-sub">Inggris → Jerman</span>
+              </a>
+            </div>
           </div>
         </section>
       )
@@ -138,6 +147,24 @@ const columns = theme.columns ?? [
       justify-content: center;
       text-transform: none;
       letter-spacing: 0;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    /* The two directions sit side by side, each a full-width tap target of its
+       own column. */
+    .quiz-cta-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+    }
+    .quiz-dir-flag {
+      font-weight: 900;
+      font-size: 1rem;
+    }
+    .quiz-dir-sub {
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.9;
     }
   </style>
 </BaseLayout>
