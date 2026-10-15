@@ -1,0 +1,69 @@
+---
+/**
+ * Quiz page for one topic: /themes/<slug>/quiz/
+ *
+ * A sibling of the topic page itself, so the topic keeps its own URL and the
+ * quiz gets one of its own — which is what makes "Start Quiz" lead to a real
+ * page (shareable, back-button friendly) rather than toggling a panel.
+ */
+import Header from "../../../components/Header.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Icon from "../../../components/Icon.astro";
+import BackLink from "../../../components/BackLink.astro";
+import ThemeQuiz from "../../../components/ThemeQuiz.astro";
+import themesData from "../../../data/themes.json";
+import "../../../styles/global.css";
+
+export function getStaticPaths() {
+  return themesData.themes.map((t) => ({ params: { slug: t.slug }, props: { theme: t } }));
+}
+
+const { theme } = Astro.props;
+const total = theme.groups.reduce((n, g) => n + g.words.length, 0);
+---
+
+<BaseLayout>
+  <Header active="themes" />
+
+  <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+    <BackLink fallback={`/themes/${theme.slug}/`} label={theme.title} />
+
+    <header class="quiz-head">
+      <span class="quiz-head-icon" style={`color:${theme.tint}`}>
+        <Icon name="question" size={30} />
+      </span>
+      <div class="min-w-0">
+        <h1 class="quiz-head-title">Quiz</h1>
+        <p class="quiz-head-sub">{theme.title} · {theme.subtitle} — {total} kata</p>
+      </div>
+    </header>
+
+    <ThemeQuiz slug={theme.slug} theme={theme} />
+  </main>
+</BaseLayout>
+
+<style>
+  /* Same icon + title rhythm as PageHeader, so the quiz reads as part of the
+     same site rather than a bolted-on screen. */
+  .quiz-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.6rem;
+  }
+  .quiz-head-icon {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+  .quiz-head-title {
+    font-size: 1.875rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .quiz-head-sub {
+    margin-top: 0.4rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+</style>

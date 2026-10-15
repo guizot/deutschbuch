@@ -1,0 +1,690 @@
+---
+/**
+ * Multiple-choice quiz for one topic (Themen).
+ *
+ * The whole point is recall: you are shown a word and have to pick its
+ * translation from four options, so the word list is deliberately NOT on
+ * screen while you play. Every word of the topic becomes exactly one
+ * question, in random order, and the quiz ends by itself once the queue is
+ * empty — there is no fixed round length to configure.
+ *
+ * The word pool is computed at build time and handed to the client as JSON, so
+ * the page ships no data request and works offline.
+ *
+ * Layout of a question, top to bottom: the instruction line, then the word
+ * itself (large, centred), then the four options.
+ */
+import Icon from "./Icon.astro";
+
+interface Word {
+  de: string;
+  en: string;
+  art?: string;
+  level?: string;
+  hex?: string;
+}
+interface Group {
+  id: string;
+  title: string;
+  en?: string;
+  words: Word[];
+}
+interface Props {
+  slug: string;
+  theme: {
+    title: string;
+    subtitle: string;
+    tint: string;
+    icon: string;
+    groups: Group[];
+  };
+}
+
+const { slug, theme } = Astro.props;
+
+// One flat pool of { de, en }: the groups only organise the reading page, the
+// quiz draws from the topic as a whole.
+const pool = theme.groups.flatMap((g) => g.words.map((w) => ({ de: w.de, en: w.en })));
+
+// The article is part of `de` already ("die Katze"), which is exactly what we
+// want in both directions.
+const data = JSON.stringify({ slug, title: theme.title, words: pool }).replace(/</g, "\\u003c");
+const enough = pool.length >= 4;
+---
+
+<div class="theme-quiz" style={`--tq-tint:${theme.tint}`}>
+  <script type="application/json" class="tq-data" set:html={data} />
+
+  <!-- ── Start screen ─────────────────────────────────────────────────── -->
+  <section id="tq-start" class="tq-screen">
+    <div class="card tq-panel">
+      <h2 class="tq-h2">
+        <Icon name="question" size={22} style={`color:${theme.tint}`} />
+        Quiz: {theme.title}
+      </h2>
+      <p class="tq-lead">
+        Semua <strong>{pool.length} kata</strong> di topik ini jadi satu soal, urutannya acak dan
+        tidak ada yang diulang. Pilih arah dulu, lalu mulai.
+      </p>
+
+      <div class="tq-field">
+        <span class="tq-label">Arah soal</span>
+        <div class="tq-modes" role="group" aria-label="Arah soal">
+          <button type="button" class="tq-mode is-active" data-mode="de-en">
+            <span class="tq-mflag">DE → EN</span>
+            <span class="tq-msub">Lihat Jerman, pilih Inggris</span>
+          </button>
+          <button type="button" class="tq-mode" data-mode="en-de">
+            <span class="tq-mflag">EN → DE</span>
+            <span class="tq-msub">Lihat Inggris, pilih Jerman</span>
+          </button>
+        </div>
+      </div>
+
+      {
+        enough ? (
+          <button type="button" id="tq-begin" class="btn btn-primary tq-begin">
+            Mulai Quiz ({pool.length} soal)
+          </button>
+        ) : (
+          <p class="tq-warn">Topik ini belum punya cukup kata untuk sebuah kuis.</p>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ── Question screen ──────────────────────────────────────────────── -->
+  <section id="tq-play" class="tq-screen" hidden>
+    <div class="tq-bar-wrap" role="progressbar" aria-label="Kemajuan">
+      <div id="tq-bar" class="tq-bar"></div>
+    </div>
+    <div class="tq-meta">
+      <span id="tq-count" class="tq-count">1 / {pool.length}</span>
+      <span id="tq-score" class="tq-score">✓ 0 &nbsp; ✗ 0</span>
+    </div>
+
+    <p id="tq-instr" class="tq-instr">Apa arti kata ini dalam bahasa Inggris?</p>
+    <div id="tq-word" class="tq-word">…</div>
+
+    <div id="tq-opts" class="tq-opts" role="group" aria-label="Pilihan jawaban"></div>
+
+    <p id="tq-fb" class="tq-fb" aria-live="polite"></p>
+    <button type="button" id="tq-next" class="btn btn-primary tq-next" hidden>Lanjut</button>
+  </section>
+
+  <!-- ── Result screen ────────────────────────────────────────────────── -->
+  <section id="tq-result" class="tq-screen" hidden>
+    <div class="card tq-panel tq-result">
+      <div class="tq-trophy"><Icon name="trophy" size={40} style={`color:${theme.tint}`} /></div>
+      <p class="tq-rlabel">Hasil Quiz</p>
+      <p id="tq-rtotal" class="tq-rtotal">0 / 0</p>
+      <p id="tq-rpct" class="tq-rpct">0%</p>
+
+      <div id="tq-rwrong" class="tq-rwrong" hidden>
+        <h3 class="tq-rh3">Perlu diulang</h3>
+        <ul id="tq-rlist" class="tq-rlist"></ul>
+      </div>
+
+      <div class="tq-actions">
+        <button type="button" id="tq-again" class="btn btn-secondary">Ulangi</button>
+        <a href={`/themes/${slug}/`} class="btn btn-ghost">Kembali ke topik</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style is:global>
+  .theme-quiz {
+    --tq-ok: var(--color-feather);
+    --tq-ok-edge: var(--color-feather-shadow);
+    --tq-no: var(--color-cardinal);
+    --tq-no-edge: var(--color-cardinal-shadow);
+  }
+
+  .theme-quiz .tq-screen[hidden] {
+    display: none;
+  }
+
+  .tq-panel {
+    padding: 1.4rem;
+  }
+
+  .tq-h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.35rem;
+    margin: 0 0 0.6rem;
+  }
+
+  .tq-lead {
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0 0 1.2rem;
+  }
+
+  .tq-field {
+    margin-bottom: 1.2rem;
+  }
+
+  .tq-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+  }
+
+  .tq-modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .tq-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    text-align: left;
+    padding: 0.8rem 0.9rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .tq-mode:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .tq-mode.is-active {
+    border-color: var(--tq-tint, var(--color-macaw));
+    background: color-mix(in srgb, var(--tq-tint, var(--color-macaw)) 12%, transparent);
+  }
+  .tq-mflag {
+    font-weight: 900;
+    font-size: 0.95rem;
+    color: var(--text-strong);
+  }
+  .tq-msub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.25;
+  }
+
+  .tq-begin {
+    width: 100%;
+    justify-content: center;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .tq-warn {
+    color: var(--text-muted);
+  }
+
+  /* ── play ── */
+  .tq-bar-wrap {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 0.6rem;
+  }
+  .tq-bar {
+    height: 100%;
+    width: 0;
+    background: var(--tq-tint, var(--color-macaw));
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+  .tq-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 1.6rem;
+  }
+  .tq-count {
+    font-variant-numeric: tabular-nums;
+  }
+  .tq-score {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tq-instr {
+    text-align: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0 0 0.6rem;
+  }
+
+  .tq-word {
+    text-align: center;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    line-height: 1.15;
+    color: var(--text-strong);
+    margin: 0 0 1.8rem;
+    word-break: break-word;
+  }
+
+  .tq-opts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  @media (min-width: 560px) {
+    .tq-opts {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .tq-opt {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-strong);
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-bottom-width: 4px;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
+  }
+  .tq-opt:hover:not(.is-locked) {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .tq-opt:active:not(.is-locked) {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+  }
+  .tq-key {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--text-muted);
+  }
+  .tq-txt {
+    flex: 1;
+    min-width: 0;
+  }
+  .tq-opt.is-locked {
+    cursor: default;
+  }
+  .tq-opt.is-correct {
+    border-color: var(--tq-ok);
+    background: color-mix(in srgb, var(--tq-ok) 16%, transparent);
+    color: var(--text-strong);
+  }
+  .tq-opt.is-correct .tq-key {
+    background: var(--tq-ok);
+    border-color: var(--tq-ok-edge);
+    color: #fff;
+  }
+  .tq-opt.is-wrong {
+    border-color: var(--tq-no);
+    background: color-mix(in srgb, var(--tq-no) 14%, transparent);
+  }
+  .tq-opt.is-wrong .tq-key {
+    background: var(--tq-no);
+    border-color: var(--tq-no-edge);
+    color: #fff;
+  }
+
+  .tq-fb {
+    min-height: 1.4rem;
+    text-align: center;
+    font-weight: 800;
+    margin: 1.1rem 0 0;
+  }
+  .tq-fb.ok {
+    color: var(--tq-ok);
+  }
+  .tq-fb.no {
+    color: var(--tq-no);
+  }
+
+  .tq-next {
+    display: block;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.9rem;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  /* ── result ── */
+  .tq-result {
+    text-align: center;
+  }
+  .tq-trophy {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+  }
+  .tq-rlabel {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-faint);
+    margin: 0;
+  }
+  .tq-rtotal {
+    font-size: clamp(2.2rem, 9vw, 3.2rem);
+    font-weight: 900;
+    color: var(--text-strong);
+    margin: 0.2rem 0 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .tq-rpct {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin: 0 0 1.4rem;
+  }
+  .tq-rwrong {
+    text-align: left;
+    border-top: 2px solid var(--border);
+    padding-top: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .tq-rh3 {
+    font-size: 0.95rem;
+    margin: 0 0 0.6rem;
+  }
+  .tq-rlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .tq-rrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 10px;
+    background: var(--surface-2);
+  }
+  .tq-rp {
+    font-weight: 800;
+    color: var(--text-muted);
+  }
+  .tq-rp::after {
+    content: "→";
+    margin-left: 0.4rem;
+    color: var(--text-faint);
+  }
+  .tq-ra {
+    font-weight: 900;
+    color: var(--tq-ok);
+  }
+  .tq-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+  }
+  .tq-actions .btn {
+    text-transform: none;
+    letter-spacing: 0;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector(".theme-quiz");
+    if (!root) return;
+    var dataEl = root.querySelector(".tq-data");
+    if (!dataEl) return;
+
+    var DATA;
+    try {
+      DATA = JSON.parse(dataEl.textContent);
+    } catch (e) {
+      return;
+    }
+    var WORDS = (DATA && DATA.words) || [];
+    if (WORDS.length < 4) return;
+
+    var q = function (sel) {
+      return root.querySelector(sel);
+    };
+    var startEl = q("#tq-start");
+    var playEl = q("#tq-play");
+    var resultEl = q("#tq-result");
+    var modeBtns = Array.prototype.slice.call(root.querySelectorAll(".tq-mode"));
+    var beginBtn = q("#tq-begin");
+    var barEl = q("#tq-bar");
+    var countEl = q("#tq-count");
+    var scoreEl = q("#tq-score");
+    var instrEl = q("#tq-instr");
+    var wordEl = q("#tq-word");
+    var optsEl = q("#tq-opts");
+    var fbEl = q("#tq-fb");
+    var nextBtn = q("#tq-next");
+    var againBtn = q("#tq-again");
+
+    var mode = "de-en";
+    var queue = [];
+    var pos = 0;
+    var right = 0;
+    var wrong = 0;
+    var wrongList = [];
+    var locked = false;
+
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+      }
+      return a;
+    }
+
+    function promptOf(w) {
+      return mode === "de-en" ? w.de : w.en;
+    }
+    function answerOf(w) {
+      return mode === "de-en" ? w.en : w.de;
+    }
+
+    // Three distractors drawn from the topic itself. A word that shares the
+    // prompt's meaning is skipped so no distractor is also a valid answer, and
+    // identical option texts are collapsed.
+    function buildOptions(w) {
+      var correct = answerOf(w);
+      var seen = {};
+      seen[correct] = true;
+      var cands = [];
+      for (var i = 0; i < WORDS.length; i++) {
+        var o = WORDS[i];
+        if (o === w) continue;
+        if (o.en === w.en) continue;
+        var txt = answerOf(o);
+        if (seen[txt]) continue;
+        seen[txt] = true;
+        cands.push(txt);
+      }
+      cands = shuffle(cands).slice(0, 3);
+      return shuffle(cands.concat([correct]));
+    }
+
+    function show(screen) {
+      startEl.hidden = screen !== startEl;
+      playEl.hidden = screen !== playEl;
+      resultEl.hidden = screen !== resultEl;
+      if (screen !== startEl) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderQuestion() {
+      var w = queue[pos];
+      locked = false;
+      fbEl.textContent = "";
+      fbEl.className = "tq-fb";
+      nextBtn.hidden = true;
+      countEl.textContent = pos + 1 + " / " + queue.length;
+      scoreEl.innerHTML = "✓ " + right + " &nbsp; ✗ " + wrong;
+      barEl.style.width = (pos / queue.length) * 100 + "%";
+      instrEl.textContent =
+        mode === "de-en"
+          ? "Apa arti kata Jerman ini dalam bahasa Inggris?"
+          : "Apa kata Jerman untuk ini?";
+      wordEl.textContent = promptOf(w);
+
+      var opts = buildOptions(w);
+      optsEl.innerHTML = "";
+      opts.forEach(function (txt, i) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "tq-opt";
+        var k = document.createElement("span");
+        k.className = "tq-key";
+        k.textContent = String(i + 1);
+        var s = document.createElement("span");
+        s.className = "tq-txt";
+        s.textContent = txt;
+        b.appendChild(k);
+        b.appendChild(s);
+        b.addEventListener("click", function () {
+          choose(b, txt, w);
+        });
+        optsEl.appendChild(b);
+      });
+    }
+
+    function choose(btn, txt, w) {
+      if (locked) return;
+      locked = true;
+      var correct = answerOf(w);
+      var isRight = txt === correct;
+
+      var all = Array.prototype.slice.call(optsEl.querySelectorAll(".tq-opt"));
+      all.forEach(function (b) {
+        b.classList.add("is-locked");
+        var t = b.querySelector(".tq-txt").textContent;
+        if (t === correct) b.classList.add("is-correct");
+        else if (b === btn) b.classList.add("is-wrong");
+      });
+
+      if (isRight) {
+        right++;
+        fbEl.textContent = "Richtig!";
+        fbEl.className = "tq-fb ok";
+      } else {
+        wrong++;
+        wrongList.push({ prompt: promptOf(w), correct: correct });
+        fbEl.textContent = "Falsch — jawabannya: " + correct;
+        fbEl.className = "tq-fb no";
+      }
+
+      scoreEl.innerHTML = "✓ " + right + " &nbsp; ✗ " + wrong;
+      barEl.style.width = ((pos + 1) / queue.length) * 100 + "%";
+      nextBtn.hidden = false;
+      nextBtn.focus();
+    }
+
+    function next() {
+      if (!locked) return;
+      pos++;
+      if (pos >= queue.length) showResult();
+      else renderQuestion();
+    }
+
+    function showResult() {
+      show(resultEl);
+      var total = queue.length;
+      var pct = total ? Math.round((right / total) * 100) : 0;
+      q("#tq-rtotal").textContent = right + " / " + total;
+      q("#tq-rpct").textContent = pct + "% benar";
+
+      var wrapEl = q("#tq-rwrong");
+      var listEl = q("#tq-rlist");
+      listEl.innerHTML = "";
+      if (wrongList.length) {
+        wrapEl.hidden = false;
+        wrongList.forEach(function (it) {
+          var li = document.createElement("li");
+          li.className = "tq-rrow";
+          var p = document.createElement("span");
+          p.className = "tq-rp";
+          p.textContent = it.prompt;
+          var a = document.createElement("span");
+          a.className = "tq-ra";
+          a.textContent = it.correct;
+          li.appendChild(p);
+          li.appendChild(a);
+          listEl.appendChild(li);
+        });
+      } else {
+        wrapEl.hidden = true;
+      }
+    }
+
+    function start() {
+      queue = shuffle(WORDS.slice());
+      pos = 0;
+      right = 0;
+      wrong = 0;
+      wrongList = [];
+      show(playEl);
+      renderQuestion();
+    }
+
+    modeBtns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        mode = b.getAttribute("data-mode");
+        modeBtns.forEach(function (x) {
+          x.classList.toggle("is-active", x === b);
+        });
+      });
+    });
+
+    if (beginBtn) beginBtn.addEventListener("click", start);
+    nextBtn.addEventListener("click", next);
+    againBtn.addEventListener("click", function () {
+      show(startEl);
+    });
+
+    // Keyboard: 1–4 picks an option, Enter/Space moves on.
+    document.addEventListener("keydown", function (e) {
+      if (playEl.hidden) return;
+      if (!nextBtn.hidden && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        next();
+        return;
+      }
+      if (!locked && e.key >= "1" && e.key <= "4") {
+        var b = optsEl.querySelectorAll(".tq-opt")[Number(e.key) - 1];
+        if (b) b.click();
+      }
+    });
+  })();
+</script>

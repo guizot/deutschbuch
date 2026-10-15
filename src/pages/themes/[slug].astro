@@ -43,6 +43,33 @@ const columns = theme.columns ?? [
     <ThemeWords groups={theme.groups} columns={columns} showArticles={hasArticles} />
 
     {
+      theme.groups.reduce((n, g) => n + g.words.length, 0) >= 4 && (
+        <section class="quiz-cta">
+          <div class="quiz-cta-card">
+            <div class="quiz-cta-top">
+              <span class="quiz-cta-icon" style={`color:${theme.tint}`}>
+                <Icon name="question" size={30} />
+              </span>
+              <div class="min-w-0">
+                <h2 class="quiz-cta-title">Quiz</h2>
+                <p class="quiz-cta-sub">
+                  Uji topik ini — Jerman → Inggris atau Inggris → Jerman.
+                </p>
+              </div>
+            </div>
+            <a
+              href={`/themes/${theme.slug}/quiz/`}
+              class="btn btn-primary quiz-cta-btn"
+            >
+              <Icon name="practice" size={20} />
+              Start Quiz
+            </a>
+          </div>
+        </section>
+      )
+    }
+
+    {
       theme.notes?.length > 0 && (
         <section class="mt-14 pt-8 border-t-2" style="border-color: var(--border)">
           <h2 class="text-2xl mb-4 flex items-center gap-2" style={`color: ${theme.tint}`}>
@@ -70,6 +97,47 @@ const columns = theme.columns ?? [
       margin-top: 0.4rem;
       line-height: 1.4;
       color: var(--text-muted);
+    }
+
+    /* Quiz call-to-action, below the word list: a card that reads like the
+       topic's own blocks, with the action button full-width so it is an easy
+       tap on a phone. */
+    .quiz-cta {
+      margin-top: 2.5rem;
+    }
+    .quiz-cta-card {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-card);
+      background: var(--surface);
+      padding: 1.2rem;
+    }
+    .quiz-cta-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .quiz-cta-icon {
+      display: flex;
+      align-items: center;
+      flex: none;
+    }
+    .quiz-cta-title {
+      font-size: 1.5rem;
+      line-height: 1.2;
+      margin: 0;
+    }
+    .quiz-cta-sub {
+      margin-top: 0.3rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .quiz-cta-btn {
+      width: 100%;
+      justify-content: center;
+      text-transform: none;
+      letter-spacing: 0;
     }
   </style>
 </BaseLayout>
