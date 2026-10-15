@@ -186,7 +186,10 @@ const totalWords = themes.reduce(
     .tcat-top {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      /* Same icon-to-name gap as the topic cards (see .item-top in
+         ItemCard.astro), so the category header and the cards under it line
+         up on the same inset. */
+      gap: 1rem;
     }
     .tcat-names {
       display: flex;
