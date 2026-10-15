@@ -6,9 +6,9 @@
 // group collapses: a theme can hold 40+ words across five groups, and folding
 // the ones you are not reading keeps the page from becoming a long scroll.
 //
-// The header and its table are one card: the header is the card's top row and
-// the table sits inside the same border, so an open group reads as a single
-// block rather than a title floating above a separate table.
+// The header is its own outlined button and the table a card under it, but the
+// gap between the two stays small: the header reads as the table's title rather
+// than as a separate block floating above it.
 //
 // There is deliberately no search box or level filter here: a theme is short
 // enough to scan, and the point is to read the list, not to query it. The only
@@ -97,84 +97,82 @@ function field(w: Word, key: string): string {
 {
   groups.map((g) => (
     <section class="tgroup mb-6" data-group={g.id}>
-      <div class="tgroup-card">
-        <h2 class="mb-0">
-          <button
-            type="button"
-            class="tgroup-toggle"
-            aria-expanded="true"
-            aria-controls={`panel-${g.id}`}
+      <h2 class="mb-0">
+        <button
+          type="button"
+          class="tgroup-toggle"
+          aria-expanded="true"
+          aria-controls={`panel-${g.id}`}
+        >
+          <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
+          {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
+          <span
+            class="text-xs font-bold ml-1"
+            style="color: var(--text-faint);white-space:nowrap"
           >
-            <span class="text-xl" style="color: var(--text-strong)">{g.title}</span>
-            {g.en && <span class="text-sm font-bold" style="color: var(--text-faint)">{g.en}</span>}
-            <span
-              class="text-xs font-bold ml-1"
-              style="color: var(--text-faint);white-space:nowrap"
-            >
-              {g.words.length}
-            </span>
-            <span class="tgroup-chev" style="color: var(--text-faint)">
-              <Icon name="chevron" size={24} />
-            </span>
-          </button>
-        </h2>
-        <div id={`panel-${g.id}`} class="tgroup-panel">
-          <div class="tgroup-scroll">
-            <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
-              <thead>
-                <tr style="background:var(--surface-2)">
-                  {columns.map((c) => (
-                    <th
-                      class="text-left px-4 py-3 font-extrabold"
-                      style="color:var(--text-strong);border-bottom:2px solid var(--border)"
-                    >
-                      {c.label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {g.words.map((w) => (
-                  <tr
-                    class="trow"
-                    data-de={w.de}
-                    data-en={w.en}
-                    data-art={w.art || ""}
-                    data-level={w.level || ""}
+            {g.words.length}
+          </span>
+          <span class="tgroup-chev" style="color: var(--text-faint)">
+            <Icon name="chevron" size={24} />
+          </span>
+        </button>
+      </h2>
+      <div id={`panel-${g.id}`} class="tgroup-panel">
+        <div class="card" style="padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch">
+          <table class="w-full text-sm" style="border-collapse:collapse;min-width:max-content">
+            <thead>
+              <tr style="background:var(--surface-2)">
+                {columns.map((c) => (
+                  <th
+                    class="text-left px-4 py-3 font-extrabold"
+                    style="color:var(--text-strong);border-bottom:2px solid var(--border)"
                   >
-                    {columns.map((c) => {
-                      const value = field(w, c.key);
-                      const cellStyle = "padding:0.6rem 1rem;border-bottom:1px solid var(--border);";
-                      if (c.type === "swatch") {
-                        return (
-                          <td style={cellStyle}>
-                            <span class="inline-flex items-center gap-2">
-                              <span
-                                style={`display:inline-block;width:1.1rem;height:1.1rem;border-radius:0.35rem;border:1px solid var(--border-strong);background:${value}`}
-                              />
-                              <span style="color:var(--text-strong);font-weight:700">{w.de}</span>
-                            </span>
-                          </td>
-                        );
-                      }
-                      if (c.key === "de") {
-                        return (
-                          <td style={`${cellStyle}font-weight:700;color:var(--text-strong)`}>{value}</td>
-                        );
-                      }
-                      if (c.key === "level") {
-                        return <td style={`${cellStyle}color:var(--text-faint)`}>{value || "–"}</td>;
-                      }
-                      if (!value.trim()) {
-                        return <td style={`${cellStyle}color:var(--text-faint)`}>–</td>;
-                      }
-                      return <td style={`${cellStyle}color:var(--text-muted)`}>{value}</td>;
-                    })}
-                  </tr>
+                    {c.label}
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </tr>
+            </thead>
+            <tbody>
+              {g.words.map((w) => (
+                <tr
+                  class="trow"
+                  data-de={w.de}
+                  data-en={w.en}
+                  data-art={w.art || ""}
+                  data-level={w.level || ""}
+                >
+                  {columns.map((c) => {
+                    const value = field(w, c.key);
+                    const cellStyle = "padding:0.6rem 1rem;border-bottom:1px solid var(--border);";
+                    if (c.type === "swatch") {
+                      return (
+                        <td style={cellStyle}>
+                          <span class="inline-flex items-center gap-2">
+                            <span
+                              style={`display:inline-block;width:1.1rem;height:1.1rem;border-radius:0.35rem;border:1px solid var(--border-strong);background:${value}`}
+                            />
+                            <span style="color:var(--text-strong);font-weight:700">{w.de}</span>
+                          </span>
+                        </td>
+                      );
+                    }
+                    if (c.key === "de") {
+                      return (
+                        <td style={`${cellStyle}font-weight:700;color:var(--text-strong)`}>{value}</td>
+                      );
+                    }
+                    if (c.key === "level") {
+                      return <td style={`${cellStyle}color:var(--text-faint)`}>{value || "–"}</td>;
+                    }
+                    if (!value.trim()) {
+                      return <td style={`${cellStyle}color:var(--text-faint)`}>–</td>;
+                    }
+                    return <td style={`${cellStyle}color:var(--text-muted)`}>{value}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -186,31 +184,24 @@ function field(w: Word, key: string): string {
 </p>
 
 <style>
-  /* One card per group: the header row and the table share a single border and
-     radius, so an open group reads as one block. The card clips its children,
-     which keeps the table's corners inside the rounded edge. */
-  .tgroup-card {
-    border: 2px solid var(--border);
-    border-radius: var(--radius-card);
-    background: var(--surface);
-    overflow: hidden;
-  }
-  /* The header is the card's top row: a full-width button with no border of its
-     own, so it merges with the card instead of sitting on top of it. */
+  /* The group header is a button: an outlined row, so it still reads as
+     clickable when its table is folded away and nothing is under it. */
   .tgroup-toggle {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
     padding: 0.7rem 1rem;
-    border: none;
-    background: transparent;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
     color: inherit;
     text-align: left;
     cursor: pointer;
-    transition: background 0.12s ease;
+    transition: border-color 0.12s ease, background 0.12s ease;
   }
   .tgroup-toggle:hover {
+    border-color: var(--border-strong);
     background: var(--surface-2);
   }
   /* The chevron points down when open, right when closed. It sits centred
@@ -230,16 +221,13 @@ function field(w: Word, key: string): string {
   }
   .tgroup-toggle:focus-visible {
     outline: 2px solid var(--color-macaw);
-    outline-offset: -3px;
+    outline-offset: 3px;
+    border-radius: 6px;
   }
-  /* The table is part of the card, divided from the header by a single line
-     rather than a gap. Hidden while collapsed, so the rule goes with it. */
+  /* Tight against the header: the table reads as what the header opens, not as
+     a separate block a gap away. */
   .tgroup-panel {
-    border-top: 2px solid var(--border);
-  }
-  .tgroup-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    padding-top: 0.4rem;
   }
 </style>
 
