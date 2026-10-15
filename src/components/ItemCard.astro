@@ -39,6 +39,9 @@ const { href, icon, color, title, en, desc, count } = Astro.props;
       <div class="font-extrabold text-lg" style="color: var(--text-strong)">{title}</div>
       {en && <div class="item-en font-bold" style="color: var(--text-faint)">{en}</div>}
     </div>
+    <span class="item-chev" style="color: var(--text-faint)">
+      <Icon name="chevron" size={24} />
+    </span>
   </div>
   {desc && <p class="text-sm item-desc" style="color: var(--text-muted)">{desc}</p>}
   {
@@ -55,6 +58,20 @@ const { href, icon, color, title, en, desc, count } = Astro.props;
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+  /* The name block takes the slack so the chevron is pushed to the far end of
+     the row — the same place the category headers put theirs. */
+  .item-top > .min-w-0 {
+    flex: 1;
+  }
+  .item-chev {
+    display: inline-flex;
+    flex-shrink: 0;
+    /* Pulled in from the right edge: centred, not hugging the border. */
+    margin-right: 0.35rem;
+    /* A link, not a fold: the chevron points right (the base glyph points
+       down), the same affordance the collapsed category headers show. */
+    transform: rotate(-90deg);
   }
   /* English gloss sits on its own line right under the German name, tight
      against it, so a long name never wraps into a stray fragment. */
