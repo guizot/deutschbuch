@@ -1,0 +1,56 @@
+---
+import Header from "../../../components/Header.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import BackLink from "../../../components/BackLink.astro";
+import ItemCard from "../../../components/ItemCard.astro";
+import themesData from "../../../data/themes.json";
+import { CATEGORIES } from "../../../data/categories.ts";
+import "../../../styles/global.css";
+
+export function getStaticPaths() {
+  return CATEGORIES.map((c) => ({
+    params: { slug: c.slug },
+    props: { cat: c },
+  }));
+}
+
+const { cat } = Astro.props;
+
+const items = themesData.themes.filter((t) => t.category === cat.name);
+const words = items.reduce(
+  (n, t) => n + t.groups.reduce((m, g) => m + g.words.length, 0),
+  0
+);
+---
+<BaseLayout>
+  <Header active="themes" />
+
+  <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+    <BackLink fallback="/themes/" label="Topics" />
+
+    <PageHeader
+      icon={cat.icon}
+      color={cat.tint}
+      title={cat.name}
+      en={cat.en}
+      subtitle={`${cat.sub}. ${items.length} themes, ${words} words.`}
+    />
+
+    <div class="grid sm:grid-cols-2 gap-4">
+      {
+        items.map((t) => (
+          <ItemCard
+            href={`/themes/${t.slug}/`}
+            icon={t.icon}
+            color={t.color}
+            title={t.title}
+            en={t.subtitle}
+            desc={t.desc}
+            count={t.count}
+          />
+        ))
+      }
+    </div>
+  </main>
+</BaseLayout>

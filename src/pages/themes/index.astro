@@ -1,86 +1,24 @@
 ---
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Icon from "../../components/Icon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import ItemCard from "../../components/ItemCard.astro";
 import themesData from "../../data/themes.json";
+import { CATEGORIES } from "../../data/categories.ts";
 import "../../styles/global.css";
 
 const themes = themesData.themes;
-
-// Group the cards under headings so a long list stays navigable.
-const CATEGORY_ORDER = [
-  "Grundlagen",
-  "Menschen",
-  "Alltag",
-  "Stadt & Reisen",
-  "Natur",
-  "Arbeit & Lernen",
-  "Freizeit",
-  "Gesellschaft",
-  "Grammatik",
-];
-const CATEGORY_SUB: Record<string, string> = {
-  Grundlagen: "Colours, numbers, shapes, time",
-  Menschen: "Family, body, character, feelings, health",
-  Alltag: "Food, clothing, shopping, the kitchen, the home",
-  "Stadt & Reisen": "Town, transport, countries, small talk",
-  Natur: "Animals, landscape, weather, environment",
-  "Arbeit & Lernen": "Jobs, office, school, computers",
-  Freizeit: "Sport, music, festivals, communication",
-  Gesellschaft: "Society, politics and the media",
-  Grammatik: "Verb and preposition patterns",
-};
-/** English name of each category, shown next to the German one. */
-const CATEGORY_EN: Record<string, string> = {
-  Grundlagen: "Basics",
-  Menschen: "People",
-  Alltag: "Everyday life",
-  "Stadt & Reisen": "Town & Travel",
-  Natur: "Nature",
-  "Arbeit & Lernen": "Work & Study",
-  Freizeit: "Free Time",
-  Gesellschaft: "Society",
-  Grammatik: "Grammar",
-};
-/** Icon + tile colour for each category, matching the topic-card style. */
-const CATEGORY_META: Record<string, { icon: string; color: string }> = {
-  Grundlagen: { icon: "shapes", color: "lv-a1" },
-  Menschen: { icon: "person", color: "lv-a2" },
-  Alltag: { icon: "house", color: "lv-b2" },
-  "Stadt & Reisen": { icon: "compass", color: "lv-c1" },
-  Natur: { icon: "leaf", color: "lv-a1" },
-  "Arbeit & Lernen": { icon: "briefcase", color: "lv-red" },
-  Freizeit: { icon: "ball", color: "lv-b2" },
-  Gesellschaft: { icon: "globe", color: "lv-a2" },
-  Grammatik: { icon: "grammar", color: "lv-c1" },
-};
-
-const groups = CATEGORY_ORDER.map((cat) => ({
-  cat,
-  en: CATEGORY_EN[cat] || "",
-  sub: CATEGORY_SUB[cat] || "",
-  icon: CATEGORY_META[cat]?.icon || "books",
-  color: CATEGORY_META[cat]?.color || "lv-a1",
-  items: themes.filter((t) => t.category === cat),
-})).filter((g) => g.items.length > 0);
-
-/** "Stadt & Reisen" -> "stadt-reisen", a safe id fragment for aria-controls. */
-const slug = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/ä/g, "ae")
-    .replace(/ö/g, "oe")
-    .replace(/ü/g, "ue")
-    .replace(/ß/g, "ss")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 
 const totalWords = themes.reduce(
   (n, t) => n + t.groups.reduce((m, g) => m + g.words.length, 0),
   0
 );
+
+// One card per category, each linking to the page that lists its themes.
+const groups = CATEGORIES.map((c) => ({
+  ...c,
+  items: themes.filter((t) => t.category === c.name),
+})).filter((g) => g.items.length > 0);
 ---
 <BaseLayout>
   <Header active="themes" />
@@ -94,189 +32,20 @@ const totalWords = themes.reduce(
       subtitle={`Vocabulary by topic — ${themes.length} themes, ${totalWords} words. Not a lesson: a browsable word list, grouped the way a phrasebook groups things.`}
     />
 
-    {
-      groups.map((g) => (
-        <section class="tcat mb-4" data-cat={g.cat}>
-          <h2 class="mb-0">
-            <button
-              type="button"
-              class="tcat-toggle"
-              aria-expanded="false"
-              aria-controls={`panel-${slug(g.cat)}`}
-            >
-              <span class="tcat-top">
-                <span
-                  class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${g.color}`}
-                  style="color:#fff"
-                >
-                  <Icon name={g.icon} size={26} />
-                </span>
-                <span class="tcat-names">
-                  <span class="text-xl" style="color: var(--text-strong)">{g.cat}</span>
-                  {g.en && (
-                    <span class="tcat-en" style="color: var(--text-faint)">
-                      {g.en}
-                    </span>
-                  )}
-                </span>
-                <span class="tcat-chev" style="color: var(--text-faint)">
-                  <Icon name="chevron" size={24} />
-                </span>
-              </span>
-              {g.sub && (
-                <span class="text-sm tcat-sub" style="color: var(--text-muted)">
-                  {g.sub}
-                </span>
-              )}
-              <span
-                class="pill tcat-count"
-                style="background:var(--surface-2);color:var(--text-muted)"
-              >
-                {g.items.length} themes
-              </span>
-            </button>
-          </h2>
-          <div id={`panel-${slug(g.cat)}`} class="tcat-panel">
-            <div class="grid sm:grid-cols-2 gap-4">
-              {g.items.map((t) => (
-                <ItemCard
-                  href={`/themes/${t.slug}/`}
-                  icon={t.icon}
-                  color={t.color}
-                  title={t.title}
-                  en={t.subtitle}
-                  desc={t.desc}
-                  count={t.count}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      ))
-    }
-  </main>
-
-  <style>
-    /* The category header is a button laid out like a topic card: the icon with
-       the German name and its English gloss stacked to its right, the chevron
-       at the far end, then the subtitle and the count as full-width lines
-       below. Category and card then read as the same thing at two zoom levels. */
-    .tcat-toggle {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      width: 100%;
-      /* Same inner padding as a topic card (see .card in global.css), so the
-         category header and the cards under it line up on the same inset. */
-      padding: 1.25rem;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-card);
-      background: var(--surface);
-      color: inherit;
-      text-align: left;
-      cursor: pointer;
-      transition: border-color 0.12s ease, background 0.12s ease;
-    }
-    .tcat-toggle:hover {
-      border-color: var(--border-strong);
-      background: var(--surface-2);
-    }
-    /* Icon, the two-line name block and the chevron share the top row; the
-       name block takes the slack, which pushes the chevron to the far end. */
-    .tcat-top {
-      display: flex;
-      align-items: center;
-      /* Same icon-to-name gap as the topic cards (see .item-top in
-         ItemCard.astro), so the category header and the cards under it line
-         up on the same inset. */
-      gap: 1rem;
-    }
-    .tcat-names {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      min-width: 0;
-    }
-    .tcat-names > .text-xl {
-      line-height: 1.15;
-    }
-    /* English gloss on its own line right under the German name, tight against
-       it — the same pattern as the topic cards. */
-    .tcat-en {
-      font-size: 0.8rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-top: 0.05rem;
-    }
-    /* Subtitle and count span the full width from the icon's left edge, the
-       same insets a topic card uses for its description and chip. */
-    .tcat-sub {
-      display: block;
-      margin-top: 0.7rem;
-      font-weight: 600;
-    }
-    .tcat-count {
-      align-self: flex-start;
-      margin-top: 0.6rem;
-    }
-    .tcat-chev {
-      display: inline-flex;
-      flex-shrink: 0;
-      /* Pull it in from the right edge: centred, not hugging the border. */
-      margin-right: 0.35rem;
-      transition: transform 0.18s ease;
-    }
-    .tcat-toggle[aria-expanded="false"] .tcat-chev {
-      transform: rotate(-90deg);
-    }
-    .tcat-toggle:hover .tcat-chev {
-      color: var(--text-strong);
-    }
-    .tcat-toggle:focus-visible {
-      outline: 2px solid var(--color-macaw);
-      outline-offset: 3px;
-      border-radius: 6px;
-    }
-    .tcat-panel {
-      padding-top: 1rem;
-      /* Only visible while expanded: a little space under the last row so the
-         category reads as separate from the next one. Collapsed, the panel is
-         display:none, so the gap is just the section margin. */
-      padding-bottom: 1rem;
-    }
-    /* Categories start collapsed, so hide the panel straight from the markup
-       rather than waiting for the script — no flash of 64 cards on load.
-       The panel is a sibling of the <h2>, not of the button, hence :has(). */
-    .tcat:has(.tcat-toggle[aria-expanded="false"]) .tcat-panel {
-      display: none;
-    }
-  </style>
-
-  <script is:inline>
-    const sections = Array.from(document.querySelectorAll(".tcat"));
-    // Everything starts folded: the index is a table of contents, so it opens
-    // on the nine categories rather than every one of the 64 cards at once.
-    const collapsed = new Set(sections.map((s) => s.dataset.cat));
-
-    function apply() {
-      for (const s of sections) {
-        const panel = s.querySelector(".tcat-panel");
-        const btn = s.querySelector(".tcat-toggle");
-        const closed = collapsed.has(s.dataset.cat);
-        panel.style.display = closed ? "none" : "";
-        btn.setAttribute("aria-expanded", closed ? "false" : "true");
+    <div class="grid sm:grid-cols-2 gap-4">
+      {
+        groups.map((g) => (
+          <ItemCard
+            href={`/themes/kategorie/${g.slug}/`}
+            icon={g.icon}
+            color={g.color}
+            title={g.name}
+            en={g.en}
+            desc={g.sub}
+            count={`${g.items.length} themes`}
+          />
+        ))
       }
-    }
-
-    document.querySelectorAll(".tcat-toggle").forEach((b) => {
-      b.addEventListener("click", () => {
-        const cat = b.closest(".tcat").dataset.cat;
-        if (collapsed.has(cat)) collapsed.delete(cat);
-        else collapsed.add(cat);
-        apply();
-      });
-    });
-
-    apply();
-  </script>
+    </div>
+  </main>
 </BaseLayout>
