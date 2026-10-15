@@ -1,0 +1,72 @@
+---
+/**
+ * The shared "item" card: an icon, a two-line name (German over English), a
+ * description and a count chip, wrapped in a link.
+ *
+ * The Topics index and the Reference library list the same object at two zoom
+ * levels — a topic and a tool — so they share one card instead of two copies
+ * that drift apart every time the layout is tweaked.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  href: string;
+  /** icon name from src/lib/icons.ts */
+  icon: string;
+  /** colour class for the icon tile, e.g. "lv-a1" */
+  color: string;
+  /** the large name */
+  title: string;
+  /** English gloss, shown on its own line under the name */
+  en?: string;
+  /** description line, spanning the card under the icon row */
+  desc?: string;
+  /** chip text, e.g. "2,530 headwords" */
+  count?: string;
+}
+
+const { href, icon, color, title, en, desc, count } = Astro.props;
+---
+<a href={href} class="card card-hover no-underline" style="color:inherit">
+  <div class="item-top">
+    <div
+      class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${color}`}
+      style="color:#fff"
+    >
+      <Icon name={icon} size={26} />
+    </div>
+    <div class="min-w-0">
+      <div class="font-extrabold text-lg" style="color: var(--text-strong)">{title}</div>
+      {en && <div class="item-en font-bold" style="color: var(--text-faint)">{en}</div>}
+    </div>
+  </div>
+  {desc && <p class="text-sm item-desc" style="color: var(--text-muted)">{desc}</p>}
+  {
+    count && (
+      <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
+        {count}
+      </span>
+    )
+  }
+</a>
+
+<style>
+  .item-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  /* English gloss sits on its own line right under the German name, tight
+     against it, so a long name never wraps into a stray fragment. */
+  .item-en {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    margin-top: 0.05rem;
+  }
+  /* Description and chip span the full card width, starting at the icon's left
+     edge rather than under the title, so the card reads as a block. */
+  .item-desc {
+    margin-top: 0.7rem;
+    margin-bottom: 0.6rem;
+  }
+</style>

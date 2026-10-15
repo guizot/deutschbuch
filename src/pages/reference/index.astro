@@ -1,8 +1,8 @@
 ---
 import Header from "../../components/Header.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Icon from "../../components/Icon.astro";
 import PageHeader from "../../components/PageHeader.astro";
+import ItemCard from "../../components/ItemCard.astro";
 import { REFERENCES } from "../../data/site.ts";
 import "../../styles/global.css";
 ---
@@ -21,52 +21,17 @@ import "../../styles/global.css";
     <div class="grid sm:grid-cols-2 gap-4">
       {
         REFERENCES.map((r) => (
-          <a
+          <ItemCard
             href={`/reference/${r.slug}/`}
-            class="card card-hover no-underline"
-            style="color:inherit"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${r.color}`}
-                style="color:#fff"
-              >
-                <Icon name={r.icon} size={26} />
-              </div>
-              <div class="min-w-0">
-                <div class="font-extrabold text-lg" style="color: var(--text-strong)">
-                  {r.title}
-                </div>
-                <div class="ref-en font-bold" style="color: var(--text-faint)">
-                  {r.en}
-                </div>
-              </div>
-            </div>
-            <p class="text-sm ref-desc" style="color: var(--text-muted)">
-              {r.desc}
-            </p>
-            <span class="pill" style="background:var(--surface-2);color:var(--text-muted)">
-              {r.count}
-            </span>
-          </a>
+            icon={r.icon}
+            color={r.color}
+            title={r.title}
+            en={r.en}
+            desc={r.desc}
+            count={r.count}
+          />
         ))
       }
     </div>
   </main>
-
-  <style>
-    /* English gloss sits on its own line right under the German title, tight
-       against it — the same pattern as the topic cards. */
-    .ref-en {
-      font-size: 0.8rem;
-      line-height: 1.2;
-      margin-top: 0.05rem;
-    }
-    /* Description and badge span the full card width, starting at the icon's
-       left edge rather than under the title, so the card reads as a block. */
-    .ref-desc {
-      margin-top: 0.7rem;
-      margin-bottom: 0.6rem;
-    }
-  </style>
 </BaseLayout>
