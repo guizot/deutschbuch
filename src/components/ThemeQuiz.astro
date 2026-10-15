@@ -16,7 +16,7 @@
  *
  * The direction (German to English or back) is chosen on the topic page and
  * arrives here as ?mode=…, so this page has no setup screen: it starts on
- * load, and "Ulangi" reshuffles the same direction.
+ * load, and "Try again" reshuffles the same direction.
  */
 import Icon from "./Icon.astro";
 
@@ -61,7 +61,7 @@ const enough = pool.length >= 4;
 
   <!-- ── Question screen ──────────────────────────────────────────────── -->
   <section id="tq-play" class="tq-screen" hidden>
-    <div class="tq-bar-wrap" role="progressbar" aria-label="Kemajuan">
+    <div class="tq-bar-wrap" role="progressbar" aria-label="Progress">
       <div id="tq-bar" class="tq-bar"></div>
     </div>
 
@@ -69,28 +69,28 @@ const enough = pool.length >= 4;
       <div id="tq-word" class="tq-word">…</div>
     </div>
 
-    <div id="tq-opts" class="tq-opts" role="group" aria-label="Pilihan jawaban"></div>
+    <div id="tq-opts" class="tq-opts" role="group" aria-label="Answer choices"></div>
 
     <p id="tq-fb" class="tq-fb" aria-live="polite"></p>
-    <button type="button" id="tq-next" class="btn btn-primary tq-next" hidden>Lanjut</button>
+    <button type="button" id="tq-next" class="btn btn-primary tq-next" hidden>Continue</button>
   </section>
 
   <!-- ── Result screen ────────────────────────────────────────────────── -->
   <section id="tq-result" class="tq-screen" hidden>
     <div class="card tq-panel tq-result">
       <div class="tq-trophy"><Icon name="trophy" size={40} style={`color:${theme.tint}`} /></div>
-      <p class="tq-rlabel">Hasil Quiz</p>
+      <p class="tq-rlabel">Quiz Result</p>
       <p id="tq-rtotal" class="tq-rtotal">0 / 0</p>
       <p id="tq-rpct" class="tq-rpct">0%</p>
 
       <div id="tq-rwrong" class="tq-rwrong" hidden>
-        <h3 class="tq-rh3">Perlu diulang</h3>
+        <h3 class="tq-rh3">To review</h3>
         <ul id="tq-rlist" class="tq-rlist"></ul>
       </div>
 
       <div class="tq-actions">
-        <button type="button" id="tq-again" class="btn btn-secondary">Ulangi</button>
-        <a href={`/themes/${slug}/`} class="btn btn-ghost">Kembali ke topik</a>
+        <button type="button" id="tq-again" class="btn btn-secondary">Try again</button>
+        <a href={`/themes/${slug}/`} class="btn btn-ghost">Back to topic</a>
       </div>
     </div>
   </section>
@@ -100,9 +100,9 @@ const enough = pool.length >= 4;
   {
     !enough && (
       <div class="card tq-panel">
-        <p class="tq-warn">Topik ini belum punya cukup kata untuk sebuah kuis.</p>
+        <p class="tq-warn">This topic does not have enough words for a quiz yet.</p>
         <a href={`/themes/${slug}/`} class="btn btn-ghost tq-begin">
-          Kembali ke topik
+          Back to topic
         </a>
       </div>
     )
@@ -146,7 +146,9 @@ const enough = pool.length >= 4;
     background: var(--border);
     overflow: hidden;
     position: relative;
-    margin-bottom: 1.2rem;
+    /* Matches the 2rem the page header leaves above the bar, so the bar sits
+       in an even band rather than hugging the word box. */
+    margin-bottom: 2rem;
   }
   .tq-bar {
     height: 100%;
@@ -468,12 +470,12 @@ const enough = pool.length >= 4;
 
       if (isRight) {
         right++;
-        fbEl.textContent = "Richtig!";
+        fbEl.textContent = "Correct!";
         fbEl.className = "tq-fb ok";
       } else {
         wrong++;
         wrongList.push({ prompt: promptOf(w), correct: correct });
-        fbEl.textContent = "Falsch — jawabannya: " + correct;
+        fbEl.textContent = "Wrong — the answer is: " + correct;
         fbEl.className = "tq-fb no";
       }
 
@@ -494,7 +496,7 @@ const enough = pool.length >= 4;
       var total = queue.length;
       var pct = total ? Math.round((right / total) * 100) : 0;
       q("#tq-rtotal").textContent = right + " / " + total;
-      q("#tq-rpct").textContent = pct + "% benar";
+      q("#tq-rpct").textContent = pct + "% correct";
 
       var wrapEl = q("#tq-rwrong");
       var listEl = q("#tq-rlist");
