@@ -225,11 +225,12 @@ const enough = pool.length >= 4;
 
   /* ── play ── */
   .tq-bar-wrap {
-    height: 10px;
+    /* Same thickness as the Learn page's progress bar, with its inner shine. */
+    height: 16px;
     border-radius: 999px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
+    background: var(--border);
     overflow: hidden;
+    position: relative;
     margin-bottom: 1.2rem;
   }
   .tq-bar {
@@ -237,7 +238,16 @@ const enough = pool.length >= 4;
     width: 0;
     background: var(--tq-tint, var(--color-macaw));
     border-radius: 999px;
-    transition: width 0.25s ease;
+    position: relative;
+    transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .tq-bar::after {
+    content: "";
+    position: absolute;
+    inset: 4px 6px auto 6px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.35);
   }
 
   /* The prompt sits in its own box at the top of the question, so it reads as
@@ -269,17 +279,18 @@ const enough = pool.length >= 4;
     gap: 0.7rem;
   }
 
-  /* On a phone the options are squares: four equal tiles are easy thumb
-     targets and the 2x2 reads as one grid. */
+  /* Options are rectangles at every width: the grid spans the same width as
+     the question box, and each option is a little taller than its text so the
+     tap target stays comfortable. */
   .tq-opt {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    padding: 0.9rem 1rem;
-    font-size: 1rem;
+    min-height: 5rem;
+    padding: 1.1rem 1rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: var(--text-strong);
     background: var(--surface);
@@ -287,16 +298,6 @@ const enough = pool.length >= 4;
     border-radius: 8px;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
-  }
-
-  /* On the web the squares would grow into big empty boxes, so there the
-     options are plain rectangles: same width as the question box, height set
-     by their content. */
-  @media (min-width: 640px) {
-    .tq-opt {
-      aspect-ratio: auto;
-      min-height: 4.5rem;
-    }
   }
   .tq-opt:hover:not(.is-locked) {
     border-color: var(--border-strong);
