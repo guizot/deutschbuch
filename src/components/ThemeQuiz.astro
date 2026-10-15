@@ -98,10 +98,6 @@ const enough = pool.length >= 4;
     <div class="tq-bar-wrap" role="progressbar" aria-label="Kemajuan">
       <div id="tq-bar" class="tq-bar"></div>
     </div>
-    <div class="tq-meta">
-      <span id="tq-count" class="tq-count">1 / {pool.length}</span>
-      <span id="tq-score" class="tq-score">✓ 0 &nbsp; ✗ 0</span>
-    </div>
 
     <div class="tq-qbox">
       <div id="tq-word" class="tq-word">…</div>
@@ -234,7 +230,7 @@ const enough = pool.length >= 4;
     background: var(--surface-2);
     border: 1px solid var(--border);
     overflow: hidden;
-    margin-bottom: 0.6rem;
+    margin-bottom: 1.2rem;
   }
   .tq-bar {
     height: 100%;
@@ -243,29 +239,17 @@ const enough = pool.length >= 4;
     border-radius: 999px;
     transition: width 0.25s ease;
   }
-  .tq-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    font-weight: 800;
-    color: var(--text-muted);
-    margin-bottom: 1.6rem;
-  }
-  .tq-count {
-    font-variant-numeric: tabular-nums;
-  }
-  .tq-score {
-    font-variant-numeric: tabular-nums;
-  }
 
   /* The prompt sits in its own box at the top of the question, so it reads as
-     the thing being asked rather than as a floating word. */
+     the thing being asked rather than as a floating word. Its bottom gap is
+     the same 0.7rem the options use between each other, so the whole question
+     reads as one evenly spaced stack. */
   .tq-qbox {
     border: 2px solid var(--border);
     border-radius: var(--radius-card);
     background: var(--surface);
     padding: 1.4rem 1rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.7rem;
   }
 
   .tq-word {
@@ -281,15 +265,21 @@ const enough = pool.length >= 4;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.7rem;
+    /* Capped so the 1:1 squares stay a sane size on a wide screen instead of
+       growing into 360px tiles; centred, so the grid stays under the word. */
+    max-width: 30rem;
+    margin-inline: auto;
   }
 
+  /* Each option is a square: aspect-ratio keeps all four the same shape at
+     every width, so the 2x2 grid reads as a grid rather than as rows. */
   .tq-opt {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     width: 100%;
-    min-height: 4.5rem;
+    aspect-ratio: 1 / 1;
     padding: 0.9rem 1rem;
     font-size: 1rem;
     font-weight: 800;
@@ -453,8 +443,6 @@ const enough = pool.length >= 4;
     var modeBtns = Array.prototype.slice.call(root.querySelectorAll(".tq-mode"));
     var beginBtn = q("#tq-begin");
     var barEl = q("#tq-bar");
-    var countEl = q("#tq-count");
-    var scoreEl = q("#tq-score");
     var wordEl = q("#tq-word");
     var optsEl = q("#tq-opts");
     var fbEl = q("#tq-fb");
@@ -520,8 +508,6 @@ const enough = pool.length >= 4;
       fbEl.textContent = "";
       fbEl.className = "tq-fb";
       nextBtn.hidden = true;
-      countEl.textContent = pos + 1 + " / " + queue.length;
-      scoreEl.innerHTML = "✓ " + right + " &nbsp; ✗ " + wrong;
       barEl.style.width = (pos / queue.length) * 100 + "%";
       wordEl.textContent = promptOf(w);
 
@@ -567,7 +553,6 @@ const enough = pool.length >= 4;
         fbEl.className = "tq-fb no";
       }
 
-      scoreEl.innerHTML = "✓ " + right + " &nbsp; ✗ " + wrong;
       barEl.style.width = ((pos + 1) / queue.length) * 100 + "%";
       nextBtn.hidden = false;
       nextBtn.focus();
