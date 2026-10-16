@@ -134,6 +134,10 @@ const enough = pool.length >= 4;
 
 <style is:global>
   .theme-quiz {
+    /* One value drives the gap under the progress bar and the gap above the
+       verdict/continue button, so the question reads top and bottom symmetrically
+       and the two can never drift apart in a later edit. */
+    --tq-edge-gap: 1.1rem;
     --tq-ok: var(--color-feather);
     --tq-ok-edge: var(--color-feather-shadow);
     --tq-no: var(--color-cardinal);
@@ -186,8 +190,9 @@ const enough = pool.length >= 4;
     /* The bar gets more room under it than the question uses between its own
        parts (0.7rem), so it reads as page furniture rather than as the first
        line of the question; the page header above is trimmed to the same value
-       on this page, so the bar sits in an evenly spaced stack. */
-    margin-bottom: 1.1rem;
+       on this page, so the bar sits in an evenly spaced stack. The bottom gap
+       is the same token the button uses above it, so the two match exactly. */
+    margin-bottom: var(--tq-edge-gap);
   }
   .tq-bar {
     height: 100%;
@@ -244,7 +249,10 @@ const enough = pool.length >= 4;
     justify-content: center;
     text-align: center;
     width: 100%;
-    min-height: 5rem;
+    /* Same height on every screen: a 7rem box is a comfortable tap target on a
+       phone too, and keeping one value means the four answers sit the same way
+       whether the question is read on a laptop or a handset. */
+    min-height: 7rem;
     padding: 1.1rem 1rem;
     font-size: 1.1rem;
     font-weight: 800;
@@ -254,14 +262,6 @@ const enough = pool.length >= 4;
     border-radius: 8px;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
-  }
-  /* Web only: a wide screen has room to spare, so the answer boxes grow and the
-     question as a whole fills the viewport better. Phones keep the compact
-     5rem that keeps all four answers inside one thumb's reach. */
-  @media (min-width: 640px) {
-    .tq-opt {
-      min-height: 7rem;
-    }
   }
   .tq-opt:hover:not(.is-locked) {
     border-color: var(--border-strong);
@@ -293,7 +293,7 @@ const enough = pool.length >= 4;
   .tq-next {
     display: flex;
     width: 100%;
-    margin-top: 1.1rem;
+    margin-top: var(--tq-edge-gap);
     padding: 0.9rem 1.25rem;
     text-transform: none;
     letter-spacing: 0;
