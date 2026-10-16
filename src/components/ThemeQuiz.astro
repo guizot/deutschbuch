@@ -12,7 +12,12 @@
  * the page ships no data request and works offline.
  *
  * Layout of a question, top to bottom: the word in its own box, then the four
- * options.
+ * options, then one button that is both the verdict and the way on.
+ *
+ * There is no separate feedback line: the Continue button sits under the
+ * options disabled until an answer is picked, and picking one turns it green
+ * or red and writes the verdict on it, so reading the answer and moving on are
+ * the same press.
  *
  * The direction (German to English or back) is chosen on the topic page and
  * arrives here as ?mode=…, so this page has no setup screen: it starts on
@@ -64,6 +69,7 @@ const enough = pool.length >= 4;
     <div class="tq-bar-wrap" role="progressbar" aria-label="Progress">
       <div id="tq-bar" class="tq-bar"></div>
     </div>
+    <span id="tq-live" class="tq-sr" aria-live="polite"></span>
 
     <div class="tq-qbox">
       <div id="tq-word" class="tq-word">…</div>
@@ -71,8 +77,7 @@ const enough = pool.length >= 4;
 
     <div id="tq-opts" class="tq-opts" role="group" aria-label="Answer choices"></div>
 
-    <p id="tq-fb" class="tq-fb" aria-live="polite"></p>
-    <button type="button" id="tq-next" class="btn btn-primary tq-next" hidden>Continue</button>
+    <button type="button" id="tq-next" class="btn btn-primary tq-next" disabled>Continue</button>
   </section>
 
   <!-- ── Result screen ────────────────────────────────────────────────── -->
@@ -139,6 +144,20 @@ const enough = pool.length >= 4;
     display: none;
   }
 
+  /* Screen-reader-only: the verdict is also announced from here, since a live
+     region cannot be attached to the colour change on the button itself. */
+  .tq-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .tq-panel {
     padding: 1.4rem;
   }
@@ -164,10 +183,11 @@ const enough = pool.length >= 4;
     background: var(--border);
     overflow: hidden;
     position: relative;
-    /* The gap under the bar matches the one between the question box and the
-       options (0.7rem); the page header above is trimmed to the same value on
-       this page, so the bar sits in an evenly spaced stack. */
-    margin-bottom: 0.7rem;
+    /* The bar gets more room under it than the question uses between its own
+       parts (0.7rem), so it reads as page furniture rather than as the first
+       line of the question; the page header above is trimmed to the same value
+       on this page, so the bar sits in an evenly spaced stack. */
+    margin-bottom: 1.1rem;
   }
   .tq-bar {
     height: 100%;
@@ -235,6 +255,14 @@ const enough = pool.length >= 4;
     cursor: pointer;
     transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
   }
+  /* Web only: a wide screen has room to spare, so the answer boxes grow and the
+     question as a whole fills the viewport better. Phones keep the compact
+     5rem that keeps all four answers inside one thumb's reach. */
+  @media (min-width: 640px) {
+    .tq-opt {
+      min-height: 7rem;
+    }
+  }
   .tq-opt:hover:not(.is-locked) {
     border-color: var(--border-strong);
     background: var(--surface-2);
@@ -258,26 +286,39 @@ const enough = pool.length >= 4;
     background: color-mix(in srgb, var(--tq-no) 14%, transparent);
   }
 
-  .tq-fb {
-    min-height: 1.4rem;
-    text-align: center;
-    font-weight: 800;
-    margin: 1.1rem 0 0;
-  }
-  .tq-fb.ok {
-    color: var(--tq-ok);
-  }
-  .tq-fb.no {
-    color: var(--tq-no);
-  }
-
+  /* The verdict and the way on are one control. It rests below the options in
+     the primary green, disabled; answering turns it into the verdict and
+     enables it, so the press that reads "Correct!" is the press that moves to
+     the next question. */
   .tq-next {
-    display: block;
+    display: flex;
     width: 100%;
-    justify-content: center;
-    margin-top: 0.9rem;
+    margin-top: 1.1rem;
+    padding: 0.9rem 1.25rem;
     text-transform: none;
     letter-spacing: 0;
+  }
+  .tq-next.is-ok {
+    background: var(--tq-ok);
+    border-bottom-color: var(--tq-ok-edge);
+  }
+  .tq-next.is-no {
+    background: var(--tq-no);
+    border-bottom-color: var(--tq-no-edge);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .tq-next.is-ok,
+    .tq-next.is-no {
+      animation: tq-pop 0.18s ease;
+    }
+  }
+  @keyframes tq-pop {
+    from {
+      transform: scale(0.97);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 
   /* ── result ── */
@@ -433,7 +474,7 @@ const enough = pool.length >= 4;
     var barEl = q("#tq-bar");
     var wordEl = q("#tq-word");
     var optsEl = q("#tq-opts");
-    var fbEl = q("#tq-fb");
+    var liveEl = q("#tq-live");
     var nextBtn = q("#tq-next");
     var againBtn = q("#tq-again");
     var modalEl = q("#tq-confirm");
@@ -503,9 +544,11 @@ const enough = pool.length >= 4;
     function renderQuestion() {
       var w = queue[pos];
       locked = false;
-      fbEl.textContent = "";
-      fbEl.className = "tq-fb";
-      nextBtn.hidden = true;
+      liveEl.textContent = "";
+      // The button goes back to resting: green, disabled, asking for an answer.
+      nextBtn.className = "btn btn-primary tq-next";
+      nextBtn.disabled = true;
+      nextBtn.textContent = "Continue";
       barEl.style.width = (pos / queue.length) * 100 + "%";
       wordEl.textContent = promptOf(w);
 
@@ -540,19 +583,25 @@ const enough = pool.length >= 4;
         else if (b === btn) b.classList.add("is-wrong");
       });
 
+      var msg;
       if (isRight) {
         right++;
-        fbEl.textContent = "Correct!";
-        fbEl.className = "tq-fb ok";
+        msg = "Correct!";
+        nextBtn.className = "btn btn-primary tq-next is-ok";
       } else {
         wrong++;
         wrongList.push({ prompt: promptOf(w), correct: correct });
-        fbEl.textContent = "Wrong — the answer is: " + correct;
-        fbEl.className = "tq-fb no";
+        msg = "Wrong — the answer is: " + correct;
+        nextBtn.className = "btn btn-primary tq-next is-no";
       }
 
+      nextBtn.textContent = msg;
+      liveEl.textContent = msg;
+      nextBtn.disabled = false;
+
       barEl.style.width = ((pos + 1) / queue.length) * 100 + "%";
-      nextBtn.hidden = false;
+      // Focus follows the button, so Enter carries on to the next question
+      // instead of re-firing the option that still holds focus.
       nextBtn.focus();
     }
 
@@ -676,12 +725,16 @@ const enough = pool.length >= 4;
     againBtn.addEventListener("click", function () {
       start();
     });
-    // Keyboard: 1–4 picks an option, Enter/Space moves on.
+    // Keyboard: 1–4 picks an option, Enter/Space moves on. The button is live
+    // only once an answer is in, and preventDefault stops Enter/Space from also
+    // re-activating whatever option still holds focus.
     document.addEventListener("keydown", function (e) {
-      if (playEl.hidden) return;
-      if (!nextBtn.hidden && (e.key === "Enter" || e.key === " ")) {
-        e.preventDefault();
-        next();
+      if (playEl.hidden || !modalEl.hidden) return;
+      if (e.key === "Enter" || e.key === " ") {
+        if (!nextBtn.disabled) {
+          e.preventDefault();
+          next();
+        }
         return;
       }
       if (!locked && e.key >= "1" && e.key <= "4") {
