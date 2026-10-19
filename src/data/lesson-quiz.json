@@ -612,165 +612,137 @@
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Buch",
-"answer": "das Buch",
+"prompt": "___ Buch",
+"answer": "das",
 "distractors": [
-"das Brötchen",
-"das Kinderbuch",
-"das Mädchen"
+"die",
+"der"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Wohnung",
-"answer": "die Wohnung",
+"prompt": "___ Wohnung",
+"answer": "die",
 "distractors": [
-"die Übung",
-"die Zeitung"
+"das",
+"der"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Mädchen",
-"answer": "das Mädchen",
+"prompt": "___ Mädchen",
+"answer": "das",
 "distractors": [
-"das Brötchen",
-"das Buch",
-"das Museum"
+"der",
+"die"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Lehrer",
-"answer": "der Lehrer",
+"prompt": "___ Lehrer",
+"answer": "der",
 "distractors": [
-"der Regen"
+"die",
+"das"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Zeitung",
-"answer": "die Zeitung",
+"prompt": "___ Zeitung",
+"answer": "die",
 "distractors": [
-"die Übung",
-"keine Zeit",
-"die Wohnung"
+"das"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Fenster",
-"answer": "das Fenster",
+"prompt": "___ Fenster",
+"answer": "das",
 "distractors": [
-"das Dokument",
-"das Kinderbuch"
+"die"
 ]
 },
 {
 "kind": "Which article?",
 "block": "1",
-"prompt": "________ Freundschaft",
-"answer": "die Freundschaft",
+"prompt": "___ Freundschaft",
+"answer": "die",
 "distractors": [
-"die Türen"
-]
-},
-{
-"kind": "Which article?",
-"block": "1",
-"prompt": "________ Museum",
-"answer": "das Museum",
-"distractors": [
-"das Mädchen",
-"das Fenster",
-"das Buch"
+"das"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Möglichkeit",
-"answer": "die Möglichkeit",
+"prompt": "___ Möglichkeit",
+"answer": "die",
 "distractors": [
-"die Tische",
-"die Küchentür"
+"das",
+"der"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Dokument",
-"answer": "das Dokument",
+"prompt": "___ Dokument",
+"answer": "das",
 "distractors": [
-"das Fenster"
+"die",
+"der"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Übung",
-"answer": "die Übung",
+"prompt": "___ Übung",
+"answer": "die",
 "distractors": [
-"die Wohnung",
-"die Zeitung",
-"die Züge"
+"der",
+"das"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Frühling",
-"answer": "der Frühling",
+"prompt": "___ Frühling",
+"answer": "der",
 "distractors": [
-"die Möglichkeit",
-"das Dokument",
-"die Übung"
+"die",
+"das"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Universität",
-"answer": "die Universität",
+"prompt": "___ Universität",
+"answer": "die",
 "distractors": [
-"die Kinder",
-"die Städte"
+"das",
+"der"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Brötchen",
-"answer": "das Brötchen",
+"prompt": "___ Brötchen",
+"answer": "das",
 "distractors": [
-"das Buch",
-"das Mädchen"
+"der",
+"die"
 ]
 },
 {
 "kind": "Guess by pattern.",
 "block": "2",
-"prompt": "________ Regen",
-"answer": "der Regen",
+"prompt": "___ Regen",
+"answer": "der",
 "distractors": [
-"der Lehrer",
-"die Züge",
-"die Türen"
-]
-},
-{
-"kind": "Guess by pattern.",
-"block": "2",
-"prompt": "________ Familie",
-"answer": "die Familie",
-"distractors": [
-"die Tische",
-"die Kinder"
+"die"
 ]
 },
 {
@@ -1578,12 +1550,10 @@
 {
 "kind": "Fill in the preposition: um, am, or im.",
 "block": "5",
-"prompt": "________ Montag arbeite ich.",
-"answer": "Am Montag arbeite ich.",
+"prompt": "___ Montag arbeite ich.",
+"answer": "Am",
 "distractors": [
-"Der Termin ist um drei Uhr.",
-"Im Januar ist es kalt.",
-"Ich arbeite von 9 bis 17 Uhr."
+"Im"
 ]
 },
 {
@@ -1594,17 +1564,6 @@
 "distractors": [
 "Am Montag arbeite ich.",
 "Im Januar ist es kalt.",
-"Ich arbeite von 9 bis 17 Uhr."
-]
-},
-{
-"kind": "Fill in the preposition: um, am, or im.",
-"block": "5",
-"prompt": "________ Januar ist es kalt.",
-"answer": "Im Januar ist es kalt.",
-"distractors": [
-"Am Montag arbeite ich.",
-"Der Termin ist um drei Uhr.",
 "Ich arbeite von 9 bis 17 Uhr."
 ]
 },

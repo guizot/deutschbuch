@@ -287,6 +287,67 @@ def unleak(items: list[dict]) -> list[dict]:
     return kept
 
 
+BLANK = re.compile(r"^_+\s*")
+
+
+def _filler(item: dict) -> str | None:
+    """For "________ Dokument" answered "das Dokument", return "das".
+
+    Fill-in-the-blank items were being offered as whole phrases, so the wrong
+    options carried a different noun ("das Fenster") and the right one could be
+    picked by matching the noun. Worse, every option had the same article, so
+    the thing being taught was the only thing not tested.
+    """
+    prompt = item["prompt"].strip()
+    m = BLANK.match(prompt)
+    if not m:
+        return None
+    tail = prompt[m.end() :].strip()
+    ans = item["answer"].strip()
+    if tail and ans.endswith(tail):
+        filler = ans[: -len(tail)].strip()
+        if filler:
+            return filler
+    return None
+
+
+def unblank(items: list[dict]) -> list[dict]:
+    """Offer the fillers alone (der/die/das) instead of whole phrases."""
+    from collections import defaultdict
+
+    by_block = defaultdict(list)
+    for it in items:
+        by_block[it["block"]].append(it)
+
+    kept = []
+    for it in items:
+        filler = _filler(it)
+        if filler is None:
+            kept.append(it)
+            continue
+        tail = BLANK.sub("", it["prompt"].strip())
+
+        others = []
+        for sib in by_block[it["block"]]:
+            if sib is it:
+                continue
+            other = _filler(sib)
+            if other and other.lower() != filler.lower() and other.lower() not in [x.lower() for x in others]:
+                others.append(other)
+
+        # With no alternative filler there is no question left to ask.
+        if not others:
+            continue
+
+        # "________ Dokument" wraps onto two lines on a phone at this font size;
+        # a three-underscore gap reads the same and stays on one.
+        it["prompt"] = "___ " + tail
+        it["answer"] = filler
+        it["distractors"] = others[:3]
+        kept.append(it)
+    return kept
+
+
 def main() -> None:
     include_translation = "--include-translation" in sys.argv
     meta = {f"{m['level']}/{m['slug']}": m for m in json.load(open(META, encoding="utf-8"))}
@@ -309,7 +370,7 @@ def main() -> None:
         vocab = parse_vocab(lines)
         grammar = build_grammar(parse_exercises(lines), include_translation)
         add_distractors(grammar)
-        grammar = unleak(grammar)
+        grammar = unblank(unleak(grammar))
         # A question with no wrong option cannot be answered wrong; and the same
         # prompt can appear twice when a lesson repeats an exercise.
         seen = set()
