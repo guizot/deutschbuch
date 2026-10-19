@@ -171,10 +171,12 @@ const htmlAfter = render(afterClean);
          reads material → exercises → check → checklist. -->
     {checkCount > 0 && (
       <section class="mt-10">
+        <!-- Heading outside the card, in a .prose-de wrapper, so it picks up the
+             exact same rule as the "Exercises" and "Checklist" headings. -->
+        <div class="prose-de">
+          <h2>Lesson Check</h2>
+        </div>
         <div class="card" style="padding:1rem">
-          <h2 style="margin:0 0 0.35rem;font-size:1.15rem;font-weight:900;color:var(--text-strong)">
-            Lesson Check
-          </h2>
           <p class="text-sm font-extrabold" style="color:var(--text-strong);margin:0 0 0.4rem">
             {checkCount} questions · vocabulary, grammar, listening
           </p>
