@@ -316,7 +316,10 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
   }
 </script>
 
-<style>
+<style is:global>
+  /* Global, not scoped: the option buttons are created with
+     document.createElement, so they never receive Astro's scoping attribute and
+     scoped rules would silently skip them. Same reason ThemeQuiz is global. */
   .lq-screen[hidden] {
     display: none;
   }
@@ -407,45 +410,58 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     color: var(--text-strong);
   }
 
+  /* Options mirror the topic quiz exactly: same two-column grid, same 7rem tap
+     target, same centred label, same green/red verdict colours. Two different
+     answer styles across one app read as two different apps. */
   .lq-opts {
     display: grid;
-    gap: 0.55rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
     margin-bottom: 0.9rem;
   }
   .lq-opt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     width: 100%;
-    padding: 0.85rem 1rem;
-    border-radius: 14px;
-    border: 2px solid var(--border);
-    background: var(--surface);
+    min-height: 7rem;
+    padding: 1.1rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 800;
     color: var(--text-strong);
-    font-weight: 700;
-    font-size: 1rem;
-    text-align: left;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.12s ease, border-color 0.12s ease;
+    transition: border-color 0.12s ease, background 0.12s ease, transform 0.06s ease;
   }
-  .lq-opt:hover {
+  .lq-opt:hover:not(.is-locked) {
+    border-color: var(--border-strong);
     background: var(--surface-2);
+  }
+  .lq-opt:active:not(.is-locked) {
+    transform: translateY(2px);
   }
   .lq-opt.is-locked {
     cursor: default;
   }
   .lq-opt.is-correct {
-    border-color: #2f9e44;
-    background: rgba(47, 158, 68, 0.12);
+    border-color: var(--color-feather);
+    background: color-mix(in srgb, var(--color-feather) 16%, transparent);
+    color: var(--text-strong);
   }
   .lq-opt.is-wrong {
-    border-color: #d10a11;
-    background: rgba(209, 10, 17, 0.1);
+    border-color: var(--color-cardinal);
+    background: color-mix(in srgb, var(--color-cardinal) 14%, transparent);
   }
   .lq-ok {
-    background: #2f9e44 !important;
-    border-color: #2f9e44 !important;
+    background: var(--color-feather) !important;
+    border-color: var(--color-feather) !important;
   }
   .lq-no {
-    background: #d10a11 !important;
-    border-color: #d10a11 !important;
+    background: var(--color-cardinal) !important;
+    border-color: var(--color-cardinal) !important;
   }
   .lq-score {
     margin: 0 0 0.75rem;
