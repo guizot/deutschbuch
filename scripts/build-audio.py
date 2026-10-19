@@ -69,6 +69,19 @@ def collect_words():
     for text in collect_wortschatz_words():
         h = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
         seen.setdefault(h, text)
+    # Lesson vocabulary comes from the generated quiz data so both pipelines agree
+    # on exactly which words exist (it is committed, so a fresh clone has it).
+    qpath = os.path.join(ROOT, "src", "data", "lesson-quiz.json")
+    if os.path.exists(qpath):
+        try:
+            for lesson in json.load(open(qpath, encoding="utf-8")).values():
+                for w in lesson.get("vocab", []):
+                    text = (w.get("de") or "").strip()
+                    if text:
+                        h = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
+                        seen.setdefault(h, text)
+        except (ValueError, OSError) as exc:
+            print(f"  peringatan: lesson-quiz.json tidak terbaca ({exc})")
     return seen
 
 
