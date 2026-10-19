@@ -57,12 +57,12 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
   <section class="lq-screen" data-screen="start">
     <div class="card lq-start">
       <ul class="lq-plan">
-        <li><span class="lq-num">{VOCAB_N}</span> Vocabulary — pilih arti kata</li>
-        <li><span class="lq-num">{GRAMMAR_N}</span> Grammar — isi bagian rumpang</li>
-        <li><span class="lq-num">{LISTEN_N}</span> Listening — dengar lalu pilih kata</li>
+        <li><span class="lq-num">{VOCAB_N}</span> Vocabulary — pick the meaning</li>
+        <li><span class="lq-num">{GRAMMAR_N}</span> Grammar — fill in the blank</li>
+        <li><span class="lq-num">{LISTEN_N}</span> Listening — listen and pick the word</li>
       </ul>
-      <p class="lq-meta">{TOTAL} soal · kata dan kalimat diambil dari lesson ini</p>
-      <button type="button" class="btn btn-primary" data-start style="width:100%">Mulai</button>
+      <p class="lq-meta">{TOTAL} questions · words and sentences come from this lesson</p>
+      <button type="button" class="btn btn-primary" data-start style="width:100%">Start</button>
     </div>
   </section>
 
@@ -71,25 +71,23 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     <div class="lq-bar-wrap" role="progressbar" aria-label="Progress">
       <div class="lq-bar" data-bar></div>
     </div>
-    <p class="lq-stage" data-stage></p>
-
     <div class="lq-qbox" data-qbox>
       <div class="lq-prompt" data-prompt></div>
       <div class="lq-speaker" data-speaker hidden></div>
     </div>
 
-    <div class="lq-opts" data-opts role="group" aria-label="Pilihan jawaban"></div>
-    <button type="button" class="btn btn-primary lq-next" data-next disabled>Lanjut</button>
+    <div class="lq-opts" data-opts role="group" aria-label="Answer choices"></div>
+    <button type="button" class="btn btn-primary lq-next" data-next disabled>Continue</button>
     <span class="lq-sr" data-live aria-live="polite"></span>
   </section>
 
   <!-- Result -->
   <section class="lq-screen" data-screen="result" hidden>
     <div class="card lq-result">
-      <p class="lq-kicker">Hasil</p>
+      <p class="lq-kicker">Quiz Result</p>
       <p class="lq-score" data-score>0 / 0</p>
       <ul class="lq-breakdown" data-breakdown></ul>
-      <button type="button" class="btn btn-primary" data-again style="width:100%">Coba lagi</button>
+      <button type="button" class="btn btn-primary" data-again style="width:100%">Try again</button>
     </div>
   </section>
 </div>
@@ -105,7 +103,6 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       result: q('[data-screen="result"]')!,
     };
     const barEl = q("[data-bar]")!;
-    const stageEl = q("[data-stage]")!;
     const qboxEl = q("[data-qbox]")!;
     const promptEl = q("[data-prompt]")!;
     const speakerEl = q("[data-speaker]")!;
@@ -212,12 +209,10 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       locked = false;
       liveEl.textContent = "";
       nextBtn.disabled = true;
-      nextBtn.textContent = "Lanjut";
+      nextBtn.textContent = "Continue";
       nextBtn.className = "btn btn-primary lq-next";
       barEl.style.width = (pos / queue.length) * 100 + "%";
 
-      const idx = STAGE_ORDER.indexOf(item.stage);
-      stageEl.textContent = `Tahap ${idx + 1} dari 3 · ${STAGE_LABEL[item.stage]} · soal ${pos + 1}/${queue.length}`;
 
       promptEl.textContent = item.prompt || "";
       promptEl.hidden = !item.prompt;
@@ -234,8 +229,8 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
         b.type = "button";
         b.className = "tts tts-md";
         b.setAttribute("data-audio", item.audio);
-        b.setAttribute("aria-label", "Putar audio");
-        b.setAttribute("title", "Putar audio");
+        b.setAttribute("aria-label", "Play audio");
+        b.setAttribute("title", "Play audio");
         b.innerHTML =
           '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">' +
           '<path d="M4.6 13.2a7.4 7.4 0 0 1 14.8 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>' +
@@ -270,10 +265,10 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       if (right) {
         scores[item.stage as keyof typeof scores] += 1;
         nextBtn.className = "btn btn-primary lq-next lq-ok";
-        nextBtn.textContent = "Benar — lanjut";
+        nextBtn.textContent = "Correct!";
       } else {
         nextBtn.className = "btn btn-primary lq-next lq-no";
-        nextBtn.textContent = "Salah — jawaban: " + item.answer;
+        nextBtn.textContent = "Wrong — the answer is: " + item.answer;
       }
       liveEl.textContent = nextBtn.textContent;
       nextBtn.disabled = false;
@@ -385,12 +380,6 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     border-radius: 999px;
     background: var(--color-macaw);
     transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .lq-stage {
-    margin: 0 0 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--text-faint);
   }
 
   .lq-qbox {
