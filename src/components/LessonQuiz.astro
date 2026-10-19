@@ -73,13 +73,13 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     </div>
     <p class="lq-stage" data-stage></p>
 
-    <div class="card lq-qbox">
+    <div class="lq-qbox" data-qbox>
       <div class="lq-prompt" data-prompt></div>
       <div class="lq-speaker" data-speaker hidden></div>
     </div>
 
     <div class="lq-opts" data-opts role="group" aria-label="Pilihan jawaban"></div>
-    <button type="button" class="btn btn-primary" data-next disabled style="width:100%">Lanjut</button>
+    <button type="button" class="btn btn-primary lq-next" data-next disabled>Lanjut</button>
     <span class="lq-sr" data-live aria-live="polite"></span>
   </section>
 
@@ -106,6 +106,7 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     };
     const barEl = q("[data-bar]")!;
     const stageEl = q("[data-stage]")!;
+    const qboxEl = q("[data-qbox]")!;
     const promptEl = q("[data-prompt]")!;
     const speakerEl = q("[data-speaker]")!;
     const optsEl = q("[data-opts]")!;
@@ -212,7 +213,7 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       liveEl.textContent = "";
       nextBtn.disabled = true;
       nextBtn.textContent = "Lanjut";
-      nextBtn.className = "btn btn-primary";
+      nextBtn.className = "btn btn-primary lq-next";
       barEl.style.width = (pos / queue.length) * 100 + "%";
 
       const idx = STAGE_ORDER.indexOf(item.stage);
@@ -220,6 +221,9 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
 
       promptEl.textContent = item.prompt || "";
       promptEl.hidden = !item.prompt;
+      // A listening question has no text at all, so the speaker has to move from
+      // the right edge (where it sits beside the word) to the centre.
+      qboxEl.classList.toggle("is-listen", !item.prompt);
 
       // Listening items show only a speaker; vocabulary items show the word plus
       // a speaker so the learner can hear it while reading.
@@ -265,10 +269,10 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
 
       if (right) {
         scores[item.stage as keyof typeof scores] += 1;
-        nextBtn.className = "btn btn-primary lq-ok";
+        nextBtn.className = "btn btn-primary lq-next lq-ok";
         nextBtn.textContent = "Benar — lanjut";
       } else {
-        nextBtn.className = "btn btn-primary lq-no";
+        nextBtn.className = "btn btn-primary lq-next lq-no";
         nextBtn.textContent = "Salah — jawaban: " + item.answer;
       }
       liveEl.textContent = nextBtn.textContent;
@@ -365,19 +369,22 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     color: var(--text-faint);
   }
 
+  /* Progress bar and question box copy the topic quiz's measurements exactly:
+     16px bar on --border, 2px box border with the same radius, and the question
+     set at the same clamp(1.8rem, 6vw, 2.6rem)/900. */
   .lq-bar-wrap {
-    height: 0.6rem;
+    height: 16px;
     border-radius: 999px;
-    background: var(--surface-2);
+    background: var(--border);
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.55rem;
   }
   .lq-bar {
     height: 100%;
     width: 0;
     border-radius: 999px;
-    background: var(--text-strong);
-    transition: width 0.25s ease;
+    background: var(--color-macaw);
+    transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .lq-stage {
     margin: 0 0 0.75rem;
@@ -387,19 +394,53 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
   }
 
   .lq-qbox {
-    padding: 1.1rem;
-    margin-bottom: 0.8rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    padding: 1.4rem 3.4rem;
+    margin-bottom: 0.7rem;
+    position: relative;
+    min-height: 6rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.7rem;
+    justify-content: center;
   }
   .lq-prompt {
-    font-size: 1.15rem;
-    font-weight: 800;
-    line-height: 1.35;
     text-align: center;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    line-height: 1.15;
     color: var(--text-strong);
+    word-break: break-word;
+  }
+
+  /* Beside the word, at the right edge — like the topic quiz. */
+  .lq-speaker {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  /* A listening question has no word, so the speaker becomes the question. */
+  .lq-qbox.is-listen {
+    padding: 1.4rem 1rem;
+  }
+  .lq-qbox.is-listen .lq-speaker {
+    position: static;
+    transform: none;
+  }
+  .lq-qbox.is-listen .tts {
+    width: 3.4rem;
+    height: 3.4rem;
+    border-width: 3px;
+  }
+
+  .lq-next {
+    display: flex;
+    width: 100%;
+    padding: 0.9rem 1.25rem;
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   /* Options mirror the topic quiz exactly: same two-column grid, same 7rem tap
