@@ -72,6 +72,7 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       <div class="lq-bar" data-bar></div>
     </div>
     <div class="lq-qbox" data-qbox>
+      <p class="lq-kind" data-kind hidden></p>
       <div class="lq-prompt" data-prompt></div>
       <div class="lq-speaker" data-speaker hidden></div>
     </div>
@@ -104,6 +105,7 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     };
     const barEl = q("[data-bar]")!;
     const qboxEl = q("[data-qbox]")!;
+    const kindEl = q("[data-kind]")!;
     const promptEl = q("[data-prompt]")!;
     const speakerEl = q("[data-speaker]")!;
     const optsEl = q("[data-opts]")!;
@@ -191,6 +193,13 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       queue = [...v, ...g, ...l];
     }
 
+    // A couple of lesson headings describe the workbook task ("Read aloud, then
+    // check the hint.") rather than the question the quiz actually asks.
+    const KIND_LABEL: Record<string, string> = {
+      "Read aloud, then check the hint.": "How does it sound?",
+      "Umlaut trap.": "What do these mean?",
+    };
+
     const STAGE_LABEL: Record<string, string> = {
       vocab: "Vocabulary",
       grammar: "Grammar",
@@ -213,6 +222,12 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       nextBtn.className = "btn btn-primary lq-next";
       barEl.style.width = (pos / queue.length) * 100 + "%";
 
+
+      // The lesson heading the question came from ("Long or short vowel?").
+      // Without it a card reading "Stadt" over "long / short" says nothing.
+      const label = KIND_LABEL[item.label as string] || item.label || "";
+      kindEl.textContent = label;
+      kindEl.hidden = !label;
 
       promptEl.textContent = item.prompt || "";
       promptEl.hidden = !item.prompt;
@@ -391,8 +406,17 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     position: relative;
     min-height: 6rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .lq-kind {
+    margin: 0 0 0.45rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-faint);
+    text-align: center;
   }
   .lq-prompt {
     text-align: center;
