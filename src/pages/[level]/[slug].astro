@@ -171,26 +171,22 @@ const htmlAfter = render(afterClean);
          reads material → exercises → check → checklist. -->
     {checkCount > 0 && (
       <section class="mt-10">
-        <!-- Heading outside the card, in a .prose-de wrapper, so it picks up the
-             exact same rule as the "Exercises" and "Checklist" headings. -->
+        <!-- Plain section: heading, one line of copy, then the button. No card
+             wrapper, so it sits in the page like the other prose sections. -->
         <div class="prose-de">
           <h2>Lesson Check</h2>
-        </div>
-        <div class="card" style="padding:1rem">
-          <p class="text-sm font-extrabold" style="color:var(--text-strong);margin:0 0 0.4rem">
-            {checkCount} questions · vocabulary, grammar, listening
+          <p>
+            {checkCount} questions across vocabulary, grammar and listening — all drawn from
+            this lesson, and different every time.
           </p>
-          <p class="text-xs" style="color:var(--text-muted);margin:0 0 0.9rem">
-            Drawn from this lesson only, and different every time.
-          </p>
-          <a
-            href={`/${lesson.level}/${lesson.slug}/quiz/`}
-            class="btn btn-primary"
-            style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem"
-          >
-            <Icon name="question" size={16} /> Start Lesson Check
-          </a>
         </div>
+        <a
+          href={`/${lesson.level}/${lesson.slug}/quiz/`}
+          class="btn btn-primary"
+          style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem"
+        >
+          <Icon name="question" size={16} /> Start Lesson Check
+        </a>
       </section>
     )}
 
