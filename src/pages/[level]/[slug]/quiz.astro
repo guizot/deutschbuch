@@ -1,0 +1,57 @@
+---
+/**
+ * Lesson Check for one lesson: /<level>/<slug>/quiz/
+ *
+ * Sibling of the lesson page itself, the same way /themes/<slug>/quiz/ is a
+ * sibling of its topic — so the quiz is a real page (shareable, back-button
+ * friendly) instead of a panel toggled inside the lesson.
+ *
+ * Questions come from src/data/lesson-quiz.json, built by
+ * scripts/build-lesson-quiz.py out of the lesson's vocabulary table and the
+ * exercises paired with their answer key.
+ */
+import Header from "../../../components/Header.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import BackLink from "../../../components/BackLink.astro";
+import LessonQuiz from "../../../components/LessonQuiz.astro";
+import quizData from "../../../data/lesson-quiz.json";
+import "../../../styles/global.css";
+
+export function getStaticPaths() {
+  return Object.entries(quizData).map(([, quiz]) => ({
+    params: { level: quiz.level, slug: quiz.slug },
+    props: { quiz },
+  }));
+}
+
+const { quiz } = Astro.props;
+const pill = quiz.level.toUpperCase();
+---
+
+<BaseLayout title={`${quiz.title} — Lesson Check`}>
+  <Header active="learn" />
+
+  <main class="max-w-3xl mx-auto px-4 py-6 pb-24">
+    <BackLink fallback={`/${quiz.level}/${quiz.slug}/`} label={quiz.title} />
+
+    <PageHeader
+      class="lq-head"
+      icon="question"
+      color="var(--text-strong)"
+      title="Lesson Check"
+      en={quiz.title}
+      pill={pill}
+    />
+
+    <LessonQuiz quiz={quiz} />
+  </main>
+</BaseLayout>
+
+<style is:global>
+  /* Same tightening as the topic quiz: the progress bar and the question box
+     should sit the same distance from the header as from each other. */
+  header.page-head.lq-head {
+    margin-bottom: 0.7rem;
+  }
+</style>
