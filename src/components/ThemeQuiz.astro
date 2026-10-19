@@ -603,11 +603,30 @@ const enough = pool.length >= 4;
       });
     }
 
+    // Two short German clips for the verdict. Built lazily so a visitor who
+    // never answers a question never downloads them.
+    var sfx = null;
+    function playSfx(ok) {
+      try {
+        if (!sfx) {
+          sfx = { ok: new Audio("/sfx/correct.mp3"), no: new Audio("/sfx/wrong.mp3") };
+        }
+        var a = ok ? sfx.ok : sfx.no;
+        a.currentTime = 0;
+        var p = a.play();
+        if (p && p.catch) p.catch(function () {});
+      } catch (e) {}
+    }
+
     function choose(btn, txt, w) {
       if (locked) return;
       locked = true;
       var correct = answerOf(w);
       var isRight = txt === correct;
+
+      // Fired from the click handler, so the browser counts it as a user gesture
+      // and does not block playback.
+      playSfx(isRight);
 
       var all = Array.prototype.slice.call(optsEl.querySelectorAll(".tq-opt"));
       all.forEach(function (b) {
