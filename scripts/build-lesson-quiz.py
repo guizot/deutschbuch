@@ -281,13 +281,22 @@ def unleak(items: list[dict]) -> list[dict]:
         if ans.lower() == prompt.lower():
             continue
 
-        it["answer"] = ans
-        it["distractors"] = uniq
-        kept.append(it)
+        # A copy, not the input: siblings are read later and must still show
+        # their original glosses.
+        out = dict(it)
+        out["answer"] = ans
+        out["distractors"] = uniq
+        kept.append(out)
     return kept
 
 
 BLANK = re.compile(r"_{2,}")
+ARTICLE = re.compile(
+    r"^(der|die|das|den|dem|des|ein|eine|einen|einem|einer|eines|"
+    r"kein|keine|keinen|keinem|keiner|mein|meine|meinen|meinem|meiner|"
+    r"dein|deine|ihr|ihre|unser|unsere)\s+",
+    re.I,
+)
 
 
 def _filler(item: dict) -> str | None:
@@ -302,6 +311,15 @@ def _filler(item: dict) -> str | None:
     prompt = item["prompt"]
     m = BLANK.search(prompt)
     if not m:
+        # No gap at all: "Schlafzimmer (Schlaf + Zimmer)" answered "das
+        # Schlafzimmer". The noun is printed on the card, so the article is the
+        # only thing being asked — and the wrong options were other compounds,
+        # so matching the noun won.
+        art = ARTICLE.match(item["answer"].strip())
+        if art:
+            head = re.split(r"[\s(]", prompt.strip())[0]
+            if head and item["answer"].strip()[art.end() :].strip() == head:
+                return art.group(1)
         return None
     # Only a gap standing on its own ("___ Dokument", "Ich habe ___ Kinder").
     # "das klein____ Kind" wants an ending glued to the word before it, and
@@ -358,10 +376,11 @@ def unblank(items: list[dict]) -> list[dict]:
 
         # "________ Dokument" wraps onto two lines on a phone at this font size;
         # a three-underscore gap reads the same and stays on one.
-        it["prompt"] = BLANK.sub("___", it["prompt"])
-        it["answer"] = filler
-        it["distractors"] = others[:3]
-        kept.append(it)
+        out = dict(it)
+        out["prompt"] = BLANK.sub("___", it["prompt"])
+        out["answer"] = filler
+        out["distractors"] = others[:3]
+        kept.append(out)
     return kept
 
 

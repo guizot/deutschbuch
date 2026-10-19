@@ -71,9 +71,9 @@
 "prompt": "Jahr",
 "answer": "\"yahr\"",
 "distractors": [
+"\"tsite\"",
 "\"VAH-sah\"",
-"\"FOH-gel\"",
-"\"SHOO-le\""
+"\"FOH-gel\""
 ]
 },
 {
@@ -82,9 +82,9 @@
 "prompt": "Wasser",
 "answer": "\"VAH-sah\"",
 "distractors": [
-"\"FOH-gel\"",
-"\"SHOO-le\"",
-"soft \"kh\" from the front, like \"ish\" with a scrape"
+"\"tsite\"",
+"\"yahr\"",
+"\"FOH-gel\""
 ]
 },
 {
@@ -93,9 +93,9 @@
 "prompt": "Vogel",
 "answer": "\"FOH-gel\"",
 "distractors": [
-"\"SHOO-le\"",
-"soft \"kh\" from the front, like \"ish\" with a scrape",
-"harsh \"kh\" from the back"
+"\"tsite\"",
+"\"yahr\"",
+"\"VAH-sah\""
 ]
 },
 {
@@ -104,9 +104,9 @@
 "prompt": "Schule",
 "answer": "\"SHOO-le\"",
 "distractors": [
-"soft \"kh\" from the front, like \"ish\" with a scrape",
-"harsh \"kh\" from the back",
-"\"beer\""
+"\"tsite\"",
+"\"yahr\"",
+"\"VAH-sah\""
 ]
 },
 {
@@ -115,8 +115,9 @@
 "prompt": "ich",
 "answer": "soft \"kh\" from the front, like \"ish\" with a scrape",
 "distractors": [
-"harsh \"kh\" from the back",
-"\"beer\""
+"\"tsite\"",
+"\"yahr\"",
+"\"VAH-sah\""
 ]
 },
 {
@@ -125,7 +126,9 @@
 "prompt": "auch",
 "answer": "harsh \"kh\" from the back",
 "distractors": [
-"\"beer\""
+"\"tsite\"",
+"\"yahr\"",
+"\"VAH-sah\""
 ]
 },
 {
@@ -134,7 +137,9 @@
 "prompt": "Bier",
 "answer": "\"beer\"",
 "distractors": [
-"ee"
+"\"tsite\"",
+"\"yahr\"",
+"\"VAH-sah\""
 ]
 },
 {
@@ -162,6 +167,15 @@
 "answer": "long",
 "distractors": [
 "short"
+]
+},
+{
+"kind": "Long or short vowel?",
+"block": "2",
+"prompt": "Sonne",
+"answer": "short",
+"distractors": [
+"long"
 ]
 },
 {
@@ -246,6 +260,15 @@
 ]
 },
 {
+"kind": "Silent h or sounded h?",
+"block": "4",
+"prompt": "Zahl",
+"answer": "silent, lengthens the a",
+"distractors": [
+"sounded"
+]
+},
+{
 "kind": "Umlaut trap.",
 "block": "6",
 "prompt": "schon / schön",
@@ -261,6 +284,7 @@
 "prompt": "Bruder / Brüder",
 "answer": "brother / brothers",
 "distractors": [
+"already / beautiful",
 "mother / mothers"
 ]
 },
@@ -270,6 +294,7 @@
 "prompt": "Mutter / Mütter",
 "answer": "mother / mothers",
 "distractors": [
+"already / beautiful",
 "brother / brothers"
 ]
 }
@@ -635,8 +660,8 @@
 "prompt": "___ Mädchen",
 "answer": "das",
 "distractors": [
-"der",
-"die"
+"die",
+"der"
 ]
 },
 {
@@ -645,8 +670,8 @@
 "prompt": "___ Lehrer",
 "answer": "der",
 "distractors": [
-"die",
-"das"
+"das",
+"die"
 ]
 },
 {
@@ -655,7 +680,8 @@
 "prompt": "___ Zeitung",
 "answer": "die",
 "distractors": [
-"das"
+"das",
+"der"
 ]
 },
 {
@@ -664,7 +690,8 @@
 "prompt": "___ Fenster",
 "answer": "das",
 "distractors": [
-"die"
+"die",
+"der"
 ]
 },
 {
@@ -673,7 +700,18 @@
 "prompt": "___ Freundschaft",
 "answer": "die",
 "distractors": [
-"das"
+"das",
+"der"
+]
+},
+{
+"kind": "Which article?",
+"block": "1",
+"prompt": "___ Museum",
+"answer": "das",
+"distractors": [
+"die",
+"der"
 ]
 },
 {
@@ -702,8 +740,8 @@
 "prompt": "___ Übung",
 "answer": "die",
 "distractors": [
-"der",
-"das"
+"das",
+"der"
 ]
 },
 {
@@ -732,8 +770,8 @@
 "prompt": "___ Brötchen",
 "answer": "das",
 "distractors": [
-"der",
-"die"
+"die",
+"der"
 ]
 },
 {
@@ -742,7 +780,18 @@
 "prompt": "___ Regen",
 "answer": "der",
 "distractors": [
-"die"
+"die",
+"das"
+]
+},
+{
+"kind": "Guess by pattern.",
+"block": "2",
+"prompt": "___ Familie",
+"answer": "die",
+"distractors": [
+"das",
+"der"
 ]
 },
 {
@@ -815,44 +864,40 @@
 "kind": "Compound gender.",
 "block": "4",
 "prompt": "Schlafzimmer (Schlaf + Zimmer)",
-"answer": "das Schlafzimmer",
+"answer": "das",
 "distractors": [
-"die Küchentür",
-"der Haustürschlüssel",
-"das Kinderbuch"
+"die",
+"der"
 ]
 },
 {
 "kind": "Compound gender.",
 "block": "4",
 "prompt": "Küchentür (Küche + Tür)",
-"answer": "die Küchentür",
+"answer": "die",
 "distractors": [
-"die Türen",
-"die Tische",
-"die Kinder"
+"das",
+"der"
 ]
 },
 {
 "kind": "Compound gender.",
 "block": "4",
 "prompt": "Haustürschlüssel (Haus + Tür + Schlüssel)",
-"answer": "der Haustürschlüssel",
+"answer": "der",
 "distractors": [
-"das Schlafzimmer",
-"die Küchentür",
-"das Kinderbuch"
+"das",
+"die"
 ]
 },
 {
 "kind": "Compound gender.",
 "block": "4",
 "prompt": "Kinderbuch (Kinder + Buch)",
-"answer": "das Kinderbuch",
+"answer": "das",
 "distractors": [
-"die Kinder",
-"das Buch",
-"das Mädchen"
+"die",
+"der"
 ]
 },
 {
@@ -880,6 +925,15 @@
 "answer": "keine",
 "distractors": [
 "kein"
+]
+},
+{
+"kind": "kein or keine?",
+"block": "5",
+"prompt": "Das ist ___ Problem. (das Problem)",
+"answer": "kein",
+"distractors": [
+"keine"
 ]
 },
 {
@@ -1548,7 +1602,18 @@
 "prompt": "Der Termin ist ___ drei Uhr.",
 "answer": "um",
 "distractors": [
+"Am",
 "Im"
+]
+},
+{
+"kind": "Fill in the preposition: um, am, or im.",
+"block": "5",
+"prompt": "___ Januar ist es kalt.",
+"answer": "Im",
+"distractors": [
+"Am",
+"um"
 ]
 },
 {
@@ -1684,6 +1749,7 @@
 "prompt": "Ich kenne ___ Frau. (object)",
 "answer": "die",
 "distractors": [
+"den",
 "das"
 ]
 },
@@ -1694,6 +1760,16 @@
 "answer": "Das Kind",
 "distractors": [
 "die Kinder"
+]
+},
+{
+"kind": "Nominative or accusative?",
+"block": "1",
+"prompt": "Ich sehe ___ Kind. (object)",
+"answer": "das",
+"distractors": [
+"den",
+"die"
 ]
 },
 {
@@ -1784,9 +1860,9 @@
 "prompt": "Er liest ___ Buch. (das)",
 "answer": "das",
 "distractors": [
+"den",
 "die",
-"einen",
-"ihren"
+"einen"
 ]
 },
 {
@@ -1795,9 +1871,9 @@
 "prompt": "Wir sehen ___ Frau. (die)",
 "answer": "die",
 "distractors": [
-"einen",
-"ihren",
-"keine"
+"den",
+"das",
+"einen"
 ]
 },
 {
@@ -1806,8 +1882,9 @@
 "prompt": "Ich habe ___ Hund. (ein)",
 "answer": "einen",
 "distractors": [
-"ihren",
-"keine"
+"den",
+"das",
+"die"
 ]
 },
 {
@@ -1816,7 +1893,20 @@
 "prompt": "Sie sucht ___ Schlüssel. (ihr)",
 "answer": "ihren",
 "distractors": [
-"keine"
+"den",
+"das",
+"die"
+]
+},
+{
+"kind": "Complete with the correct accusative article.",
+"block": "3",
+"prompt": "Ich brauche ___ Zeit. (kein)",
+"answer": "keine",
+"distractors": [
+"den",
+"das",
+"die"
 ]
 },
 {
@@ -1886,7 +1976,18 @@
 "prompt": "Er läuft gegen ___ Wand. (die)",
 "answer": "gegen die",
 "distractors": [
+"durch den",
 "um den"
+]
+},
+{
+"kind": "Prepositions.",
+"block": "5",
+"prompt": "Wir sitzen um ___ Tisch. (der)",
+"answer": "um den",
+"distractors": [
+"durch den",
+"gegen die"
 ]
 },
 {
@@ -2175,6 +2276,7 @@
 "prompt": "You must not smoke here. → Du ___ hier rauchen.",
 "answer": "Du darfst nicht",
 "distractors": [
+"Du musst nicht",
 "Er muss nicht"
 ]
 },
@@ -2184,7 +2286,18 @@
 "prompt": "He doesn't have to work today. → Er ___ heute arbeiten.",
 "answer": "Er muss nicht",
 "distractors": [
+"Du musst nicht",
 "Du darfst nicht"
+]
+},
+{
+"kind": "nicht müssen or nicht dürfen?",
+"block": "4",
+"prompt": "You are not allowed to park here. → Du ___ hier parken.",
+"answer": "Du darfst nicht",
+"distractors": [
+"Du musst nicht",
+"Er muss nicht"
 ]
 },
 {
@@ -2504,6 +2617,15 @@
 {
 "kind": "nicht or kein?",
 "block": "6",
+"prompt": "Ich habe ___ Hund.",
+"answer": "keinen",
+"distractors": [
+"keine"
+]
+},
+{
+"kind": "nicht or kein?",
+"block": "6",
 "prompt": "Ich mag den Film ________.",
 "answer": "nicht",
 "distractors": [
@@ -2665,8 +2787,8 @@
 "prompt": "Das Buch gehört ___ Frau.",
 "answer": "der",
 "distractors": [
-"den",
-"dem"
+"dem",
+"den"
 ]
 },
 {
@@ -2675,8 +2797,8 @@
 "prompt": "Wir wohnen bei ___ Eltern.",
 "answer": "den",
 "distractors": [
-"der",
-"dem"
+"dem",
+"der"
 ]
 },
 {
@@ -2695,7 +2817,18 @@
 "prompt": "Er geht zu ___ Arzt.",
 "answer": "dem",
 "distractors": [
+"der",
 "den"
+]
+},
+{
+"kind": "Dative articles.",
+"block": "1",
+"prompt": "Ich spreche mit ___ Kindern.",
+"answer": "den",
+"distractors": [
+"dem",
+"der"
 ]
 },
 {
@@ -2715,6 +2848,7 @@
 "prompt": "Sie wohnt bei ___ Schwester. (ihr)",
 "answer": "ihrer",
 "distractors": [
+"einem",
 "meinem",
 "keinem"
 ]
@@ -2725,6 +2859,8 @@
 "prompt": "Wir fahren mit ___ Auto. (mein)",
 "answer": "meinem",
 "distractors": [
+"einem",
+"ihrer",
 "keinem"
 ]
 },
@@ -2734,7 +2870,20 @@
 "prompt": "Das gehört ___ Kind. (kein)",
 "answer": "keinem",
 "distractors": [
+"einem",
+"ihrer",
 "meinem"
+]
+},
+{
+"kind": "Indefinite / possessive in the dative.",
+"block": "2",
+"prompt": "Ich danke ___ Lehrer. (mein)",
+"answer": "meinem",
+"distractors": [
+"einem",
+"ihrer",
+"keinem"
 ]
 },
 {
@@ -2804,6 +2953,7 @@
 "prompt": "Wir wohnen ___ unseren Großeltern.",
 "answer": "bei",
 "distractors": [
+"mit",
 "aus",
 "gegenüber"
 ]
@@ -2824,6 +2974,8 @@
 "prompt": "Er kommt ___ Deutschland.",
 "answer": "aus",
 "distractors": [
+"mit",
+"bei",
 "gegenüber"
 ]
 },
@@ -2836,6 +2988,17 @@
 "mit dem Fahrrad",
 "bei unseren Großeltern",
 "Seit einem Jahr"
+]
+},
+{
+"kind": "Which preposition?",
+"block": "4",
+"prompt": "Die Bank ist ___ dem Supermarkt.",
+"answer": "gegenüber",
+"distractors": [
+"mit",
+"bei",
+"aus"
 ]
 },
 {
@@ -4369,6 +4532,15 @@
 "answer": "Perfekt",
 "distractors": [
 "Präteritum"
+]
+},
+{
+"kind": "Präteritum or Perfekt?",
+"block": "3",
+"prompt": "müssen",
+"answer": "Präteritum",
+"distractors": [
+"Perfekt"
 ]
 },
 {
@@ -6452,9 +6624,9 @@
 "prompt": "Ich bin in ___ Kino. (das)",
 "answer": "im",
 "distractors": [
+"ins",
 "in die",
-"in der",
-"unter dem"
+"in der"
 ]
 },
 {
@@ -6463,9 +6635,9 @@
 "prompt": "Wir fahren in ___ Schweiz. (die)",
 "answer": "in die",
 "distractors": [
-"in der",
-"unter dem",
-"unter den"
+"ins",
+"im",
+"in der"
 ]
 },
 {
@@ -6474,8 +6646,9 @@
 "prompt": "Er wohnt in ___ Schweiz. (die)",
 "answer": "in der",
 "distractors": [
-"unter dem",
-"unter den"
+"ins",
+"im",
+"in die"
 ]
 },
 {
@@ -6484,7 +6657,20 @@
 "prompt": "Die Katze ist unter ___ Tisch. (der)",
 "answer": "unter dem",
 "distractors": [
-"unter den"
+"ins",
+"im",
+"in die"
+]
+},
+{
+"kind": "Complete with the correct article.",
+"block": "2",
+"prompt": "Die Katze läuft unter ___ Tisch. (der)",
+"answer": "unter den",
+"distractors": [
+"ins",
+"im",
+"in die"
 ]
 },
 {
@@ -6777,6 +6963,7 @@
 "prompt": "___ Eltern (ich)",
 "answer": "Meine",
 "distractors": [
+"Mein",
 "Dein",
 "Deine"
 ]
@@ -6787,7 +6974,20 @@
 "prompt": "___ Bruder (du)",
 "answer": "Dein",
 "distractors": [
+"Mein",
+"Meine",
 "Deine"
+]
+},
+{
+"kind": "Choose the correct possessive form.",
+"block": "1",
+"prompt": "___ Schwester (du)",
+"answer": "Deine",
+"distractors": [
+"Mein",
+"Meine",
+"Dein"
 ]
 },
 {
@@ -6807,9 +7007,9 @@
 "prompt": "Ich sehe ___ Mutter. (mein)",
 "answer": "meine",
 "distractors": [
+"meinen",
 "mein",
-"seinen",
-"ihre"
+"seinen"
 ]
 },
 {
@@ -6818,9 +7018,9 @@
 "prompt": "Ich sehe ___ Kind. (mein)",
 "answer": "mein",
 "distractors": [
+"meinen",
 "meine",
-"seinen",
-"ihre"
+"seinen"
 ]
 },
 {
@@ -6829,8 +7029,9 @@
 "prompt": "Ich sehe ___ Eltern. (mein)",
 "answer": "meine",
 "distractors": [
-"seinen",
-"ihre"
+"meinen",
+"mein",
+"seinen"
 ]
 },
 {
@@ -6839,7 +7040,20 @@
 "prompt": "Er liebt ___ Hund. (sein)",
 "answer": "seinen",
 "distractors": [
-"ihre"
+"meinen",
+"meine",
+"mein"
+]
+},
+{
+"kind": "Accusative. Add the ending.",
+"block": "2",
+"prompt": "Sie besucht ___ Freundin. (ihr)",
+"answer": "ihre",
+"distractors": [
+"meinen",
+"meine",
+"mein"
 ]
 },
 {
@@ -6859,9 +7073,9 @@
 "prompt": "Ich helfe ___ Mutter. (mein)",
 "answer": "meiner",
 "distractors": [
+"meinem",
 "meinen",
-"seinem",
-"ihrem"
+"seinem"
 ]
 },
 {
@@ -6870,8 +7084,9 @@
 "prompt": "Ich helfe ___ Eltern. (mein)",
 "answer": "meinen",
 "distractors": [
-"seinem",
-"ihrem"
+"meinem",
+"meiner",
+"seinem"
 ]
 },
 {
@@ -6880,7 +7095,20 @@
 "prompt": "Er wohnt bei ___ Bruder. (sein)",
 "answer": "seinem",
 "distractors": [
-"ihrem"
+"meinem",
+"meiner",
+"meinen"
+]
+},
+{
+"kind": "Dative. Add the ending.",
+"block": "3",
+"prompt": "Sie fährt mit ___ Auto. (ihr)",
+"answer": "ihrem",
+"distractors": [
+"meinem",
+"meiner",
+"meinen"
 ]
 },
 {
@@ -6900,9 +7128,9 @@
 "prompt": "Das ist ___ Tasche. (du)",
 "answer": "deine",
 "distractors": [
+"mein",
 "sein",
-"ihre",
-"unser"
+"ihre"
 ]
 },
 {
@@ -6911,9 +7139,9 @@
 "prompt": "Das ist ___ Hund. (er)",
 "answer": "sein",
 "distractors": [
-"ihre",
-"unser",
-"Ihr"
+"mein",
+"deine",
+"ihre"
 ]
 },
 {
@@ -6922,8 +7150,9 @@
 "prompt": "Das ist ___ Wohnung. (sie = her)",
 "answer": "ihre",
 "distractors": [
-"unser",
-"Ihr"
+"mein",
+"deine",
+"sein"
 ]
 },
 {
@@ -6932,8 +7161,9 @@
 "prompt": "Das ist ___ Haus. (wir)",
 "answer": "unser",
 "distractors": [
-"ihre",
-"Ihr"
+"mein",
+"deine",
+"sein"
 ]
 },
 {
@@ -6942,7 +7172,20 @@
 "prompt": "Das ist ___ Schule. (ihr = their)",
 "answer": "ihre",
 "distractors": [
-"Ihr"
+"mein",
+"deine",
+"sein"
+]
+},
+{
+"kind": "Whose is it? Complete with the correct possessive.",
+"block": "4",
+"prompt": "Ist das ___ Koffer? (Sie = formal)",
+"answer": "Ihr",
+"distractors": [
+"mein",
+"deine",
+"sein"
 ]
 },
 {
@@ -6962,6 +7205,7 @@
 "prompt": "Frau Schmidt und ___ Mann. (her)",
 "answer": "ihr",
 "distractors": [
+"seine",
 "sein",
 "ihre"
 ]
@@ -6972,6 +7216,7 @@
 "prompt": "Die Familie und ___ Haus. (their)",
 "answer": "ihr",
 "distractors": [
+"seine",
 "sein",
 "ihre"
 ]
@@ -6982,7 +7227,20 @@
 "prompt": "Der Mann und ___ Auto. (his)",
 "answer": "sein",
 "distractors": [
+"seine",
+"ihr",
 "ihre"
+]
+},
+{
+"kind": "sein or ihr?",
+"block": "5",
+"prompt": "Die Frau und ___ Tasche. (her)",
+"answer": "ihre",
+"distractors": [
+"seine",
+"ihr",
+"sein"
 ]
 },
 {
@@ -7349,6 +7607,7 @@
 "prompt": "___ vorsichtig! (ihr, sein)",
 "answer": "Seid",
 "distractors": [
+"Sei",
 "Seien",
 "Hab"
 ]
@@ -7359,7 +7618,20 @@
 "prompt": "___ Sie so nett! (Sie, sein)",
 "answer": "Seien",
 "distractors": [
+"Sei",
+"Seid",
 "Hab"
+]
+},
+{
+"kind": "sein and haben.",
+"block": "5",
+"prompt": "___ keine Angst! (du, haben)",
+"answer": "Hab",
+"distractors": [
+"Sei",
+"Seid",
+"Seien"
 ]
 },
 {
@@ -7625,9 +7897,9 @@
 "prompt": "vor ___ Woche (eine)",
 "answer": "einer",
 "distractors": [
+"einem",
 "einen",
-"zwei",
-"drei"
+"zwei"
 ]
 },
 {
@@ -7636,8 +7908,9 @@
 "prompt": "für ___ Monat (ein)",
 "answer": "einen",
 "distractors": [
-"zwei",
-"drei"
+"einem",
+"einer",
+"zwei"
 ]
 },
 {
@@ -7646,7 +7919,20 @@
 "prompt": "in ___ Tagen (zwei)",
 "answer": "zwei",
 "distractors": [
-"drei"
+"einem",
+"einer",
+"einen"
+]
+},
+{
+"kind": "Complete with the correct form.",
+"block": "2",
+"prompt": "seit ___ Monaten (drei)",
+"answer": "drei",
+"distractors": [
+"einem",
+"einer",
+"einen"
 ]
 },
 {
@@ -7910,6 +8196,7 @@
 "prompt": "die Spielzeuge ___ Kinder (die)",
 "answer": "der",
 "distractors": [
+"des",
 "eines",
 "meiner"
 ]
@@ -7920,7 +8207,20 @@
 "prompt": "das Haus ___ Freundes (ein)",
 "answer": "eines",
 "distractors": [
+"des",
+"der",
 "meiner"
+]
+},
+{
+"kind": "Genitive articles.",
+"block": "1",
+"prompt": "die Arbeit ___ Lehrerin (mein)",
+"answer": "meiner",
+"distractors": [
+"des",
+"der",
+"eines"
 ]
 },
 {
@@ -8065,7 +8365,18 @@
 "prompt": "außerhalb ___ Stadt (die)",
 "answer": "der",
 "distractors": [
+"des",
 "einer"
+]
+},
+{
+"kind": "Genitive prepositions. Fill in the correct article.",
+"block": "4",
+"prompt": "innerhalb ___ Woche (eine)",
+"answer": "einer",
+"distractors": [
+"des",
+"der"
 ]
 },
 {
@@ -12355,7 +12666,18 @@
 "prompt": "die Spielzeuge ___ Kinder (die)",
 "answer": "der",
 "distractors": [
+"des",
 "eines"
+]
+},
+{
+"kind": "Genitive articles.",
+"block": "1",
+"prompt": "das Haus ___ Freundes (ein)",
+"answer": "eines",
+"distractors": [
+"des",
+"der"
 ]
 },
 {
@@ -12429,6 +12751,33 @@
 "answer": "der",
 "distractors": [
 "des"
+]
+},
+{
+"kind": "Genitive prepositions.",
+"block": "3",
+"prompt": "während ___ Tages (der)",
+"answer": "des",
+"distractors": [
+"der"
+]
+},
+{
+"kind": "Genitive prepositions.",
+"block": "3",
+"prompt": "statt ___ Autos (das)",
+"answer": "des",
+"distractors": [
+"der"
+]
+},
+{
+"kind": "Genitive prepositions.",
+"block": "3",
+"prompt": "aufgrund ___ Regens (der)",
+"answer": "des",
+"distractors": [
+"der"
 ]
 },
 {
@@ -13092,6 +13441,7 @@
 "prompt": "Ich sehe ___ Studenten. (der)",
 "answer": "den",
 "distractors": [
+"Der",
 "dem",
 "des"
 ]
@@ -13102,7 +13452,20 @@
 "prompt": "Ich helfe ___ Studenten. (der)",
 "answer": "dem",
 "distractors": [
+"Der",
+"den",
 "des"
+]
+},
+{
+"kind": "Nominative or other case? Fill in the noun.",
+"block": "2",
+"prompt": "Das Buch ___ Studenten. (des)",
+"answer": "des",
+"distractors": [
+"Der",
+"den",
+"dem"
 ]
 },
 {
@@ -13200,6 +13563,15 @@
 "answer": "dem",
 "distractors": [
 "des"
+]
+},
+{
+"kind": "Complete the sentence.",
+"block": "5",
+"prompt": "Das ist das Haus ___ Nachbarn. (des)",
+"answer": "des",
+"distractors": [
+"dem"
 ]
 },
 {
@@ -13474,9 +13846,9 @@
 "prompt": "Ich denke an ___ Tag. (der)",
 "answer": "an den",
 "distractors": [
+"auf den",
 "mit dem",
-"von einer",
-"bei der"
+"von einer"
 ]
 },
 {
@@ -13485,9 +13857,9 @@
 "prompt": "Ich spreche mit ___ Chef. (der)",
 "answer": "mit dem",
 "distractors": [
-"von einer",
-"bei der",
-"um die"
+"auf den",
+"an den",
+"von einer"
 ]
 },
 {
@@ -13496,8 +13868,9 @@
 "prompt": "Ich träume von ___ Weltreise. (eine)",
 "answer": "von einer",
 "distractors": [
-"bei der",
-"um die"
+"auf den",
+"an den",
+"mit dem"
 ]
 },
 {
@@ -13506,7 +13879,20 @@
 "prompt": "Ich helfe bei ___ Arbeit. (die)",
 "answer": "bei der",
 "distractors": [
-"um die"
+"auf den",
+"an den",
+"mit dem"
+]
+},
+{
+"kind": "Akkusativ or Dativ?",
+"block": "3",
+"prompt": "Ich bitte um ___ Hilfe. (die)",
+"answer": "um die",
+"distractors": [
+"auf den",
+"an den",
+"mit dem"
 ]
 },
 {
@@ -13565,7 +13951,18 @@
 "prompt": "Du denkst an den Tag. → ___ denkst du?",
 "answer": "Woran",
 "distractors": [
+"Worauf",
 "Wofür"
+]
+},
+{
+"kind": "Ask the question with a wo- compound.",
+"block": "5",
+"prompt": "Du interessierst dich für Musik. → ___ interessierst du dich?",
+"answer": "Wofür",
+"distractors": [
+"Worauf",
+"Woran"
 ]
 },
 {
@@ -13880,7 +14277,18 @@
 "prompt": "Du denkst an den Tag. → ___ denkst du?",
 "answer": "Woran",
 "distractors": [
+"Worauf",
 "Worüber"
+]
+},
+{
+"kind": "Form the question.",
+"block": "5",
+"prompt": "Du sprichst über das Problem. → ___ sprichst du?",
+"answer": "Worüber",
+"distractors": [
+"Worauf",
+"Woran"
 ]
 },
 {
@@ -14452,7 +14860,18 @@
 "prompt": "das Formular / bezahlen → das ___ Formular",
 "answer": "das zu bezahlende",
 "distractors": [
+"die zu lösende",
 "die zu lesenden"
+]
+},
+{
+"kind": "zu + Partizip I.",
+"block": "5",
+"prompt": "die Bücher / lesen → die ___ Bücher",
+"answer": "die zu lesenden",
+"distractors": [
+"die zu lösende",
+"das zu bezahlende"
 ]
 },
 {
@@ -16632,7 +17051,18 @@
 "prompt": "Obwohl es kalt war, ... → ___ der Kälte, ...",
 "answer": "Trotz",
 "distractors": [
+"Wegen",
 "Nach"
+]
+},
+{
+"kind": "Nominalise the clause.",
+"block": "5",
+"prompt": "Nachdem er angekommen war, ... → ___ seiner Ankunft, ...",
+"answer": "Nach",
+"distractors": [
+"Wegen",
+"Trotz"
 ]
 },
 {
@@ -16954,6 +17384,7 @@
 "prompt": "das Formular / bezahlen → das ___ Formular",
 "answer": "das zu bezahlende",
 "distractors": [
+"die zu lösende",
 "die abzuholende"
 ]
 },
@@ -16966,6 +17397,16 @@
 "die zu lösende Aufgabe",
 "das zu bezahlende Formular",
 "die abzuholende Ware"
+]
+},
+{
+"kind": "zu + Partizip I.",
+"block": "5",
+"prompt": "die Ware / abholen → die ___ Ware",
+"answer": "die abzuholende",
+"distractors": [
+"die zu lösende",
+"das zu bezahlende"
 ]
 },
 {
@@ -18068,7 +18509,18 @@
 "prompt": "Das ist klar. → Das ist ___ klar.",
 "answer": "Das ist ja",
 "distractors": [
+"Komm mal",
 "Ich habe es doch"
+]
+},
+{
+"kind": "Make the sentence sound natural (add a particle).",
+"block": "5",
+"prompt": "Ich habe es gesagt. → Ich habe es ___ gesagt.",
+"answer": "Ich habe es doch",
+"distractors": [
+"Komm mal",
+"Das ist ja"
 ]
 },
 {
@@ -18513,8 +18965,8 @@
 "prompt": "der Schuh + der Hand → ___ Handschuh",
 "answer": "der",
 "distractors": [
-"das",
-"die"
+"die",
+"das"
 ]
 },
 {
@@ -18523,7 +18975,18 @@
 "prompt": "das Zimmer + die Arbeit → ___ Arbeitszimmer",
 "answer": "das",
 "distractors": [
-"die"
+"die",
+"der"
+]
+},
+{
+"kind": "What gender is the compound?",
+"block": "1",
+"prompt": "die Stadt + groß → ___ Großstadt",
+"answer": "die",
+"distractors": [
+"der",
+"das"
 ]
 },
 {
@@ -18941,6 +19404,15 @@
 ]
 },
 {
+"kind": "Fill in the correct genitive article.",
+"block": "1",
+"prompt": "außerhalb ___ Stadt (die)",
+"answer": "der",
+"distractors": [
+"des"
+]
+},
+{
 "kind": "Add the -s/-es where needed.",
 "block": "2",
 "prompt": "wegen des Regen________",
@@ -19027,6 +19499,15 @@
 "answer": "Wegen",
 "distractors": [
 "Trotz"
+]
+},
+{
+"kind": "Replace the clause with a prepositional phrase.",
+"block": "4",
+"prompt": "Obwohl es kalt war, ... → ___ der Kälte, ...",
+"answer": "Trotz",
+"distractors": [
+"Wegen"
 ]
 },
 {
@@ -19277,6 +19758,7 @@
 "prompt": "Ich helfe dir. → Ich ___ dir Hilfe.",
 "answer": "Ich leiste",
 "distractors": [
+"Er übt",
 "Das steht",
 "Ich stelle"
 ]
@@ -19287,7 +19769,20 @@
 "prompt": "Das ist verfügbar. → Das ___ zur Verfügung.",
 "answer": "Das steht",
 "distractors": [
+"Er übt",
+"Ich leiste",
 "Ich stelle"
+]
+},
+{
+"kind": "Rewrite with a Funktionsverbgefüge.",
+"block": "3",
+"prompt": "Ich bezweifle das. → Ich ___ das in Frage.",
+"answer": "Ich stelle",
+"distractors": [
+"Er übt",
+"Ich leiste",
+"Das steht"
 ]
 },
 {
@@ -20331,7 +20826,18 @@
 "prompt": "Hören: ___ min",
 "answer": "40",
 "distractors": [
+"65",
 "75"
+]
+},
+{
+"kind": "Time budget.",
+"block": "5",
+"prompt": "Schreiben: ___ min",
+"answer": "75",
+"distractors": [
+"65",
+"40"
 ]
 },
 {
@@ -20903,7 +21409,18 @@
 "prompt": "Obwohl es kalt war, ... → ___ der Kälte, ...",
 "answer": "Trotz",
 "distractors": [
+"Wegen",
 "Nach"
+]
+},
+{
+"kind": "Transform to Nominalstil.",
+"block": "3",
+"prompt": "Nachdem er angekommen war, ... → ___ seiner Ankunft, ...",
+"answer": "Nach",
+"distractors": [
+"Wegen",
+"Trotz"
 ]
 },
 {
@@ -22277,9 +22794,9 @@
 "prompt": "___ Kritik (schwer / scharf)",
 "answer": "scharfe",
 "distractors": [
+"hohe",
 "starke",
-"große",
-"schwere"
+"große"
 ]
 },
 {
@@ -22288,8 +22805,9 @@
 "prompt": "___ Nachfrage (stark / hoch)",
 "answer": "starke",
 "distractors": [
-"große",
-"schwere"
+"hohe",
+"scharfe",
+"große"
 ]
 },
 {
@@ -22298,7 +22816,20 @@
 "prompt": "___ Bedeutung (tief / groß)",
 "answer": "große",
 "distractors": [
-"schwere"
+"hohe",
+"scharfe",
+"starke"
+]
+},
+{
+"kind": "Choose the correct adjective.",
+"block": "2",
+"prompt": "___ Folgen (schwer / scharf)",
+"answer": "schwere",
+"distractors": [
+"hohe",
+"scharfe",
+"starke"
 ]
 },
 {
