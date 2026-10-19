@@ -44,30 +44,13 @@ const payload = JSON.stringify({
   })),
 }).replace(/</g, "\\u003c");
 
-const VOCAB_N = Math.min(6, quiz.vocab.length);
-const GRAMMAR_N = Math.min(6, quiz.grammar.length);
-const LISTEN_N = Math.min(4, quiz.vocab.length);
-const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
 ---
 
 <div class="lq" data-lq>
   <script type="application/json" class="lq-data" set:html={payload} />
 
-  <!-- Start -->
-  <section class="lq-screen" data-screen="start">
-    <div class="card lq-start">
-      <ul class="lq-plan">
-        <li><span class="lq-num">{VOCAB_N}</span> Vocabulary — pick the meaning</li>
-        <li><span class="lq-num">{GRAMMAR_N}</span> Grammar — fill in the blank</li>
-        <li><span class="lq-num">{LISTEN_N}</span> Listening — listen and pick the word</li>
-      </ul>
-      <p class="lq-meta">{TOTAL} questions · words and sentences come from this lesson</p>
-      <button type="button" class="btn btn-primary" data-start style="width:100%">Start</button>
-    </div>
-  </section>
-
   <!-- Play -->
-  <section class="lq-screen" data-screen="play" hidden>
+  <section class="lq-screen" data-screen="play">
     <div class="lq-bar-wrap" role="progressbar" aria-label="Progress">
       <div class="lq-bar" data-bar></div>
     </div>
@@ -99,7 +82,6 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     const data = JSON.parse((root.querySelector(".lq-data") as HTMLElement).textContent || "{}");
     const q = (sel: string) => root.querySelector(sel) as HTMLElement | null;
     const screens = {
-      start: q('[data-screen="start"]')!,
       play: q('[data-screen="play"]')!,
       result: q('[data-screen="result"]')!,
     };
@@ -207,7 +189,7 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     };
     const STAGE_ORDER = ["vocab", "grammar", "listen"];
 
-    function show(which: "start" | "play" | "result") {
+    function show(which: "play" | "result") {
       Object.entries(screens).forEach(([k, el]) => {
         (el as HTMLElement).hidden = k !== which;
       });
@@ -322,8 +304,8 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
       render();
     }
 
-    q("[data-start]")!.addEventListener("click", start);
     q("[data-again]")!.addEventListener("click", start);
+    start(); // no start screen: the lesson's own button already asked
     nextBtn.addEventListener("click", next);
   }
 </script>
@@ -335,7 +317,6 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
   .lq-screen[hidden] {
     display: none;
   }
-  .lq-start,
   .lq-result {
     padding: 1.25rem;
   }
@@ -345,37 +326,6 @@ const TOTAL = VOCAB_N + GRAMMAR_N + LISTEN_N;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--text-faint);
-  }
-  .lq-plan {
-    list-style: none;
-    margin: 0 0 0.75rem;
-    padding: 0;
-    display: grid;
-    gap: 0.45rem;
-  }
-  .lq-plan li {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 0.95rem;
-    color: var(--text-strong);
-  }
-  .lq-num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 1.7rem;
-    height: 1.7rem;
-    border-radius: 999px;
-    background: var(--surface-2);
-    border: 1.5px solid var(--border);
-    font-weight: 900;
-    font-size: 0.8rem;
-  }
-  .lq-meta {
-    margin: 0 0 1rem;
-    font-size: 0.85rem;
     color: var(--text-faint);
   }
 
