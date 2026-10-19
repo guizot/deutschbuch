@@ -34,24 +34,23 @@ PIPER_MODEL = os.environ.get(
 BITRATE = os.environ.get("TTS_BITRATE", "48k")
 BATCH = 100  # ffmpeg inputs per process, keeps argv well under ARG_MAX
 
-# Re-exec into the Piper venv when the system interpreter has no piper module.
-# NOTE: do not compare sys.executable paths — venv/bin/python is a symlink to
-# /usr/bin/python3.x, so realpath() makes the two look identical. Use a sentinel.
+# Where a pre-built audio bundle lives, for machines without Piper.
+# Override with AUDIO_BUNDLE_URL; set to "" to disable fetching entirely.
+AUDIO_BUNDLE_URL = os.environ.get(
+    "AUDIO_BUNDLE_URL",
+    "https://github.com/guizot/deutschbuch/releases/download/audio-v1/audio-bundle.tar.gz",
+)
+
+# Piper is optional: a machine without it can still restore the audio from the
+# release bundle. The re-exec into the venv therefore happens lazily, inside
+# main(), only once something actually needs synthesising.
+HAVE_PIPER = False
+PIPER_IMPORT_ERROR = None
 try:
     from piper import PiperVoice  # noqa: F401
-except ImportError:
-    if os.environ.get("_DEUTSCHBUCH_TTS_REEXEC") == "1":
-        sys.exit(
-            "piper tidak bisa di-import dari venv: "
-            + PIPER_VENV_PY
-            + "\n  coba: "
-            + PIPER_VENV_PY
-            + " -c 'from piper import PiperVoice'"
-        )
-    if not os.path.exists(PIPER_VENV_PY):
-        sys.exit(f"venv Piper tidak ditemukan: {PIPER_VENV_PY}")
-    os.environ["_DEUTSCHBUCH_TTS_REEXEC"] = "1"
-    os.execv(PIPER_VENV_PY, [PIPER_VENV_PY, os.path.abspath(__file__)] + sys.argv[1:])
+    HAVE_PIPER = True
+except ImportError as exc:  # noqa: BLE001
+    PIPER_IMPORT_ERROR = exc
 
 
 def collect_words():
@@ -116,6 +115,58 @@ def collect_wortschatz_words():
     return words
 
 
+def fetch_bundle():
+    """Restore public/audio from the published tarball. True if any clip landed."""
+    if not AUDIO_BUNDLE_URL:
+        return False
+    if shutil.which("curl") is None or shutil.which("tar") is None:
+        print("bundle dilewati: curl atau tar tidak tersedia")
+        return False
+
+    print(f"audio belum lengkap — mencoba bundle: {AUDIO_BUNDLE_URL}")
+    tmp = tempfile.mkdtemp(prefix="deutschbuch-bundle-")
+    tgz = os.path.join(tmp, "audio-bundle.tar.gz")
+    try:
+        r = subprocess.run(
+            ["curl", "-fsSL", "--max-time", "600", "-o", tgz, AUDIO_BUNDLE_URL],
+            capture_output=True, text=True,
+        )
+        if r.returncode != 0 or not os.path.exists(tgz) or os.path.getsize(tgz) < 1024:
+            print("  gagal unduh:", (r.stderr or "kosong").strip().splitlines()[-1][:160])
+            return False
+        print(f"  terunduh {os.path.getsize(tgz) / 1048576:.1f} MB, mengekstrak...")
+
+        # The archive holds audio/<hash>.mp3, so it unpacks into public/.
+        public_dir = os.path.dirname(OUTDIR)
+        r = subprocess.run(["tar", "-xzf", tgz, "-C", public_dir],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            print("  gagal ekstrak:", (r.stderr or "").strip()[:160])
+            return False
+
+        got = sum(1 for f in os.listdir(OUTDIR) if f.endswith(".mp3")) if os.path.isdir(OUTDIR) else 0
+        print(f"  {got} file audio tersedia setelah ekstrak")
+        return got > 0
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def ensure_piper():
+    """Guarantee Piper is importable, re-execing into its venv once if needed."""
+    if HAVE_PIPER:
+        return
+    if os.environ.get("_DEUTSCHBUCH_TTS_REEXEC") != "1" and os.path.exists(PIPER_VENV_PY):
+        os.environ["_DEUTSCHBUCH_TTS_REEXEC"] = "1"
+        os.execv(PIPER_VENV_PY, [PIPER_VENV_PY, os.path.abspath(__file__)] + sys.argv[1:])
+    sys.exit(
+        "Piper tidak tersedia dan bundle audio tidak bisa dipakai.\n"
+        f"  venv Piper  : {PIPER_VENV_PY}\n"
+        f"  error import: {PIPER_IMPORT_ERROR}\n"
+        f"  bundle URL  : {AUDIO_BUNDLE_URL or '(dinonaktifkan)'}\n"
+        "Pasang Piper, atau arahkan AUDIO_BUNDLE_URL ke bundle yang valid."
+    )
+
+
 def main():
     limit = None
     force = False
@@ -142,6 +193,17 @@ def main():
         todo = todo[:limit]
         print(f"--limit={limit} → hanya {len(todo)} kata")
 
+    # Prefer the published bundle when clips are missing: it needs no Piper, so a
+    # fresh clone on a machine without the voice model still builds.
+    if not limit and fetch_bundle():
+        todo = [t for t in todo if not os.path.exists(os.path.join(OUTDIR, t[0] + ".mp3"))]
+        if not todo:
+            print("audio lengkap dari bundle, tidak ada yang dirender.")
+            write_manifest(words)
+            return
+        print(f"  {len(todo)} kata masih perlu disintesis lokal")
+
+    ensure_piper()
     from piper import PiperVoice
 
     print(f"memuat model: {os.path.basename(PIPER_MODEL)}")

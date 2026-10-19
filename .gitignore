@@ -19,3 +19,6 @@ src/data/audio-manifest.json
 # editor / OS noise
 .DS_Store
 *.swp
+
+# release asset built by scripts/make-audio-bundle.sh
+audio-bundle.tar.gz
