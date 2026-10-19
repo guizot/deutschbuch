@@ -15,6 +15,8 @@
  * stays consistent (lessons, vocabulary, cheatsheet, reference guides, about).
  */
 import { marked } from "marked";
+import { audioPath } from "./audio";
+import { iconSvg } from "./icons";
 
 marked.setOptions({ gfm: true, breaks: true });
 
@@ -50,6 +52,50 @@ function boldInCode(html: string) {
 /** Markdown string → HTML ready to drop into a `.prose-de` article. */
 export function mdToHtml(md: string) {
   return dashEmptyCells(boldInCode(wrapTables(marked.parse(md))));
+}
+
+/**
+ * Add a speaker button to the German cell of every vocabulary table.
+ *
+ * Only tables whose first header cell is "Deutsch" qualify — the course also
+ * renders other tables (conjugations, comparisons) where a speaker would be
+ * meaningless. `has` decides whether a clip exists, so this module stays free
+ * of filesystem access and the caller owns that check.
+ */
+export function withWordAudio(html: string, has: (word: string) => boolean) {
+  // Headers that name a German column. "Topic"/"Source" tables in the same files
+  // are a progress tracker and a source list, not vocabulary.
+  const GERMAN_HEADERS = new Set([
+    "deutsch", "phrase", "phrases", "collocation", "collocations",
+    "redemittel", "ausdruck", "ausdrücke", "wort", "wörter",
+  ]);
+  const strip = (s: string) =>
+    s.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  const esc = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+
+  return html.replace(/<table>[\s\S]*?<\/table>/g, (table) => {
+    const head = table.match(/<thead>[\s\S]*?<\/thead>/);
+    const firstTh = head && head[0].match(/<th[^>]*>([\s\S]*?)<\/th>/);
+    if (!firstTh || !GERMAN_HEADERS.has(strip(firstTh[1]).toLowerCase())) return table;
+
+    return table.replace(/<tr>[\s\S]*?<\/tr>/g, (row) => {
+      if (row.includes("<th")) return row; // header row
+      // Only the first cell: that is the German word, the rest are English/plural.
+      return row.replace(/<td([^>]*)>([\s\S]*?)<\/td>/, (cell, attrs: string, inner: string) => {
+        const word = strip(inner);
+        if (!word || !has(word)) return cell;
+        const label = esc(`Dengar pelafalan: ${word}`);
+        return (
+          `<td${attrs}><span class="tts-cell">` +
+          `<span class="tts-cell-text">${inner}</span>` +
+          `<button type="button" class="tts tts-sm" data-audio="${audioPath(word)}" ` +
+          `aria-label="${label}" title="${label}">${iconSvg("listen", 13)}</button>` +
+          `</span></td>`
+        );
+      });
+    });
+  });
 }
 
 /**

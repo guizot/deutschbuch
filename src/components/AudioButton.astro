@@ -2,8 +2,12 @@
 /**
  * Tombol pelafalan. Memutar file statis dari public/audio/ — tidak ada backend.
  *
- * Satu listener global (document delegation) dipasang sekali per halaman, jadi
- * menaruh tombol ini di ratusan baris tabel tidak menambah beban.
+ * Markup saja: listener klik dipasang sekali di BaseLayout.astro, sehingga
+ * halaman yang menyisipkan tombol lewat HTML mentah (tabel wortschatz, lihat
+ * lib/md.ts) tetap berfungsi tanpa mengimpor komponen ini.
+ *
+ * Gayanya global, bukan scoped, karena tombol yang dibuat di lib/md.ts berada di
+ * luar pohon komponen Astro dan tidak akan mendapat atribut scoping.
  */
 import Icon from "./Icon.astro";
 import { audioPath } from "../lib/audio";
@@ -34,7 +38,7 @@ const label = clean ? `Dengar pelafalan: ${clean}` : "Dengar pelafalan";
   <Icon name="listen" size={size} />
 </button>
 
-<style>
+<style is:global>
   .tts {
     display: inline-flex;
     align-items: center;
@@ -72,41 +76,14 @@ const label = clean ? `Dengar pelafalan: ${clean}` : "Dengar pelafalan";
     background: var(--surface);
     border-color: var(--text-strong);
   }
+
+  /* Word + speaker inside a vocabulary table cell. */
+  .tts-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .tts-cell-text {
+    font-weight: 700;
+  }
 </style>
-
-<script>
-  // Delegated once per page: any element carrying data-audio plays that file.
-  const AUDIO = new Audio();
-  let playing: Element | null = null;
-
-  document.addEventListener("click", (event) => {
-    const target = event.target as HTMLElement | null;
-    const btn = target?.closest<HTMLElement>("[data-audio]");
-    if (!btn) return;
-
-    // Keep the click from also toggling a table row or an accordion.
-    event.preventDefault();
-    event.stopPropagation();
-
-    const src = btn.getAttribute("data-audio");
-    if (!src) return;
-
-    if (playing) playing.classList.remove("is-playing");
-    AUDIO.pause();
-    AUDIO.currentTime = 0;
-    AUDIO.src = src;
-
-    btn.classList.add("is-playing");
-    playing = btn;
-
-    void AUDIO.play().catch(() => {
-      btn.classList.remove("is-playing");
-      playing = null;
-    });
-  });
-
-  AUDIO.addEventListener("ended", () => {
-    if (playing) playing.classList.remove("is-playing");
-    playing = null;
-  });
-</script>

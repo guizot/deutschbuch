@@ -65,7 +65,55 @@ def collect_words():
                     continue
                 h = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
                 seen.setdefault(h, text)
+    # Vocabulary pages (/a1/wortschatz/ ...) render markdown tables, not themes.json,
+    # and hold words the theme list does not cover. First column is "Deutsch".
+    for text in collect_wortschatz_words():
+        h = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
+        seen.setdefault(h, text)
     return seen
+
+
+def collect_wortschatz_words():
+    """First column of vocabulary tables in src/content/lessons/*/_wortschatz.md.
+
+    Only tables whose header names a German column qualify. The same files also
+    carry a progress table ("Topic | /25 | not started") and a source list, whose
+    first column is not a word to pronounce.
+    """
+    import glob
+    import re
+
+    headers = {"deutsch", "phrase", "phrases", "collocation", "collocations",
+               "redemittel", "ausdruck", "ausdrücke", "wort", "wörter"}
+    words = set()
+
+    def cells_of(line):
+        return [c.strip() for c in line.strip().strip("|").split("|")]
+
+    def is_separator(cells):
+        return bool(cells) and all(set(c) <= set("-: ") for c in cells)
+
+    for path in glob.glob(os.path.join(ROOT, "src", "content", "lessons", "*", "_wortschatz.md")):
+        lines = open(path, encoding="utf-8").read().splitlines()
+        header = None
+        for idx, raw_line in enumerate(lines):
+            line = raw_line.strip()
+            if not line.startswith("|"):
+                header = None
+                continue
+            cells = cells_of(line)
+            if is_separator(cells):
+                continue
+            nxt = lines[idx + 1].strip() if idx + 1 < len(lines) else ""
+            if nxt.startswith("|") and is_separator(cells_of(nxt)):
+                header = re.sub(r"[*`_]", "", cells[0]).strip().lower()
+                continue
+            if header not in headers:
+                continue
+            first = re.sub(r"[*`_]", "", cells[0]).strip()
+            if first:
+                words.add(first)
+    return words
 
 
 def main():

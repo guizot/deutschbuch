@@ -11,6 +11,49 @@ const themeScript = `
   } catch (e) {}
 })();
 `;
+
+// One delegated handler for every pronunciation button on the page. It lives in
+// the layout — not in AudioButton.astro — because vocabulary tables get their
+// buttons injected as raw HTML from lib/md.ts, on pages that never import the
+// component.
+const audioScript = `
+(function () {
+  var player = new Audio();
+  var current = null;
+
+  function stop(btn) {
+    if (btn) btn.classList.remove('is-playing');
+  }
+
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    var btn = target && target.closest ? target.closest('[data-audio]') : null;
+    if (!btn) return;
+
+    // Keep the click from also toggling a table row or an accordion.
+    event.preventDefault();
+    event.stopPropagation();
+
+    var src = btn.getAttribute('data-audio');
+    if (!src) return;
+
+    stop(current);
+    player.pause();
+    player.currentTime = 0;
+    player.src = src;
+    btn.classList.add('is-playing');
+    current = btn;
+
+    var p = player.play();
+    if (p && p.catch) p.catch(function () { stop(btn); current = null; });
+  });
+
+  player.addEventListener('ended', function () {
+    stop(current);
+    current = null;
+  });
+})();
+`;
 ---
 <!doctype html>
 <html lang="en">
@@ -31,5 +74,6 @@ const themeScript = `
   </head>
   <body>
     <slot />
+    <script is:inline set:html={audioScript} />
   </body>
 </html>
