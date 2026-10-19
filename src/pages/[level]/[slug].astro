@@ -167,21 +167,14 @@ const htmlAfter = render(afterClean);
       )
     }
 
-    <!-- checklist + notes -->
-    <article id="lesson-after" class="prose-de" set:html={htmlAfter} />
-
-    <!-- Lesson Check: three stages built from this lesson's own vocabulary and
-         exercises. Sits after the material so it reads as a closing test rather
-         than competing with the lesson title. -->
+    <!-- Lesson Check: its own section, right after the exercises, so the lesson
+         reads material → exercises → check → checklist. -->
     {checkCount > 0 && (
       <section class="mt-10">
         <div class="card" style="padding:1rem">
-          <p
-            class="text-xs font-bold"
-            style="color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;margin:0 0 0.3rem"
-          >
+          <h2 style="margin:0 0 0.35rem;font-size:1.15rem;font-weight:900;color:var(--text-strong)">
             Lesson Check
-          </p>
+          </h2>
           <p class="text-sm font-extrabold" style="color:var(--text-strong);margin:0 0 0.4rem">
             {checkCount} questions · vocabulary, grammar, listening
           </p>
@@ -198,6 +191,9 @@ const htmlAfter = render(afterClean);
         </div>
       </section>
     )}
+
+    <!-- checklist + notes -->
+    <article id="lesson-after" class="prose-de" set:html={htmlAfter} />
 
     <!-- complete button -->
     <section class="mt-10">
