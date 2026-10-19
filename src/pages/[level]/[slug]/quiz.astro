@@ -26,7 +26,6 @@ export function getStaticPaths() {
 }
 
 const { quiz } = Astro.props;
-const pill = quiz.level.toUpperCase();
 ---
 
 <BaseLayout title={`${quiz.title} — Lesson Check`}>
@@ -41,7 +40,6 @@ const pill = quiz.level.toUpperCase();
       color="var(--text-strong)"
       title="Lesson Check"
       en={quiz.title}
-      pill={pill}
     />
 
     <LessonQuiz quiz={quiz} />
