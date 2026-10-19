@@ -58,308 +58,219 @@
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Zeit",
-"answer": "Zeit = \"tsite\"",
+"answer": "\"tsite\"",
 "distractors": [
-"Jahr = \"yahr\"",
-"Wasser = \"VAH-sah\"",
-"Vogel = \"FOH-gel\""
+"\"yahr\"",
+"\"VAH-sah\"",
+"\"FOH-gel\""
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Jahr",
-"answer": "Jahr = \"yahr\"",
+"answer": "\"yahr\"",
 "distractors": [
-"Wasser = \"VAH-sah\""
+"\"VAH-sah\"",
+"\"FOH-gel\"",
+"\"SHOO-le\""
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Wasser",
-"answer": "Wasser = \"VAH-sah\"",
+"answer": "\"VAH-sah\"",
 "distractors": [
-"Jahr = \"yahr\""
+"\"FOH-gel\"",
+"\"SHOO-le\"",
+"soft \"kh\" from the front, like \"ish\" with a scrape"
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Vogel",
-"answer": "Vogel = \"FOH-gel\"",
+"answer": "\"FOH-gel\"",
 "distractors": [
-"Zeit = \"tsite\"",
-"Jahr = \"yahr\"",
-"Wasser = \"VAH-sah\""
+"\"SHOO-le\"",
+"soft \"kh\" from the front, like \"ish\" with a scrape",
+"harsh \"kh\" from the back"
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Schule",
-"answer": "Schule = \"SHOO-le\"",
+"answer": "\"SHOO-le\"",
 "distractors": [
-"Zeit = \"tsite\"",
-"Jahr = \"yahr\"",
-"Wasser = \"VAH-sah\""
+"soft \"kh\" from the front, like \"ish\" with a scrape",
+"harsh \"kh\" from the back",
+"\"beer\""
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "ich",
-"answer": "ich = soft \"kh\" from the front, like \"ish\" with a scrape",
+"answer": "soft \"kh\" from the front, like \"ish\" with a scrape",
 "distractors": [
-"Zeit = \"tsite\"",
-"Jahr = \"yahr\"",
-"Wasser = \"VAH-sah\""
+"harsh \"kh\" from the back",
+"\"beer\""
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "auch",
-"answer": "auch = harsh \"kh\" from the back",
+"answer": "harsh \"kh\" from the back",
 "distractors": [
-"Zeit = \"tsite\"",
-"Jahr = \"yahr\"",
-"Wasser = \"VAH-sah\""
+"\"beer\""
 ]
 },
 {
 "kind": "Read aloud, then check the hint.",
 "block": "1",
 "prompt": "Bier",
-"answer": "Bier = \"beer\"",
+"answer": "\"beer\"",
 "distractors": [
-"vier = ee",
-"Liebe = ee",
-"Spiegel = ee"
+"ee"
 ]
 },
 {
 "kind": "Long or short vowel?",
 "block": "2",
 "prompt": "Stadt",
-"answer": "Stadt = short",
+"answer": "short",
 "distractors": [
-"Sonne = short",
-"Staat = long"
+"long"
 ]
 },
 {
 "kind": "Long or short vowel?",
 "block": "2",
 "prompt": "Staat",
-"answer": "Staat = long",
+"answer": "long",
 "distractors": [
-"Zahl = long",
-"Stadt = short"
+"short"
 ]
 },
 {
 "kind": "Long or short vowel?",
 "block": "2",
 "prompt": "Zahl",
-"answer": "Zahl = long",
+"answer": "long",
 "distractors": [
-"Staat = long"
-]
-},
-{
-"kind": "Long or short vowel?",
-"block": "2",
-"prompt": "Sonne",
-"answer": "Sonne = short",
-"distractors": [
-"Stadt = short"
+"short"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "mein",
-"answer": "mein = eye",
+"answer": "eye",
 "distractors": [
-"arbeiten = eye",
-"Eis = eye",
-"vier = ee"
+"ee"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "Liebe",
-"answer": "Liebe = ee",
+"answer": "ee",
 "distractors": [
-"vier = ee",
-"Spiegel = ee",
-"Eis = eye"
+"eye"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "vier",
-"answer": "vier = ee",
+"answer": "ee",
 "distractors": [
-"Liebe = ee",
-"Bier = \"beer\"",
-"Eis = eye"
+"eye"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "Eis",
-"answer": "Eis = eye",
+"answer": "eye",
 "distractors": [
-"mein = eye",
-"vier = ee",
-"Liebe = ee"
+"ee"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "Spiegel",
-"answer": "Spiegel = ee",
+"answer": "ee",
 "distractors": [
-"Liebe = ee",
-"vier = ee",
-"Eis = eye"
+"eye"
 ]
 },
 {
 "kind": "ei or ie?",
 "block": "3",
 "prompt": "arbeiten",
-"answer": "arbeiten = eye",
+"answer": "eye",
 "distractors": [
-"mein = eye",
-"Eis = eye",
-"Liebe = ee"
+"ee"
 ]
 },
 {
 "kind": "Silent h or sounded h?",
 "block": "4",
 "prompt": "Haus",
-"answer": "Haus = sounded",
+"answer": "sounded",
 "distractors": [
-"haben = sounded"
+"silent, lengthens the a"
 ]
 },
 {
 "kind": "Silent h or sounded h?",
 "block": "4",
 "prompt": "fahren",
-"answer": "fahren = silent, lengthens the a",
+"answer": "silent, lengthens the a",
 "distractors": [
-"Zahl = silent, lengthens the a"
+"sounded"
 ]
 },
 {
 "kind": "Silent h or sounded h?",
 "block": "4",
 "prompt": "haben",
-"answer": "haben = sounded",
+"answer": "sounded",
 "distractors": [
-"Haus = sounded",
-"arbeiten = eye"
-]
-},
-{
-"kind": "Silent h or sounded h?",
-"block": "4",
-"prompt": "Zahl",
-"answer": "Zahl = silent, lengthens the a",
-"distractors": [
-"fahren = silent, lengthens the a"
-]
-},
-{
-"kind": "Stress.",
-"block": "5",
-"prompt": "Arbeit",
-"answer": "ARbeit",
-"distractors": [
-"verSTEhen",
-"MUtter",
-"beKOMmen"
-]
-},
-{
-"kind": "Stress.",
-"block": "5",
-"prompt": "verstehen",
-"answer": "verSTEhen",
-"distractors": [
-"ARbeit",
-"MUtter",
-"beKOMmen"
-]
-},
-{
-"kind": "Stress.",
-"block": "5",
-"prompt": "Mutter",
-"answer": "MUtter",
-"distractors": [
-"ARbeit",
-"verSTEhen",
-"beKOMmen"
-]
-},
-{
-"kind": "Stress.",
-"block": "5",
-"prompt": "bekommen",
-"answer": "beKOMmen",
-"distractors": [
-"ARbeit",
-"verSTEhen",
-"MUtter"
-]
-},
-{
-"kind": "Stress.",
-"block": "5",
-"prompt": "Lehrer",
-"answer": "LEHrer",
-"distractors": [
-"ARbeit",
-"verSTEhen",
-"MUtter"
+"silent, lengthens the a"
 ]
 },
 {
 "kind": "Umlaut trap.",
 "block": "6",
 "prompt": "schon / schön",
-"answer": "schon = already, schön = beautiful",
+"answer": "already / beautiful",
 "distractors": [
-"Bruder = brother, Brüder = brothers",
-"Mutter = mother, Mütter = mothers"
+"brother / brothers",
+"mother / mothers"
 ]
 },
 {
 "kind": "Umlaut trap.",
 "block": "6",
 "prompt": "Bruder / Brüder",
-"answer": "Bruder = brother, Brüder = brothers",
+"answer": "brother / brothers",
 "distractors": [
-"Mutter = mother, Mütter = mothers"
+"mother / mothers"
 ]
 },
 {
 "kind": "Umlaut trap.",
 "block": "6",
 "prompt": "Mutter / Mütter",
-"answer": "Mutter = mother, Mütter = mothers",
+"answer": "mother / mothers",
 "distractors": [
-"Bruder = brother, Brüder = brothers"
+"brother / brothers"
 ]
 }
 ]
@@ -1827,19 +1738,9 @@
 {
 "kind": "Nominative or accusative?",
 "block": "1",
-"prompt": "________ Frau kauft Brot. (subject)",
-"answer": "Die Frau",
-"distractors": [
-"die Frau"
-]
-},
-{
-"kind": "Nominative or accusative?",
-"block": "1",
 "prompt": "Ich kenne ________ Frau. (object)",
 "answer": "die Frau",
 "distractors": [
-"Die Frau",
 "die Tür",
 "die Kinder"
 ]
@@ -1850,7 +1751,6 @@
 "prompt": "________ Kind spielt. (subject)",
 "answer": "Das Kind",
 "distractors": [
-"das Kind",
 "die Kinder"
 ]
 },
@@ -1860,7 +1760,6 @@
 "prompt": "Ich sehe ________ Kind. (object)",
 "answer": "das Kind",
 "distractors": [
-"Das Kind",
 "die Kinder"
 ]
 },
@@ -1959,7 +1858,6 @@
 "prompt": "Wir sehen ________ Frau. (die)",
 "answer": "die Frau",
 "distractors": [
-"Die Frau",
 "die Tür",
 "die Kinder"
 ]
@@ -4496,7 +4394,6 @@
 "prompt": "Wo ________ du? (sein)",
 "answer": "warst",
 "distractors": [
-"Warst",
 "war"
 ]
 },
@@ -4507,15 +4404,6 @@
 "answer": "hatte",
 "distractors": [
 "hatten"
-]
-},
-{
-"kind": "Präteritum of sein and haben.",
-"block": "1",
-"prompt": "________ du gestern müde? (sein)",
-"answer": "Warst",
-"distractors": [
-"warst"
 ]
 },
 {
@@ -4591,65 +4479,45 @@
 "kind": "Präteritum or Perfekt?",
 "block": "3",
 "prompt": "sein",
-"answer": "sein → Präteritum",
+"answer": "Präteritum",
 "distractors": [
-"müssen → Präteritum",
-"haben → Präteritum",
-"können → Präteritum"
+"Perfekt"
 ]
 },
 {
 "kind": "Präteritum or Perfekt?",
 "block": "3",
 "prompt": "lernen",
-"answer": "lernen → Perfekt",
+"answer": "Perfekt",
 "distractors": [
-"kaufen → Perfekt",
-"können → Präteritum"
+"Präteritum"
 ]
 },
 {
 "kind": "Präteritum or Perfekt?",
 "block": "3",
 "prompt": "haben",
-"answer": "haben → Präteritum",
+"answer": "Präteritum",
 "distractors": [
-"sein → Präteritum",
-"können → Präteritum",
-"müssen → Präteritum"
+"Perfekt"
 ]
 },
 {
 "kind": "Präteritum or Perfekt?",
 "block": "3",
 "prompt": "können",
-"answer": "können → Präteritum",
+"answer": "Präteritum",
 "distractors": [
-"sein → Präteritum",
-"haben → Präteritum",
-"müssen → Präteritum"
+"Perfekt"
 ]
 },
 {
 "kind": "Präteritum or Perfekt?",
 "block": "3",
 "prompt": "kaufen",
-"answer": "kaufen → Perfekt",
+"answer": "Perfekt",
 "distractors": [
-"lernen → Perfekt",
-"haben → Präteritum",
-"können → Präteritum"
-]
-},
-{
-"kind": "Präteritum or Perfekt?",
-"block": "3",
-"prompt": "müssen",
-"answer": "müssen → Präteritum",
-"distractors": [
-"sein → Präteritum",
-"haben → Präteritum",
-"können → Präteritum"
+"Präteritum"
 ]
 },
 {
@@ -7046,7 +6914,6 @@
 "prompt": "________ Mutter (ich)",
 "answer": "Meine Mutter",
 "distractors": [
-"meine Mutter",
 "meiner Mutter",
 "Meine Eltern"
 ]
@@ -7057,7 +6924,6 @@
 "prompt": "________ Kind (ich)",
 "answer": "Mein Kind",
 "distractors": [
-"mein Kind",
 "sein Hund",
 "seinen Hund"
 ]
@@ -7068,7 +6934,6 @@
 "prompt": "________ Eltern (ich)",
 "answer": "Meine Eltern",
 "distractors": [
-"meine Eltern",
 "meinen Eltern",
 "Meine Mutter"
 ]
@@ -7080,8 +6945,7 @@
 "answer": "Dein Bruder",
 "distractors": [
 "seinem Bruder",
-"Meine Mutter",
-"meine Mutter"
+"Meine Mutter"
 ]
 },
 {
@@ -7113,7 +6977,6 @@
 "answer": "meine Mutter",
 "distractors": [
 "meiner Mutter",
-"Meine Mutter",
 "meinen Vater"
 ]
 },
@@ -7123,7 +6986,6 @@
 "prompt": "Ich sehe ________ Kind. (mein)",
 "answer": "mein Kind",
 "distractors": [
-"Mein Kind",
 "sein Hund",
 "seinen Hund"
 ]
@@ -7135,7 +6997,6 @@
 "answer": "meine Eltern",
 "distractors": [
 "meinen Eltern",
-"Meine Eltern",
 "meinen Vater"
 ]
 },
@@ -7178,7 +7039,6 @@
 "answer": "meiner Mutter",
 "distractors": [
 "meine Mutter",
-"Meine Mutter",
 "meinen Vater"
 ]
 },
@@ -7189,7 +7049,6 @@
 "answer": "meinen Eltern",
 "distractors": [
 "meine Eltern",
-"Meine Eltern",
 "meinen Vater"
 ]
 },
@@ -7244,8 +7103,7 @@
 "answer": "sein Hund",
 "distractors": [
 "seinen Hund",
-"Mein Kind",
-"mein Kind"
+"Mein Kind"
 ]
 },
 {
@@ -7352,7 +7210,6 @@
 "answer": "Meine Mutter ist Lehrerin.",
 "distractors": [
 "Meine Mutter",
-"meine Mutter",
 "meiner Mutter"
 ]
 },
@@ -9992,8 +9849,7 @@
 "answer": "hättest",
 "distractors": [
 "hätte",
-"hätten",
-"Hätten"
+"hätten"
 ]
 },
 {
@@ -10071,8 +9927,7 @@
 "answer": "hätte",
 "distractors": [
 "hätten",
-"hättest",
-"Hätten"
+"hättest"
 ]
 },
 {
@@ -10121,8 +9976,7 @@
 "answer": "hätte",
 "distractors": [
 "hätten",
-"hättest",
-"Hätten"
+"hättest"
 ]
 },
 {
@@ -10131,7 +9985,6 @@
 "prompt": "Haben Sie Zeit? → ________ Sie Zeit?",
 "answer": "Hätten",
 "distractors": [
-"hätten",
 "hätte",
 "hättest"
 ]
@@ -10152,8 +10005,7 @@
 "answer": "hätte",
 "distractors": [
 "hätten",
-"hättest",
-"Hätten"
+"hättest"
 ]
 },
 {
@@ -10181,7 +10033,6 @@
 "answer": "hätten",
 "distractors": [
 "hätte",
-"Hätten",
 "hättest"
 ]
 },
@@ -10192,8 +10043,7 @@
 "answer": "hätte",
 "distractors": [
 "hätten",
-"hättest",
-"Hätten"
+"hättest"
 ]
 },
 {
@@ -11683,17 +11533,7 @@
 "prompt": "________ ich ein Kind war, wohnte ich in Jakarta. (single past)",
 "answer": "Als",
 "distractors": [
-"Wenn",
-"wenn"
-]
-},
-{
-"kind": "als or wenn?",
-"block": "1",
-"prompt": "________ es regnet, bleibe ich zu Hause. (repeated)",
-"answer": "Wenn",
-"distractors": [
-"wenn"
+"Wenn"
 ]
 },
 {
@@ -11701,25 +11541,6 @@
 "block": "1",
 "prompt": "________ ich gestern aufwachte, war es hell. (single past)",
 "answer": "Als",
-"distractors": [
-"Wenn",
-"wenn"
-]
-},
-{
-"kind": "als or wenn?",
-"block": "1",
-"prompt": "________ ich Zeit habe, komme ich. (future)",
-"answer": "Wenn",
-"distractors": [
-"wenn"
-]
-},
-{
-"kind": "als or wenn?",
-"block": "1",
-"prompt": "Immer ________ ich ihn sah, lächelte er. (repeated past)",
-"answer": "wenn",
 "distractors": [
 "Wenn"
 ]
@@ -11987,15 +11808,6 @@
 {
 "kind": "während, bis, or seit?",
 "block": "1",
-"prompt": "Ich warte, ________ du kommst. (end point)",
-"answer": "bis",
-"distractors": [
-"Bis"
-]
-},
-{
-"kind": "während, bis, or seit?",
-"block": "1",
 "prompt": "________ ich in Berlin wohne, lerne ich Deutsch. (ongoing)",
 "answer": "Seit",
 "distractors": [
@@ -12011,15 +11823,6 @@
 "distractors": [
 "bis",
 "Seit"
-]
-},
-{
-"kind": "während, bis, or seit?",
-"block": "1",
-"prompt": "Er arbeitete, ________ es dunkel wurde. (end point)",
-"answer": "bis",
-"distractors": [
-"Bis"
 ]
 },
 {
@@ -12095,27 +11898,8 @@
 {
 "kind": "bis or bevor?",
 "block": "4",
-"prompt": "Ich warte, ________ du kommst. (until)",
-"answer": "bis",
-"distractors": [
-"Bis"
-]
-},
-{
-"kind": "bis or bevor?",
-"block": "4",
 "prompt": "________ du kommst, räume ich auf. (before)",
 "answer": "Bevor",
-"distractors": [
-"bis",
-"Bis"
-]
-},
-{
-"kind": "bis or bevor?",
-"block": "4",
-"prompt": "________ bald! (see you soon)",
-"answer": "Bis",
 "distractors": [
 "bis"
 ]
@@ -12311,27 +12095,8 @@
 {
 "kind": "obwohl or trotzdem?",
 "block": "2",
-"prompt": "Ich gehe spazieren, ________ es regnet. (verb end)",
-"answer": "obwohl",
-"distractors": [
-"Obwohl"
-]
-},
-{
-"kind": "obwohl or trotzdem?",
-"block": "2",
 "prompt": "Es regnet, ________ gehe ich spazieren. (verb 2)",
 "answer": "trotzdem",
-"distractors": [
-"obwohl",
-"Obwohl"
-]
-},
-{
-"kind": "obwohl or trotzdem?",
-"block": "2",
-"prompt": "________ ich müde bin, gehe ich joggen. (verb end)",
-"answer": "Obwohl",
 "distractors": [
 "obwohl"
 ]
@@ -12342,8 +12107,7 @@
 "prompt": "Ich bin müde, ________ gehe ich joggen. (verb 2)",
 "answer": "trotzdem",
 "distractors": [
-"obwohl",
-"Obwohl"
+"obwohl"
 ]
 },
 {
@@ -13149,7 +12913,6 @@
 "prompt": "der gut____ Wein",
 "answer": "der gute Wein",
 "distractors": [
-"Der gute Wein",
 "den guten Wein",
 "dem guten Wein"
 ]
@@ -13369,7 +13132,6 @@
 "prompt": "Der gut____ Wein ist teuer.",
 "answer": "Der gute Wein",
 "distractors": [
-"der gute Wein",
 "den guten Wein",
 "dem guten Wein"
 ]
@@ -13424,7 +13186,6 @@
 "prompt": "der guten Wein (nominative)",
 "answer": "der gute Wein",
 "distractors": [
-"Der gute Wein",
 "den guten Wein",
 "dem guten Wein"
 ]
@@ -15577,45 +15338,6 @@
 "distractors": [
 "Außerdem",
 "Ein weiterer"
-]
-},
-{
-"kind": "Structure an argument. Put the sentences in order.",
-"block": "5",
-"prompt": "Deshalb bin ich der Meinung, dass Deutsch wichtig ist.",
-"answer": "Deshalb bin ich der Meinung, dass Deutsch wichtig ist.",
-"distractors": [
-"Da bin ich anderer Meinung.",
-"Meiner Meinung nach ist das richtig."
-]
-},
-{
-"kind": "Structure an argument. Put the sentences in order.",
-"block": "5",
-"prompt": "Ein Vorteil ist, dass man bessere Berufschancen hat.",
-"answer": "Ein Vorteil ist, dass man bessere Berufschancen hat.",
-"distractors": [
-"Ein Vorteil ist, dass man bessere Chancen hat."
-]
-},
-{
-"kind": "Structure an argument. Put the sentences in order.",
-"block": "5",
-"prompt": "Meiner Meinung nach ist es wichtig, Fremdsprachen zu lernen.",
-"answer": "Meiner Meinung nach ist es wichtig, Fremdsprachen zu lernen.",
-"distractors": [
-"Meiner Meinung nach ist das richtig."
-]
-},
-{
-"kind": "Structure an argument. Put the sentences in order.",
-"block": "5",
-"prompt": "Natürlich kostet das Lernen viel Zeit.",
-"answer": "Natürlich kostet das Lernen viel Zeit.",
-"distractors": [
-"Deshalb bin ich der Meinung, dass Deutsch wichtig ist.",
-"Ein Vorteil ist, dass man bessere Berufschancen hat.",
-"Meiner Meinung nach ist es wichtig, Fremdsprachen zu lernen."
 ]
 },
 {
@@ -19605,7 +19327,6 @@
 "answer": "wegen des Wetters",
 "distractors": [
 "wegen des Regens",
-"Wegen des Regens",
 "während des Tages"
 ]
 },
@@ -19615,7 +19336,6 @@
 "prompt": "trotz ________ Kälte (die)",
 "answer": "trotz der Kälte",
 "distractors": [
-"Trotz der Kälte",
 "trotz des Sturms"
 ]
 },
@@ -19626,8 +19346,7 @@
 "answer": "während des Tages",
 "distractors": [
 "wegen des Regens",
-"aufgrund des Regens",
-"Wegen des Regens"
+"aufgrund des Regens"
 ]
 },
 {
@@ -19637,7 +19356,6 @@
 "answer": "aufgrund des Regens",
 "distractors": [
 "wegen des Regens",
-"Wegen des Regens",
 "während des Tages"
 ]
 },
@@ -19658,7 +19376,6 @@
 "prompt": "wegen des Regen________",
 "answer": "wegen des Regens",
 "distractors": [
-"Wegen des Regens",
 "wegen des Wetters",
 "aufgrund des Regens"
 ]
@@ -19669,8 +19386,7 @@
 "prompt": "trotz des Sturm________",
 "answer": "trotz des Sturms",
 "distractors": [
-"trotz der Kälte",
-"Trotz der Kälte"
+"trotz der Kälte"
 ]
 },
 {
@@ -19680,8 +19396,7 @@
 "answer": "während des Tages",
 "distractors": [
 "wegen des Regens",
-"aufgrund des Regens",
-"Wegen des Regens"
+"aufgrund des Regens"
 ]
 },
 {
@@ -19741,18 +19456,8 @@
 "prompt": "Weil es regnete, ... → ________ des Regens, ...",
 "answer": "Wegen des Regens",
 "distractors": [
-"wegen des Regens",
 "aufgrund des Regens",
 "wegen des Wetters"
-]
-},
-{
-"kind": "Replace the clause with a prepositional phrase.",
-"block": "4",
-"prompt": "Obwohl es kalt war, ... → ________ der Kälte, ...",
-"answer": "Trotz der Kälte",
-"distractors": [
-"trotz der Kälte"
 ]
 },
 {
@@ -19762,7 +19467,6 @@
 "answer": "wegen des Wetters",
 "distractors": [
 "wegen des Regens",
-"Wegen des Regens",
 "während des Tages"
 ]
 },
@@ -19772,7 +19476,6 @@
 "prompt": "trotz die Kälte",
 "answer": "trotz der Kälte",
 "distractors": [
-"Trotz der Kälte",
 "trotz des Sturms"
 ]
 },
@@ -19783,7 +19486,6 @@
 "answer": "aufgrund des Regens",
 "distractors": [
 "wegen des Regens",
-"Wegen des Regens",
 "während des Tages"
 ]
 },
@@ -20594,58 +20296,6 @@
 ]
 },
 {
-"kind": "Structure an essay.",
-"block": "4",
-"prompt": "Schluss",
-"answer": "Schluss",
-"distractors": [
-"Einleitung",
-"Gegenargument",
-"Argument 1"
-]
-},
-{
-"kind": "Structure an essay.",
-"block": "4",
-"prompt": "Einleitung",
-"answer": "Einleitung",
-"distractors": [
-"Schluss",
-"Gegenargument",
-"Argument 1"
-]
-},
-{
-"kind": "Structure an essay.",
-"block": "4",
-"prompt": "Gegenargument",
-"answer": "Gegenargument",
-"distractors": [
-"Argument 1",
-"Argument 2"
-]
-},
-{
-"kind": "Structure an essay.",
-"block": "4",
-"prompt": "Argument 1",
-"answer": "Argument 1",
-"distractors": [
-"Argument 2",
-"Gegenargument"
-]
-},
-{
-"kind": "Structure an essay.",
-"block": "4",
-"prompt": "Argument 2",
-"answer": "Argument 2",
-"distractors": [
-"Argument 1",
-"Gegenargument"
-]
-},
-{
 "kind": "Fix the mistake.",
 "block": "7",
 "prompt": "A report with strong opinions (Ich finde das toll).",
@@ -20848,50 +20498,6 @@
 "distractors": [
 "Da stimme ich dir zu.",
 "Wie siehst du das?"
-]
-},
-{
-"kind": "Structure a presentation.",
-"block": "5",
-"prompt": "Schluss",
-"answer": "Schluss",
-"distractors": [
-"Einleitung",
-"Gliederung",
-"Hauptteil"
-]
-},
-{
-"kind": "Structure a presentation.",
-"block": "5",
-"prompt": "Einleitung",
-"answer": "Einleitung",
-"distractors": [
-"Schluss",
-"Gliederung",
-"Hauptteil"
-]
-},
-{
-"kind": "Structure a presentation.",
-"block": "5",
-"prompt": "Gliederung",
-"answer": "Gliederung",
-"distractors": [
-"Schluss",
-"Einleitung",
-"Hauptteil"
-]
-},
-{
-"kind": "Structure a presentation.",
-"block": "5",
-"prompt": "Hauptteil",
-"answer": "Hauptteil",
-"distractors": [
-"Schluss",
-"Einleitung",
-"Gliederung"
 ]
 },
 {
@@ -22598,36 +22204,6 @@
 "distractors": [
 "die Schwierigkeit, die Herausforderung",
 "das Unternehmen, der Betrieb"
-]
-},
-{
-"kind": "Thema-Rhema chain.",
-"block": "5",
-"prompt": "Dieses Produkt wird nächsten Monat auf den Markt kommen.",
-"answer": "Dieses Produkt wird nächsten Monat auf den Markt kommen.",
-"distractors": [
-"Die Firma hat ein neues Produkt entwickelt.",
-"Der Markt reagiert oft positiv auf Innovationen."
-]
-},
-{
-"kind": "Thema-Rhema chain.",
-"block": "5",
-"prompt": "Die Firma hat ein neues Produkt entwickelt.",
-"answer": "Die Firma hat ein neues Produkt entwickelt.",
-"distractors": [
-"Dieses Produkt wird nächsten Monat auf den Markt kommen.",
-"Der Markt reagiert oft positiv auf Innovationen."
-]
-},
-{
-"kind": "Thema-Rhema chain.",
-"block": "5",
-"prompt": "Der Markt reagiert oft positiv auf Innovationen.",
-"answer": "Der Markt reagiert oft positiv auf Innovationen.",
-"distractors": [
-"Dieses Produkt wird nächsten Monat auf den Markt kommen.",
-"Die Firma hat ein neues Produkt entwickelt."
 ]
 },
 {

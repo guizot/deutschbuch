@@ -32,6 +32,9 @@ META = os.path.join(ROOT, "src", "content", "meta.json")
 OUT = os.path.join(ROOT, "src", "data", "lesson-quiz.json")
 
 MAX_ANSWER_LEN = 70
+# The lessons write hints as "Wort = Erklärung" or "Wort → Kategorie".
+GLOSS_SEPS = (" = ", " → ")
+GLOSS_SEP = GLOSS_SEPS[0]
 SKIP_TITLE = re.compile(r"übersetz|ubersetz|translate", re.I)
 
 
@@ -188,6 +191,102 @@ def add_distractors(items: list[dict]) -> None:
         item["distractors"] = picked
 
 
+def _rhs(text: str) -> str | None:
+    """Everything after the first gloss separator, or None."""
+    for sep in GLOSS_SEPS:
+        if sep in text:
+            return text.split(sep, 1)[1].strip()
+    return None
+
+
+def _unleak(text: str, prompt: str) -> str | None:
+    """Rewrite "Wort = Erklärung" down to just the explanation.
+
+    The pronunciation and umlaut exercises are written as "Stadt = short": the
+    word, then what it sounds like. Used as-is, the correct option repeats the
+    word already printed on the card, so it can be picked without knowing
+    anything — "schon / schön" was answered by spotting "schon" in the option.
+
+    The card already shows the word, so the option only needs the right side.
+    Returns None when the text is not of that shape.
+    """
+    parts = [p.strip() for p in prompt.split(" / ")]
+    if len(parts) > 1:
+        # "schon = already, schön = beautiful" for prompt "schon / schön"
+        chunks = [c.strip() for c in text.split(",")]
+        if len(chunks) != len(parts):
+            return None
+        out = []
+        for c in chunks:
+            rhs = _rhs(c)
+            if rhs is None:
+                return None
+            out.append(rhs)
+        return " / ".join(out)
+    if text.startswith(prompt):
+        rest = text[len(prompt) :]
+        for sep in GLOSS_SEPS:
+            if rest.startswith(sep):
+                return rest[len(sep) :].strip()
+    return None
+
+
+def unleak(items: list[dict]) -> list[dict]:
+    """Drop the word from every option, and discard what that makes unanswerable."""
+    from collections import defaultdict
+
+    by_block = defaultdict(list)
+    for it in items:
+        by_block[it["block"]].append(it)
+
+    kept = []
+    for it in items:
+        prompt = it["prompt"].strip()
+        stripped = _unleak(it["answer"], prompt)
+        ans = stripped if stripped is not None else it["answer"]
+        opts = []
+        for d in it["distractors"]:
+            v = _unleak(d, prompt)
+            if v is None and stripped is not None:
+                # A gloss for some *other* word ("Jahr = "yahr""): the answer was
+                # stripped, so this has to lose its word too or the options stop
+                # looking alike.
+                v = _rhs(d)
+            opts.append(v if v is not None else d)
+
+        # A classify question ("Stadt = short") only makes sense against the other
+        # values of the same exercise — "short" next to "long", not next to "eye".
+        # add_distractors ran on the glosses, so re-pick from the block itself.
+        if stripped is not None:
+            same = []
+            for sib in by_block[it["block"]]:
+                if sib is it:
+                    continue
+                v = _unleak(sib["answer"], sib["prompt"].strip()) or _rhs(sib["answer"])
+                if v and v.lower() != ans.lower() and v.lower() not in [x.lower() for x in same]:
+                    same.append(v)
+            if same:
+                opts = same[:3]
+
+        # Stripping collapses "Stadt = short" and "Sonne = short" onto the same
+        # word, so the same option would appear twice.
+        seen = {ans.lower()}
+        uniq = []
+        for o in opts:
+            if o and o.lower() not in seen:
+                seen.add(o.lower())
+                uniq.append(o)
+
+        # "Arbeit" -> "ARbeit" differs only in capitals: nothing to know there.
+        if ans.lower() == prompt.lower():
+            continue
+
+        it["answer"] = ans
+        it["distractors"] = uniq
+        kept.append(it)
+    return kept
+
+
 def main() -> None:
     include_translation = "--include-translation" in sys.argv
     meta = {f"{m['level']}/{m['slug']}": m for m in json.load(open(META, encoding="utf-8"))}
@@ -210,6 +309,7 @@ def main() -> None:
         vocab = parse_vocab(lines)
         grammar = build_grammar(parse_exercises(lines), include_translation)
         add_distractors(grammar)
+        grammar = unleak(grammar)
         # A question with no wrong option cannot be answered wrong; and the same
         # prompt can appear twice when a lesson repeats an exercise.
         seen = set()
