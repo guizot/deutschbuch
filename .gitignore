@@ -7,6 +7,10 @@ dist/
 # astro generated types & cache
 .astro/
 
+# generated pronunciation audio (rebuilt by `npm run tts`)
+public/audio/
+src/data/audio-manifest.json
+
 # runtime log written by the systemd unit
 *.log
 *.log.[0-9]*

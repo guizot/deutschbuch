@@ -6,8 +6,9 @@
   "description": "Duolingo-style viewer for the German A1-C1 course in ~/Documents/languages/german (read-only source).",
   "scripts": {
     "sync": "node scripts/sync-content.mjs",
+    "tts": "python3 scripts/build-audio.py",
     "dev": "astro dev --port 3008",
-    "build": "npm run sync && astro build",
+    "build": "npm run sync && npm run tts && astro build",
     "preview": "astro preview --port 3008",
     "serve": "python3 -m http.server 3008 --directory dist"
   },

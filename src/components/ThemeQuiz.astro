@@ -24,6 +24,8 @@
  * load, and "Try again" reshuffles the same direction.
  */
 import Icon from "./Icon.astro";
+import AudioButton from "./AudioButton.astro";
+import { audioPath } from "../lib/audio";
 
 interface Word {
   de: string;
@@ -53,7 +55,9 @@ const { slug, theme } = Astro.props;
 
 // One flat pool of { de, en }: the groups only organise the reading page, the
 // quiz draws from the topic as a whole.
-const pool = theme.groups.flatMap((g) => g.words.map((w) => ({ de: w.de, en: w.en })));
+const pool = theme.groups.flatMap((g) =>
+  g.words.map((w) => ({ de: w.de, en: w.en, a: audioPath(w.de) })),
+);
 
 // The article is part of `de` already ("die Katze"), which is exactly what we
 // want in both directions.
@@ -73,6 +77,7 @@ const enough = pool.length >= 4;
 
     <div class="tq-qbox">
       <div id="tq-word" class="tq-word">…</div>
+      <div class="tq-audio-wrap"><AudioButton text="" variant="md" class="tq-audio" /></div>
     </div>
 
     <div id="tq-opts" class="tq-opts" role="group" aria-label="Answer choices"></div>
@@ -219,8 +224,22 @@ const enough = pool.length >= 4;
     border: 2px solid var(--border);
     border-radius: var(--radius-card);
     background: var(--surface);
-    padding: 1.4rem 1rem;
+    padding: 1.4rem 3.4rem;
     margin-bottom: 0.7rem;
+    position: relative;
+  }
+
+  /* Speaker pinned to the right edge of the question box. Wrapped in its own
+     absolutely-positioned div so the button's own :active transform stays local. */
+  .tq-audio-wrap {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .tq-audio-wrap[hidden] {
+    display: none;
   }
 
   .tq-word {
@@ -473,6 +492,7 @@ const enough = pool.length >= 4;
     var resultEl = q("#tq-result");
     var barEl = q("#tq-bar");
     var wordEl = q("#tq-word");
+    var ttsWrap = q(".tq-audio-wrap");
     var optsEl = q("#tq-opts");
     var liveEl = q("#tq-live");
     var nextBtn = q("#tq-next");
@@ -551,6 +571,20 @@ const enough = pool.length >= 4;
       nextBtn.textContent = "Continue";
       barEl.style.width = (pos / queue.length) * 100 + "%";
       wordEl.textContent = promptOf(w);
+
+      // Pronunciation belongs to the German side only, so it is wired to `w.de`
+      // (which already carries the article) and hidden when the prompt is English.
+      if (ttsWrap) {
+        var ttsSrc = mode === "de-en" ? w.a || "" : "";
+        var ttsBtn = ttsWrap.querySelector("button");
+        if (ttsBtn) {
+          ttsBtn.setAttribute("data-audio", ttsSrc);
+          var ttsLabel = ttsSrc ? "Dengar pelafalan: " + w.de : "Dengar pelafalan";
+          ttsBtn.setAttribute("aria-label", ttsLabel);
+          ttsBtn.setAttribute("title", ttsLabel);
+        }
+        ttsWrap.hidden = !ttsSrc;
+      }
 
       var opts = buildOptions(w);
       optsEl.innerHTML = "";

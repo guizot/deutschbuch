@@ -1,0 +1,112 @@
+---
+/**
+ * Tombol pelafalan. Memutar file statis dari public/audio/ — tidak ada backend.
+ *
+ * Satu listener global (document delegation) dipasang sekali per halaman, jadi
+ * menaruh tombol ini di ratusan baris tabel tidak menambah beban.
+ */
+import Icon from "./Icon.astro";
+import { audioPath } from "../lib/audio";
+
+interface Props {
+  text: string;
+  size?: number;
+  /** ukuran tombol; "sm" untuk di dalam tabel */
+  variant?: "md" | "sm";
+  class?: string;
+}
+
+const { text, size = 20, variant = "md", class: cls = "" } = Astro.props;
+const clean = (text || "").trim();
+// Empty text = placeholder (the quiz fills data-audio at runtime), so emit no
+// attribute at all rather than a hash of the empty string.
+const src = clean ? audioPath(clean) : undefined;
+const label = clean ? `Dengar pelafalan: ${clean}` : "Dengar pelafalan";
+---
+
+<button
+  type="button"
+  class={`tts tts-${variant} ${cls}`}
+  data-audio={src}
+  aria-label={label}
+  title={label}
+>
+  <Icon name="listen" size={size} />
+</button>
+
+<style>
+  .tts {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-strong);
+    cursor: pointer;
+    flex: none;
+    padding: 0;
+    line-height: 0;
+    transition: background 0.12s ease, transform 0.08s ease;
+  }
+  .tts-md {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+  .tts-sm {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-width: 1.5px;
+  }
+  .tts:hover {
+    background: var(--surface);
+  }
+  .tts:active {
+    transform: scale(0.92);
+  }
+  .tts:focus-visible {
+    outline: 3px solid var(--text-strong);
+    outline-offset: 2px;
+  }
+  .tts.is-playing {
+    background: var(--surface);
+    border-color: var(--text-strong);
+  }
+</style>
+
+<script>
+  // Delegated once per page: any element carrying data-audio plays that file.
+  const AUDIO = new Audio();
+  let playing: Element | null = null;
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement | null;
+    const btn = target?.closest<HTMLElement>("[data-audio]");
+    if (!btn) return;
+
+    // Keep the click from also toggling a table row or an accordion.
+    event.preventDefault();
+    event.stopPropagation();
+
+    const src = btn.getAttribute("data-audio");
+    if (!src) return;
+
+    if (playing) playing.classList.remove("is-playing");
+    AUDIO.pause();
+    AUDIO.currentTime = 0;
+    AUDIO.src = src;
+
+    btn.classList.add("is-playing");
+    playing = btn;
+
+    void AUDIO.play().catch(() => {
+      btn.classList.remove("is-playing");
+      playing = null;
+    });
+  });
+
+  AUDIO.addEventListener("ended", () => {
+    if (playing) playing.classList.remove("is-playing");
+    playing = null;
+  });
+</script>
