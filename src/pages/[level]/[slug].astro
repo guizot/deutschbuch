@@ -9,6 +9,7 @@ import Icon from "../../components/Icon.astro";
 import BackLink from "../../components/BackLink.astro";
 import { LEVELS } from "../../data/site.ts";
 import meta from "../../content/meta.json";
+import quizData from "../../data/lesson-quiz.json";
 import "../../styles/global.css";
 
 export function getStaticPaths() {
@@ -24,6 +25,13 @@ const levelLessons = meta.filter((m) => m.level === lesson.level);
 const idx = levelLessons.findIndex((m) => m.slug === lesson.slug);
 const prev = idx > 0 ? levelLessons[idx - 1] : null;
 const next = idx < levelLessons.length - 1 ? levelLessons[idx + 1] : null;
+
+// How many questions the Lesson Check will actually ask (6 + 6 + 4, capped by
+// what the lesson has), so the call to action states a real number.
+const quiz = quizData[`${lesson.level}/${lesson.slug}`];
+const checkCount = quiz
+  ? Math.min(6, quiz.vocab.length) + Math.min(6, quiz.grammar.length) + Math.min(4, quiz.vocab.length)
+  : 0;
 
 // ---- read the markdown (copied by sync-content.mjs) ------------------------
 const mdPath = path.join(
@@ -130,17 +138,6 @@ const htmlAfter = render(afterClean);
           <Icon name="file" size={15} /> {lesson.words.toLocaleString()} words
         </span>
       </div>
-
-      <!-- Three-stage check built from this lesson's own vocabulary and exercises:
-           vocabulary, grammar, listening. A real page, so it is shareable and the
-           back button behaves. -->
-      <a
-        href={`/${lesson.level}/${lesson.slug}/quiz/`}
-        class="btn btn-primary"
-        style="width:100%;margin-top:0.9rem;display:flex;align-items:center;justify-content:center;gap:0.5rem"
-      >
-        <Icon name="question" size={16} /> Lesson Check
-      </a>
     </div>
 
     <!-- body -->
@@ -172,6 +169,35 @@ const htmlAfter = render(afterClean);
 
     <!-- checklist + notes -->
     <article id="lesson-after" class="prose-de" set:html={htmlAfter} />
+
+    <!-- Lesson Check: three stages built from this lesson's own vocabulary and
+         exercises. Sits after the material so it reads as a closing test rather
+         than competing with the lesson title. -->
+    {checkCount > 0 && (
+      <section class="mt-10">
+        <div class="card" style="padding:1rem">
+          <p
+            class="text-xs font-bold"
+            style="color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;margin:0 0 0.3rem"
+          >
+            Lesson Check
+          </p>
+          <p class="text-sm font-extrabold" style="color:var(--text-strong);margin:0 0 0.4rem">
+            {checkCount} questions · vocabulary, grammar, listening
+          </p>
+          <p class="text-xs" style="color:var(--text-muted);margin:0 0 0.9rem">
+            Drawn from this lesson only, and different every time.
+          </p>
+          <a
+            href={`/${lesson.level}/${lesson.slug}/quiz/`}
+            class="btn btn-primary"
+            style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem"
+          >
+            <Icon name="question" size={16} /> Start Lesson Check
+          </a>
+        </div>
+      </section>
+    )}
 
     <!-- complete button -->
     <section class="mt-10">
