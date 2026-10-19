@@ -9,6 +9,8 @@ dist/
 
 # runtime log written by the systemd unit
 *.log
+*.log.[0-9]*
+*.log.*.gz
 
 # editor / OS noise
 .DS_Store
