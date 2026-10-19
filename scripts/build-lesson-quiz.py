@@ -287,26 +287,44 @@ def unleak(items: list[dict]) -> list[dict]:
     return kept
 
 
-BLANK = re.compile(r"^_+\s*")
+BLANK = re.compile(r"_{2,}")
 
 
 def _filler(item: dict) -> str | None:
-    """For "________ Dokument" answered "das Dokument", return "das".
+    """The word that goes in the gap, when the options are whole phrases.
 
-    Fill-in-the-blank items were being offered as whole phrases, so the wrong
-    options carried a different noun ("das Fenster") and the right one could be
-    picked by matching the noun. Worse, every option had the same article, so
-    the thing being taught was the only thing not tested.
+    "Ich habe ________ Kinder. (die Kinder)" answered "keine Kinder" was offered
+    against "keine Zeit" and "die Kinder" — the options differed by noun, so the
+    answer was found by matching "Kinder", and "die Kinder" repeated the hint
+    almost verbatim. What the exercise asks is kein or keine, so that is what the
+    options should be.
     """
-    prompt = item["prompt"].strip()
-    m = BLANK.match(prompt)
+    prompt = item["prompt"]
+    m = BLANK.search(prompt)
     if not m:
         return None
-    tail = prompt[m.end() :].strip()
-    ans = item["answer"].strip()
+    # Only a gap standing on its own ("___ Dokument", "Ich habe ___ Kinder").
+    # "das klein____ Kind" wants an ending glued to the word before it, and
+    # offering "e" / "en" as tiles reads worse than the phrase it has now.
+    before_ok = m.start() == 0 or prompt[m.start() - 1] == " "
+    after_ok = m.end() == len(prompt) or prompt[m.end()] == " "
+    if not (before_ok and after_ok):
+        return None
+    # Whatever follows the gap, up to punctuation: the part the answer repeats.
+    after = re.match(r"([^.,;:!?()\[\]]+)", prompt[m.end() :].lstrip())
+    if not after:
+        return None
+    tail = after.group(1).strip()
+    # The answer usually ends the sentence ("Am Montag arbeite ich.") while the
+    # prompt tail stops at the full stop.
+    ans = item["answer"].strip().rstrip(".,;:!?")
+    # "Der Termin ist ___ drei Uhr." repeats the sentence before the gap too.
+    before = prompt[: m.start()].strip()
+    if before and ans.startswith(before):
+        ans = ans[len(before) :].strip()
     if tail and ans.endswith(tail):
         filler = ans[: -len(tail)].strip()
-        if filler:
+        if filler and len(filler) <= 20:
             return filler
     return None
 
@@ -325,7 +343,6 @@ def unblank(items: list[dict]) -> list[dict]:
         if filler is None:
             kept.append(it)
             continue
-        tail = BLANK.sub("", it["prompt"].strip())
 
         others = []
         for sib in by_block[it["block"]]:
@@ -341,7 +358,7 @@ def unblank(items: list[dict]) -> list[dict]:
 
         # "________ Dokument" wraps onto two lines on a phone at this font size;
         # a three-underscore gap reads the same and stays on one.
-        it["prompt"] = "___ " + tail
+        it["prompt"] = BLANK.sub("___", it["prompt"])
         it["answer"] = filler
         it["distractors"] = others[:3]
         kept.append(it)
