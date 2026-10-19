@@ -2,12 +2,9 @@
 /**
  * Tombol pelafalan. Memutar file statis dari public/audio/ — tidak ada backend.
  *
- * Markup saja: listener klik dipasang sekali di BaseLayout.astro, sehingga
- * halaman yang menyisipkan tombol lewat HTML mentah (tabel wortschatz, lihat
- * lib/md.ts) tetap berfungsi tanpa mengimpor komponen ini.
- *
- * Gayanya global, bukan scoped, karena tombol yang dibuat di lib/md.ts berada di
- * luar pohon komponen Astro dan tidak akan mendapat atribut scoping.
+ * Markup saja. Listener klik dipasang sekali di BaseLayout.astro dan gayanya ada
+ * di src/styles/global.css, karena halaman vocabulary menyisipkan tombol yang
+ * sama sebagai HTML mentah (lib/md.ts) tanpa mengimpor komponen ini.
  */
 import Icon from "./Icon.astro";
 import { audioPath } from "../lib/audio";
@@ -38,52 +35,4 @@ const label = clean ? `Dengar pelafalan: ${clean}` : "Dengar pelafalan";
   <Icon name="listen" size={size} />
 </button>
 
-<style is:global>
-  .tts {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    border: 2px solid var(--border);
-    background: var(--surface-2);
-    color: var(--text-strong);
-    cursor: pointer;
-    flex: none;
-    padding: 0;
-    line-height: 0;
-    transition: background 0.12s ease, transform 0.08s ease;
-  }
-  .tts-md {
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-  .tts-sm {
-    width: 1.6rem;
-    height: 1.6rem;
-    border-width: 1.5px;
-  }
-  .tts:hover {
-    background: var(--surface);
-  }
-  .tts:active {
-    transform: scale(0.92);
-  }
-  .tts:focus-visible {
-    outline: 3px solid var(--text-strong);
-    outline-offset: 2px;
-  }
-  .tts.is-playing {
-    background: var(--surface);
-    border-color: var(--text-strong);
-  }
 
-  /* Word + speaker inside a vocabulary table cell. */
-  .tts-cell {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-  }
-  .tts-cell-text {
-    font-weight: 700;
-  }
-</style>

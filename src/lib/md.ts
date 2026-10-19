@@ -90,7 +90,7 @@ export function withWordAudio(html: string, has: (word: string) => boolean) {
           `<td${attrs}><span class="tts-cell">` +
           `<span class="tts-cell-text">${inner}</span>` +
           `<button type="button" class="tts tts-sm" data-audio="${audioPath(word)}" ` +
-          `aria-label="${label}" title="${label}">${iconSvg("listen", 13)}</button>` +
+          `aria-label="${label}" title="${label}">${iconSvg("listen", 20)}</button>` +
           `</span></td>`
         );
       });

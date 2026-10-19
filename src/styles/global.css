@@ -555,3 +555,35 @@ h1, h2, h3, h4 {
 /* Utilities */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Pronunciation buttons.
+ *
+ * These live in the global sheet, not in AudioButton.astro, because vocabulary
+ * tables get their buttons injected as raw HTML from lib/md.ts — on pages that
+ * never import the component. A component <style is:global> is still only
+ * bundled for pages that import it, which left those buttons unstyled. */
+.tts {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-strong);
+  cursor: pointer;
+  flex: none;
+  padding: 0;
+  line-height: 0;
+  vertical-align: middle;
+  transition: background 0.12s ease, transform 0.08s ease;
+}
+.tts-md { width: 2.4rem; height: 2.4rem; }
+.tts-sm { width: 1.6rem; height: 1.6rem; border-width: 1.5px; }
+.tts:hover { background: var(--surface); }
+.tts:active { transform: scale(0.92); }
+.tts:focus-visible { outline: 3px solid var(--text-strong); outline-offset: 2px; }
+.tts.is-playing { background: var(--surface); border-color: var(--text-strong); }
+
+/* Word + speaker inside a vocabulary table cell. */
+.tts-cell { display: inline-flex; align-items: center; gap: 0.45rem; }
+.tts-cell-text { font-weight: 700; }
